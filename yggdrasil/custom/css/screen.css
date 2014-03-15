@@ -1,0 +1,1740 @@
+/***********************************************************************************
+	COMPASS
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS
+***********************************************************************************/
+/***********************************************************************************
+	RESPONSLR VARIABLES
+***********************************************************************************/
+/***********************************************************************************
+	RESPONSLR CORE
+***********************************************************************************/
+/***********************************************************************************
+	RESPONSLR CORE
+***********************************************************************************/
+/***********************************************************************************
+	CHECK IF MAP IS EMPTY
+***********************************************************************************/
+/***********************************************************************************
+	GET DEFAULT VALUE FROM MAP
+***********************************************************************************/
+/***********************************************************************************
+	SPLIT SHORTHAND (MARGIN OR PADDING)
+***********************************************************************************/
+/***********************************************************************************
+	CREATE JSON STRING
+***********************************************************************************/
+/***********************************************************************************
+	INSERT PSEUDO ELEMENT
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - GLOBAL
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - MODULES
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - RESET
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - TYPO
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - GRID
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - COLOR
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - VISIBILITY
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - TRANSITION
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - ALIGNMENT
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - SPACING
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - ASPECT-RATIO
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - SPRITE
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - ICON
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - CIRCLE
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - TRIANGLE
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - ARROW
+***********************************************************************************/
+/***********************************************************************************
+	BUTTON - SETTINGS
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - TOOLTIP
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - LIST
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - FORM
+***********************************************************************************/
+/***********************************************************************************
+	SETTINGS - TABLE
+***********************************************************************************/
+/***********************************************************************************
+	OUTPUTS - MODULES
+***********************************************************************************/
+/***********************************************************************************
+	OUTPUT - RESET
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, input, select, textarea, button,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: none;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+  -ms-content-zooming: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body *,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/***********************************************************************************
+	OUTPUT - TYPO
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS (FAMILIES)
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS (FAMILIES)
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS (SIZES)
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS (SIZES)
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.font-reset, .row {
+  font-size: 0;
+  line-height: 0;
+}
+.font-reset > *, .row > * {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@font-face {
+  font-family: "lato-light";
+  src: url("fonts/lato-light.eot?#iefix") format("embedded-opentype"), url("fonts/lato-light.woff") format("woff"), url("fonts/lato-light.ttf") format("truetype"), url("fonts/lato-light.svg#lato-light") format("svg");
+}
+@font-face {
+  font-family: "lato-regular";
+  src: url("fonts/lato-regular.eot?#iefix") format("embedded-opentype"), url("fonts/lato-regular.woff") format("woff"), url("fonts/lato-regular.ttf") format("truetype"), url("fonts/lato-regular.svg#lato-regular") format("svg");
+}
+.font-family-lato-light {
+  font-family: "lato-light";
+  font-weight: 300;
+  font-style: normal;
+}
+
+.font-family-lato-regular {
+  font-family: "lato-regular";
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-family-times-new-roman {
+  font-family: "Times New Roman";
+  font-weight: 400;
+  font-style: italic;
+}
+
+.font-size-default {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+.font-size-tiny {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.font-size-small {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.font-size-medium {
+  font-size: 30px;
+  line-height: 1.4;
+}
+
+.font-size-large {
+  font-size: 48px;
+  line-height: 1.4;
+}
+
+.font-size-xlarge {
+  font-size: 62px;
+  line-height: 80px;
+}
+
+.no-select {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/***********************************************************************************
+	OUTPUT - GRID
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	EXTENDED FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.container,
+.container-full {
+  position: relative;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+@media only screen and (max-width: 1140px), print {
+  .container {
+    margin: 0 0;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+tr.row {
+  display: table-row;
+}
+
+.column {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+td.column {
+  display: table-cell;
+}
+
+.inline-break {
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+}
+
+.row .row {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.column {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media only screen and (max-width: 960px), print {
+  .row .row {
+    margin-left: -12px;
+    margin-right: -12px;
+  }
+
+  .column {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media only screen and (max-width: 640px), print {
+  .row .row {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  .column {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+.row .offset-large-12 {
+  margin-left: 100%;
+}
+.row .inset-large-12 {
+  margin-left: -100.02%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-11 {
+  margin-left: 91.66667%;
+}
+.row .inset-large-11 {
+  margin-left: -91.68667%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-10 {
+  margin-left: 83.33333%;
+}
+.row .inset-large-10 {
+  margin-left: -83.35333%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-9 {
+  margin-left: 75%;
+}
+.row .inset-large-9 {
+  margin-left: -75.02%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-8 {
+  margin-left: 66.66667%;
+}
+.row .inset-large-8 {
+  margin-left: -66.68667%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-7 {
+  margin-left: 58.33333%;
+}
+.row .inset-large-7 {
+  margin-left: -58.35333%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-6 {
+  margin-left: 50%;
+}
+.row .inset-large-6 {
+  margin-left: -50.02%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-5 {
+  margin-left: 41.66667%;
+}
+.row .inset-large-5 {
+  margin-left: -41.68667%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-4 {
+  margin-left: 33.33333%;
+}
+.row .inset-large-4 {
+  margin-left: -33.35333%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-3 {
+  margin-left: 25%;
+}
+.row .inset-large-3 {
+  margin-left: -25.02%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-2 {
+  margin-left: 16.66667%;
+}
+.row .inset-large-2 {
+  margin-left: -16.68667%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .offset-large-1 {
+  margin-left: 8.33333%;
+}
+.row .inset-large-1 {
+  margin-left: -8.35333%;
+}
+.row .reset-large {
+  margin-left: 0;
+}
+.row .large-12, .row .large-12 .large-12, .row .large-11 .large-11, .row .large-10 .large-10, .row .large-9 .large-9, .row .large-8 .large-8, .row .large-7 .large-7, .row .large-6 .large-6, .row .large-5 .large-5, .row .large-4 .large-4, .row .large-3 .large-3, .row .large-2 .large-2, .row .large-1 .large-1 {
+  width: 100%;
+}
+.row .large-12 .large-11, .row .large-11 {
+  width: 91.66667%;
+}
+.row .large-12 .large-10, .row .large-10, .row .large-6 .large-5 {
+  width: 83.33333%;
+}
+.row .large-12 .large-9, .row .large-9, .row .large-8 .large-6, .row .large-4 .large-3 {
+  width: 75%;
+}
+.row .large-12 .large-8, .row .large-8, .row .large-6 .large-4, .row .large-3 .large-2 {
+  width: 66.66667%;
+}
+.row .large-12 .large-7, .row .large-7 {
+  width: 58.33333%;
+}
+.row .large-12 .large-6, .row .large-10 .large-5, .row .large-8 .large-4, .row .large-6, .row .large-6 .large-3, .row .large-4 .large-2, .row .large-2 .large-1 {
+  width: 50%;
+}
+.row .large-12 .large-5, .row .large-5 {
+  width: 41.66667%;
+}
+.row .large-12 .large-4, .row .large-6 .large-2, .row .large-4, .row .large-3 .large-1 {
+  width: 33.33333%;
+}
+.row .large-12 .large-3, .row .large-8 .large-2, .row .large-4 .large-1, .row .large-3 {
+  width: 25%;
+}
+.row .large-12 .large-2, .row .large-6 .large-1, .row .large-2 {
+  width: 16.66667%;
+}
+.row .large-12 .large-1, .row .large-1 {
+  width: 8.33333%;
+}
+.row .large-11 .large-10 {
+  width: 90.90909%;
+}
+.row .large-11 .large-9 {
+  width: 81.81818%;
+}
+.row .large-11 .large-8 {
+  width: 72.72727%;
+}
+.row .large-11 .large-7 {
+  width: 63.63636%;
+}
+.row .large-11 .large-6 {
+  width: 54.54545%;
+}
+.row .large-11 .large-5 {
+  width: 45.45455%;
+}
+.row .large-11 .large-4 {
+  width: 36.36364%;
+}
+.row .large-11 .large-3 {
+  width: 27.27273%;
+}
+.row .large-11 .large-2 {
+  width: 18.18182%;
+}
+.row .large-11 .large-1 {
+  width: 9.09091%;
+}
+.row .large-10 .large-9 {
+  width: 90.0%;
+}
+.row .large-10 .large-8, .row .large-5 .large-4 {
+  width: 80%;
+}
+.row .large-10 .large-7 {
+  width: 70%;
+}
+.row .large-10 .large-6, .row .large-5 .large-3 {
+  width: 60%;
+}
+.row .large-10 .large-4, .row .large-5 .large-2 {
+  width: 40%;
+}
+.row .large-10 .large-3 {
+  width: 30%;
+}
+.row .large-10 .large-2, .row .large-5 .large-1 {
+  width: 20%;
+}
+.row .large-10 .large-1 {
+  width: 10%;
+}
+.row .large-9 .large-8 {
+  width: 88.88889%;
+}
+.row .large-9 .large-7 {
+  width: 77.77778%;
+}
+.row .large-9 .large-6 {
+  width: 66.66667%;
+}
+.row .large-9 .large-5 {
+  width: 55.55556%;
+}
+.row .large-9 .large-4 {
+  width: 44.44444%;
+}
+.row .large-9 .large-3 {
+  width: 33.33333%;
+}
+.row .large-9 .large-2 {
+  width: 22.22222%;
+}
+.row .large-9 .large-1 {
+  width: 11.11111%;
+}
+.row .large-8 .large-7 {
+  width: 87.5%;
+}
+.row .large-8 .large-5 {
+  width: 62.5%;
+}
+.row .large-8 .large-3 {
+  width: 37.5%;
+}
+.row .large-8 .large-1 {
+  width: 12.5%;
+}
+.row .large-7 .large-6 {
+  width: 85.71429%;
+}
+.row .large-7 .large-5 {
+  width: 71.42857%;
+}
+.row .large-7 .large-4 {
+  width: 57.14286%;
+}
+.row .large-7 .large-3 {
+  width: 42.85714%;
+}
+.row .large-7 .large-2 {
+  width: 28.57143%;
+}
+.row .large-7 .large-1 {
+  width: 14.28571%;
+}
+@media only screen and (max-width: 960px), print {
+  .row .offset-medium-6 {
+    margin-left: 100%;
+  }
+  .row .inset-medium-6 {
+    margin-left: -100.02%;
+  }
+  .row .reset-medium {
+    margin-left: 0;
+  }
+  .row .offset-medium-5 {
+    margin-left: 83.33333%;
+  }
+  .row .inset-medium-5 {
+    margin-left: -83.35333%;
+  }
+  .row .reset-medium {
+    margin-left: 0;
+  }
+  .row .offset-medium-4 {
+    margin-left: 66.66667%;
+  }
+  .row .inset-medium-4 {
+    margin-left: -66.68667%;
+  }
+  .row .reset-medium {
+    margin-left: 0;
+  }
+  .row .offset-medium-3 {
+    margin-left: 50%;
+  }
+  .row .inset-medium-3 {
+    margin-left: -50.02%;
+  }
+  .row .reset-medium {
+    margin-left: 0;
+  }
+  .row .offset-medium-2 {
+    margin-left: 33.33333%;
+  }
+  .row .inset-medium-2 {
+    margin-left: -33.35333%;
+  }
+  .row .reset-medium {
+    margin-left: 0;
+  }
+  .row .offset-medium-1 {
+    margin-left: 16.66667%;
+  }
+  .row .inset-medium-1 {
+    margin-left: -16.68667%;
+  }
+  .row .reset-medium {
+    margin-left: 0;
+  }
+  .row .medium-6, .row .medium-6 .medium-6, .row .medium-5 .medium-5, .row .medium-4 .medium-4, .row .medium-3 .medium-3, .row .medium-2 .medium-2, .row .medium-1 .medium-1 {
+    width: 100%;
+  }
+  .row .medium-6 .medium-5, .row .medium-5 {
+    width: 83.33333%;
+  }
+  .row .medium-6 .medium-4, .row .medium-4, .row .medium-3 .medium-2 {
+    width: 66.66667%;
+  }
+  .row .medium-6 .medium-3, .row .medium-4 .medium-2, .row .medium-3, .row .medium-2 .medium-1 {
+    width: 50%;
+  }
+  .row .medium-6 .medium-2, .row .medium-3 .medium-1, .row .medium-2 {
+    width: 33.33333%;
+  }
+  .row .medium-6 .medium-1, .row .medium-1 {
+    width: 16.66667%;
+  }
+  .row .medium-5 .medium-4 {
+    width: 80%;
+  }
+  .row .medium-5 .medium-3 {
+    width: 60%;
+  }
+  .row .medium-5 .medium-2 {
+    width: 40%;
+  }
+  .row .medium-5 .medium-1 {
+    width: 20%;
+  }
+  .row .medium-4 .medium-3 {
+    width: 75%;
+  }
+  .row .medium-4 .medium-1 {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: 640px), print {
+  .row .offset-small-4 {
+    margin-left: 100%;
+  }
+  .row .inset-small-4 {
+    margin-left: -100.02%;
+  }
+  .row .reset-small {
+    margin-left: 0;
+  }
+  .row .offset-small-3 {
+    margin-left: 75%;
+  }
+  .row .inset-small-3 {
+    margin-left: -75.02%;
+  }
+  .row .reset-small {
+    margin-left: 0;
+  }
+  .row .offset-small-2 {
+    margin-left: 50%;
+  }
+  .row .inset-small-2 {
+    margin-left: -50.02%;
+  }
+  .row .reset-small {
+    margin-left: 0;
+  }
+  .row .offset-small-1 {
+    margin-left: 25%;
+  }
+  .row .inset-small-1 {
+    margin-left: -25.02%;
+  }
+  .row .reset-small {
+    margin-left: 0;
+  }
+  .row .small-4, .row .small-4 .small-4, .row .small-3 .small-3, .row .small-2 .small-2, .row .small-1 .small-1 {
+    width: 100%;
+  }
+  .row .small-4 .small-3, .row .small-3 {
+    width: 75%;
+  }
+  .row .small-4 .small-2, .row .small-2, .row .small-2 .small-1 {
+    width: 50%;
+  }
+  .row .small-4 .small-1, .row .small-1 {
+    width: 25%;
+  }
+  .row .small-3 .small-2 {
+    width: 66.66667%;
+  }
+  .row .small-3 .small-1 {
+    width: 33.33333%;
+  }
+}
+
+#responslr-grid-helper-info {
+  position: fixed;
+  z-index: 100001;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 24px;
+  line-height: 1.4;
+  right: 10px;
+  bottom: 10px;
+}
+#responslr-grid-helper-info span + input[type=checkbox] {
+  margin-left: 5px;
+}
+
+#responslr-grid-helper {
+  display: none;
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+#responslr-grid-helper.show {
+  display: block;
+}
+#responslr-grid-helper .row {
+  height: 100%;
+  background-color: rgba(39, 174, 96, 0.25);
+}
+#responslr-grid-helper .column {
+  display: inline-block;
+  height: 100%;
+}
+#responslr-grid-helper .column div {
+  height: 100%;
+  background-color: rgba(36, 156, 213, 0.5);
+}
+
+/***********************************************************************************
+	SETTINGS GENERATOR
+***********************************************************************************/
+/***********************************************************************************
+	OUTPUT - COLOR
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.bg-white, .bg-hover-white:hover {
+  background-color: white;
+}
+
+.text-white, .text-hover-white:hover {
+  color: white;
+}
+
+.border-white, .border-hover-white:hover {
+  border-color: white;
+}
+
+.bg-black, .bg-hover-black:hover {
+  background-color: #1a2025;
+}
+
+.text-black, .text-hover-black:hover {
+  color: #1a2025;
+}
+
+.border-black, .border-hover-black:hover {
+  border-color: #1a2025;
+}
+
+.bg-grey, .bg-hover-grey:hover {
+  background-color: #d5d7d9;
+}
+
+.text-grey, .text-hover-grey:hover {
+  color: #d5d7d9;
+}
+
+.border-grey, .border-hover-grey:hover {
+  border-color: #d5d7d9;
+}
+
+.bg-grey-light, .bg-hover-grey-light:hover {
+  background-color: #eaebeb;
+}
+
+.text-grey-light, .text-hover-grey-light:hover {
+  color: #eaebeb;
+}
+
+.border-grey-light, .border-hover-grey-light:hover {
+  border-color: #eaebeb;
+}
+
+.bg-grey-dark, .bg-hover-grey-dark:hover {
+  background-color: #2d373f;
+}
+
+.text-grey-dark, .text-hover-grey-dark:hover {
+  color: #2d373f;
+}
+
+.border-grey-dark, .border-hover-grey-dark:hover {
+  border-color: #2d373f;
+}
+
+.bg-green, .bg-hover-green:hover {
+  background-color: #27ae60;
+}
+
+.text-green, .text-hover-green:hover {
+  color: #27ae60;
+}
+
+.border-green, .border-hover-green:hover {
+  border-color: #27ae60;
+}
+
+.bg-blue, .bg-hover-blue:hover {
+  background-color: #249cd5;
+}
+
+.text-blue, .text-hover-blue:hover {
+  color: #249cd5;
+}
+
+.border-blue, .border-hover-blue:hover {
+  border-color: #249cd5;
+}
+
+.bg-purple, .bg-hover-purple:hover {
+  background-color: #8e44ad;
+}
+
+.text-purple, .text-hover-purple:hover {
+  color: #8e44ad;
+}
+
+.border-purple, .border-hover-purple:hover {
+  border-color: #8e44ad;
+}
+
+.bg-red, .bg-hover-red:hover {
+  background-color: #c0392b;
+}
+
+.text-red, .text-hover-red:hover {
+  color: #c0392b;
+}
+
+.border-red, .border-hover-red:hover {
+  border-color: #c0392b;
+}
+
+.bg-orange, .bg-hover-orange:hover {
+  background-color: #f26232;
+}
+
+.text-orange, .text-hover-orange:hover {
+  color: #f26232;
+}
+
+.border-orange, .border-hover-orange:hover {
+  border-color: #f26232;
+}
+
+/***********************************************************************************
+	OUTPUT - VISIBILITY
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+@media only screen and (min-width: 961px), print {
+  .hide-large {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 641px) and (max-width: 960px), print {
+  .hide-medium {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 641px), print {
+  .hide-medium-up {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 960px), print {
+  .hide-medium-down {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 0) and (max-width: 640px), print {
+  .hide-small {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 0), print {
+  .hide-small-up {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 640px), print {
+  .hide-small-down {
+    display: none !important;
+  }
+}
+.hide-all, .show-large, .show-medium, .show-medium-up,
+.show-medium-down, .show-small, .show-small-up,
+.show-small-down {
+  display: none !important;
+}
+
+@media only screen and (min-width: 961px), print {
+  .show-large {
+    display: inherit !important;
+  }
+  .show-large.column {
+    display: inline-block !important;
+  }
+
+  span.show-large {
+    display: inline !important;
+  }
+}
+@media only screen and (min-width: 641px) and (max-width: 960px), print {
+  .show-medium {
+    display: inherit !important;
+  }
+  .show-medium.column {
+    display: inline-block !important;
+  }
+
+  span.show-medium {
+    display: inline !important;
+  }
+}
+@media only screen and (min-width: 641px), print {
+  .show-medium-up {
+    display: inherit !important;
+  }
+  .show-medium-up.column {
+    display: inline-block !important;
+  }
+
+  span.show-medium-up {
+    display: inline !important;
+  }
+}
+@media only screen and (max-width: 960px), print {
+  .show-medium-down {
+    display: inherit !important;
+  }
+  .show-medium-down.column {
+    display: inline-block !important;
+  }
+
+  span.show-medium-down {
+    display: inline !important;
+  }
+}
+@media only screen and (min-width: 0) and (max-width: 640px), print {
+  .show-small {
+    display: inherit !important;
+  }
+  .show-small.column {
+    display: inline-block !important;
+  }
+
+  span.show-small {
+    display: inline !important;
+  }
+}
+@media only screen and (min-width: 0), print {
+  .show-small-up {
+    display: inherit !important;
+  }
+  .show-small-up.column {
+    display: inline-block !important;
+  }
+
+  span.show-small-up {
+    display: inline !important;
+  }
+}
+@media only screen and (max-width: 640px), print {
+  .show-small-down {
+    display: inherit !important;
+  }
+  .show-small-down.column {
+    display: inline-block !important;
+  }
+
+  span.show-small-down {
+    display: inline !important;
+  }
+}
+/***********************************************************************************
+	SETTINGS GENERATOR
+***********************************************************************************/
+/***********************************************************************************
+	OUTPUT - TRANSITION
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.transition-default {
+  -moz-transition-property: color,background-color,border-color;
+  -o-transition-property: color,background-color,border-color;
+  -webkit-transition-property: color,background-color,border-color;
+  transition-property: color,background-color,border-color;
+  -moz-transition-duration: 0.25s;
+  -o-transition-duration: 0.25s;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  -moz-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -moz-transition-delay: 0;
+  -o-transition-delay: 0;
+  -webkit-transition-delay: 0;
+  transition-delay: 0;
+}
+
+.transition-box {
+  -moz-transition-property: height,width;
+  -o-transition-property: height,width;
+  -webkit-transition-property: height,width;
+  transition-property: height,width;
+  -moz-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  -moz-transition-timing-function: linear;
+  -o-transition-timing-function: linear;
+  -webkit-transition-timing-function: linear;
+  transition-timing-function: linear;
+  -moz-transition-delay: 0;
+  -o-transition-delay: 0;
+  -webkit-transition-delay: 0;
+  transition-delay: 0;
+}
+
+/***********************************************************************************
+	OUTPUT - ALIGNMENT
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.h-left, .h-left-large {
+  text-align: left;
+}
+
+.h-center, .h-center-large {
+  text-align: center;
+}
+
+.h-right, .h-right-large {
+  text-align: right;
+}
+
+.v-top, .v-top-large {
+  vertical-align: top;
+}
+
+.v-middle, .v-middle-large {
+  vertical-align: middle;
+}
+
+.v-bottom, .v-bottom-large {
+  vertical-align: bottom;
+}
+
+@media only screen and (max-width: 960px), print {
+  .h-left-medium {
+    text-align: left;
+  }
+
+  .h-center-medium {
+    text-align: center;
+  }
+
+  .h-right-medium {
+    text-align: right;
+  }
+
+  .v-top-medium {
+    vertical-align: top;
+  }
+
+  .v-middle-medium {
+    vertical-align: middle;
+  }
+
+  .v-bottom-medium {
+    vertical-align: bottom;
+  }
+}
+@media only screen and (max-width: 640px), print {
+  .h-left-small {
+    text-align: left;
+  }
+
+  .h-center-small {
+    text-align: center;
+  }
+
+  .h-right-small {
+    text-align: right;
+  }
+
+  .v-top-small {
+    vertical-align: top;
+  }
+
+  .v-middle-small {
+    vertical-align: middle;
+  }
+
+  .v-bottom-small {
+    vertical-align: bottom;
+  }
+}
+/***********************************************************************************
+	OUTPUT - SPACING
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.spacing-top-none {
+  margin-top: 0;
+}
+
+.spacing-bottom-none {
+  margin-bottom: 0;
+}
+
+.spacing-top-default {
+  margin-top: 80px;
+}
+
+.spacing-bottom-default {
+  margin-bottom: 80px;
+}
+
+.spacing-top-tiny {
+  margin-top: 20px;
+}
+
+.spacing-bottom-tiny {
+  margin-bottom: 20px;
+}
+
+.spacing-top-small {
+  margin-top: 40px;
+}
+
+.spacing-bottom-small {
+  margin-bottom: 40px;
+}
+
+.spacing-top-medium {
+  margin-top: 60px;
+}
+
+.spacing-bottom-medium {
+  margin-bottom: 60px;
+}
+
+.spacing-top-large {
+  margin-top: 100px;
+}
+
+.spacing-bottom-large {
+  margin-bottom: 100px;
+}
+
+.spacing-top-xlarge {
+  margin-top: 160px;
+}
+
+.spacing-bottom-xlarge {
+  margin-bottom: 160px;
+}
+
+/***********************************************************************************
+	OUTPUT - ASPECT-RATIO
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	EXTENDED FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.aspect-ratio-1-1 {
+  position: relative;
+}
+.aspect-ratio-1-1::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.aspect-ratio-2-1 {
+  position: relative;
+}
+.aspect-ratio-2-1::before {
+  content: "";
+  display: block;
+  padding-top: 50%;
+}
+
+.aspect-ratio-4-3 {
+  position: relative;
+}
+.aspect-ratio-4-3::before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
+
+.aspect-ratio-16-9 {
+  position: relative;
+}
+.aspect-ratio-16-9::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;
+}
+
+.aspect-ratio-content {
+  display: block;
+  position: absolute;
+  margin: 0 !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.column > .aspect-ratio-content {
+  left: 16px;
+  right: 16px;
+}
+@media only screen and (max-width: 960px), print {
+  .column > .aspect-ratio-content {
+    left: 12px;
+    right: 12px;
+  }
+}
+@media only screen and (max-width: 640px), print {
+  .column > .aspect-ratio-content {
+    left: 10px;
+    right: 10px;
+  }
+}
+
+/***********************************************************************************
+	OUTPUT - SPRITE
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+/***********************************************************************************
+	OUTPUT - ICON
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	EXTENDED FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR
+***********************************************************************************/
+.icon-equalizer {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJFcXVhbGl6ZXIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iNDIuOTM4cHgiIGhlaWdodD0iMzMuNjg4cHgiIHZpZXdCb3g9IjAgMCA0Mi45MzggMzMuNjg4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA0Mi45MzggMzMuNjg4IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cmVjdCB4PSIwLjA1MiIgeT0iMjYuNiIgd2lkdGg9IjExLjYxIiBoZWlnaHQ9IjcuMDU4Ii8+PHJlY3QgeD0iMTUuNjc3IiB5PSIwLjA2OCIgd2lkdGg9IjExLjYxIiBoZWlnaHQ9IjMzLjU4OSIvPjxyZWN0IHg9IjMxLjMwMiIgeT0iMTYuNDAyIiB3aWR0aD0iMTEuNjEiIGhlaWdodD0iMTcuMjU1Ii8+PC9zdmc+');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: auto 100px;
+}
+
+.icon-dots {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyBzdHlsZT0iZmlsbDojZjI2MjMyOyIgdmVyc2lvbj0iMS4xIiBpZD0iVmVydGljYWxfZG90cyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxOC43MjlweCIgaGVpZ2h0PSI3NC43NnB4IiB2aWV3Qm94PSIwIDAgMTguNzI5IDc0Ljc2IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxOC43MjkgNzQuNzYiICB4bWw6c3BhY2U9InByZXNlcnZlIj48cmVjdCB4PSIwLjA0MiIgeT0iMC4wNDIiIHdpZHRoPSIxOC42NjciIGhlaWdodD0iMTguNjY3IiBpZD0iTXlSZWN0IiAvPjxyZWN0IHg9IjAuMDQyIiB5PSIyOC4wNDIiIHdpZHRoPSIxOC42NjciIGhlaWdodD0iMTguNjY3Ii8+PHJlY3QgeD0iMC4wNDIiIHk9IjU2LjA0MiIgd2lkdGg9IjE4LjY2NyIgaGVpZ2h0PSIxOC42NjciLz48L3N2Zz4=');
+  background-repeat: no-repeat;
+  background-position: 40% 60%;
+  background-size: auto 100px;
+}
+
+.icon-drinking-horn {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyBzdHlsZT0iZmlsbDojZWFlYmViOyIgdmVyc2lvbj0iMS4xIiBpZD0iTWV0X2hvcm5fb3V0bGluZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI1Ny4xNTZweCIgaGVpZ2h0PSI4Ny44MTNweCIgdmlld0JveD0iMCAwIDU3LjE1NiA4Ny44MTMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU3LjE1NiA4Ny44MTMiICB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBkPSJNNTIuNjc3LDIuNjc2YzAuMzM3LDIuODM5LDAuODQ1LDguODU4LDEuMjM2LDE0LjMxNWwwLjAxMiwwLjE3bDAuMDM1LDAuMTY3YzAuMDIxLDAuMTAzLDIuMTIsMTAuNDI0LTIuMDA0LDIzLjcxMSBjLTUuNDg1LDE3LjY3NC0xOS41MjIsMzIuMzA1LTQwLjYwMiw0Mi4zMTljLTIuODEsMC45MTItNC44OTgsMS4zOTctNi40MDIsMS42NDhjMS4zOC0xLjM0NSwzLjMyMS0zLjAxOCw1LjgyNi00Ljc3NGwwLjAzNC0wLjAyMiBsMC4wMzMtMC4wMjVjMjIuMzUzLTE2Ljc5NywyNi41NzUtMzguNzQyLDI3LjEtNTAuMzI4YzAuMjA3LTQuNTQ4LDAuMDMzLTcuNjQzLTAuNTE5LTkuMjQxbDAuMDc5LTAuMDI5IGMtMC4zMDQtMC44MzktMC43MzYtMi4wMDctMS4yMjktMy4zMzFjLTEuMTE2LTMuMDA2LTIuODM4LTcuNjQxLTMuNjQ3LTEwLjE0OEMzNi4yOTIsNS41MzksNDcuNzQ5LDIuOTc4LDUyLjY3NywyLjY3NiAgTTUzLjUzOCwwLjE0NmMtNS4yMiwwLTI0LjE5Miw0LjE0NS0yMy43NTcsNi4xMDRjMC41LDIuMjUsNC4wOTQsMTEuNjQ5LDUuMzc1LDE1LjE4OGMwLjA4NywwLjA3OSw1LjEyNSwzMy41LTI1LjgxMyw1Ni43NSBjLTYuMDYzLDQuMjUtOS40MzgsOC40MTYtOS4yNSw5YzAuMDg0LDAuMjY0LDAuNzU0LDAuNTc1LDIuMjc0LDAuNTc1YzEuODYzLDAsNS4wMDQtMC40NjksOS45MTMtMi4wNzUgYzUzLjMzMy0yNS4yNSw0NC4xMjUtNjguODc1LDQ0LjEyNS02OC44NzVTNTUuMzQ0LDIsNTQuODQ0LDAuNDM4QzU0Ljc3OSwwLjIzNiw1NC4zMDksMC4xNDYsNTMuNTM4LDAuMTQ2TDUzLjUzOCwwLjE0NnoiLz48L3N2Zz4=');
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  background-size: contain;
+}
+
+/***********************************************************************************
+	OUTPUT - CIRCLE
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS (CIRCLE)
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS (CIRCLE)
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR: CIRCLE
+***********************************************************************************/
+.circle {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.circle-auto {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.circle-default {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+}
+
+.circle-small {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+}
+
+.circle-large {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  border-radius: 50%;
+}
+
+.circle-oval {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  width: 100px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+}
+
+/***********************************************************************************
+	OUTPUT - TRIANGLE
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR: TRIANGLE
+***********************************************************************************/
+.triangle-top {
+  width: 0;
+  height: 0;
+  border-right: 0.5em solid transparent;
+  border-bottom: 0.5em solid #1a2025;
+  border-left: 0.5em solid transparent;
+}
+
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid transparent;
+  border-bottom: 0.5em solid transparent;
+  border-left: 0.5em solid #1a2025;
+}
+
+.triangle-bottom {
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid #1a2025;
+  border-right: 0.5em solid transparent;
+  border-left: 0.5em solid transparent;
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid transparent;
+  border-right: 0.5em solid #1a2025;
+  border-bottom: 0.5em solid transparent;
+}
+
+/***********************************************************************************
+	OUTPUT - ARROW
+***********************************************************************************/
+/***********************************************************************************
+	DEFAULT MAP FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MAP VALUE FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	EXTENDED FUNCTIONS
+***********************************************************************************/
+/***********************************************************************************
+	MIXINS
+***********************************************************************************/
+/***********************************************************************************
+	CLASS GENERATOR: ARROW
+***********************************************************************************/
+.arrow, .arrow-up::before, .arrow-right::before, .arrow-down::before, .arrow-left::before, .arrow-default::before, .arrow-button::before, .arrow-circle-large::before {
+  content: "";
+  display: block;
+  position: absolute;
+  border-width: 0;
+  border-style: solid;
+  border-right-style: outset;
+  border-bottom-style: outset;
+}
+
+.arrow-up {
+  position: relative;
+}
+.arrow-up.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-up::before {
+  border-top-width: 3px;
+  border-left-width: 3px;
+  width: 12px;
+  height: 12px;
+  border-color: black;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg) translateZ(1px);
+  transform: rotate(45deg) translateZ(1px);
+  left: 50%;
+  right: auto;
+  top: 50%;
+  margin-left: -6px;
+  margin-top: -4px;
+}
+
+.arrow-right {
+  position: relative;
+}
+.arrow-right.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-right::before {
+  border-top-width: 3px;
+  border-left-width: 3px;
+  width: 12px;
+  height: 12px;
+  border-color: black;
+  -ms-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg) translateZ(1px);
+  transform: rotate(135deg) translateZ(1px);
+  left: 50%;
+  right: auto;
+  top: 50%;
+  right: 50%;
+  margin-right: -4px;
+  left: auto;
+  margin-top: -6px;
+}
+
+.arrow-down {
+  position: relative;
+}
+.arrow-down.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-down::before {
+  border-top-width: 3px;
+  border-left-width: 3px;
+  width: 12px;
+  height: 12px;
+  border-color: black;
+  -ms-transform: rotate(225deg);
+  -webkit-transform: rotate(225deg) translateZ(1px);
+  transform: rotate(225deg) translateZ(1px);
+  left: 50%;
+  right: auto;
+  top: 50%;
+  margin-left: -6px;
+  bottom: 50%;
+  margin-bottom: -4px;
+  top: auto;
+}
+
+.arrow-left {
+  position: relative;
+}
+.arrow-left.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-left::before {
+  border-top-width: 3px;
+  border-left-width: 3px;
+  width: 12px;
+  height: 12px;
+  border-color: black;
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg) translateZ(1px);
+  transform: rotate(-45deg) translateZ(1px);
+  left: 50%;
+  right: auto;
+  top: 50%;
+  margin-left: -4px;
+  margin-top: -6px;
+}
+
+.arrow-default {
+  position: relative;
+}
+.arrow-default.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-default::before {
+  border-top-width: 3px;
+  border-left-width: 3px;
+  width: 12px;
+  height: 12px;
+  border-color: black;
+  -ms-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg) translateZ(1px);
+  transform: rotate(135deg) translateZ(1px);
+  left: 50%;
+  right: auto;
+  top: 50%;
+  right: 50%;
+  margin-right: -4px;
+  left: auto;
+  margin-top: -6px;
+}
+
+.arrow-button {
+  position: relative;
+}
+.arrow-button.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-button::before {
+  border-top-width: 2px;
+  border-left-width: 2px;
+  width: 8px;
+  height: 8px;
+  border-color: white;
+  -ms-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg) translateZ(1px);
+  transform: rotate(135deg) translateZ(1px);
+  right: 10px;
+  top: 50%;
+  margin-top: -4px;
+}
+.arrow-button:before {
+  -moz-transition-property: color,background-color,border-color;
+  -o-transition-property: color,background-color,border-color;
+  -webkit-transition-property: color,background-color,border-color;
+  transition-property: color,background-color,border-color;
+  -moz-transition-duration: 0.25s;
+  -o-transition-duration: 0.25s;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  -moz-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -moz-transition-delay: 0;
+  -o-transition-delay: 0;
+  -webkit-transition-delay: 0;
+  transition-delay: 0;
+  -moz-transition-property: right, border-color;
+  -o-transition-property: right, border-color;
+  -webkit-transition-property: right, border-color;
+  transition-property: right, border-color;
+}
+.arrow-button:hover:before {
+  right: arrow-offset-correct(6px, 2px);
+  border-color: #1a2025;
+}
+
+.arrow-circle-large {
+  position: relative;
+}
+.arrow-circle-large.aspect-ratio-content {
+  position: absolute;
+}
+.arrow-circle-large::before {
+  border-top-width: 10px;
+  border-left-width: 10px;
+  width: 50px;
+  height: 50px;
+  border-color: white;
+  -ms-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg) translateZ(1px);
+  transform: rotate(135deg) translateZ(1px);
+  left: 50%;
+  right: auto;
+  top: 50%;
+  right: 50%;
+  margin-right: -16.66667px;
+  left: auto;
+  margin-top: -25px;
+}
+

@@ -1,33 +1,16 @@
 <?php
 
-// Init cms
-require_once "core/init.php";
+// Init core
+require_once "init.php";
 
 // Get requested page url
-$page = isset($_GET["page"]) ? $_GET["page"] : "";
-$page = preg_replace("/[^a-z0-9\-\/]/i", "", $page);
+$pagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";
+$pagePath = preg_replace("/[^a-z0-9\-_\/]/i", "", $pagePath);
 
-// Start output buffer
-ob_start();
+// Parse page
+$pageParser = new PageParser($pagePath);
+$pageParser->parse();
 
-// Get page
-if(file_exists("custom/page/{$page}/index.php")) {
-	include "custom/page/{$page}/index.php";
-} else {
-	echo "Page not found: {$page}";
-}
-
-// Get output buffer
-$rawOutput = ob_get_clean();
-
-// Parse output
-$outputParser = new ContentElement($rawOutput);
-
-$outputParser->parseOutput();
-
-$output = $outputParser->getOutput();
-
-echo $output;
+echo $pageParser->getOutput();
 
 ?>
-
