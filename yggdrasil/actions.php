@@ -60,7 +60,9 @@ switch($actionName) {
 		$pageParser = new PageParser($pagePath, true);
 		$pageParser->parse();
 
-		echo "page published: \"/{$pagePath}\"<br />";
+
+		header("Location: " . $backend["url"] . "/?pagePath=" . $pagePath);
+		//echo "page published: \"/{$pagePath}\"<br />";
 
 	break;
 

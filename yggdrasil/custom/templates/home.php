@@ -2,9 +2,10 @@
 
 <html lang="de">
 	<head>
+		<title><?php echo $this->page->config["head"]["meta"]["title"] ?></title>
+		<!-- TODO: SET FRONTEND AND BACKEND BASE URL -->
+		<base href="<?php echo $this->yggdrasilConfig["backend"]["rootUrl"] ?>/" />
 		<link rel="canonical" href="/" />
-
-		<title><?php echo $this->settings["head"]["meta"]["title"] ?></title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -12,15 +13,15 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-		<meta name="robots" content="<?php echo $this->settings["head"]["meta"]["robots"] ?>" />
-		<meta name="keywords" content="<?php echo $this->settings["head"]["meta"]["keywords"] ?>" />
-		<meta name="description" content="<?php echo $this->settings["head"]["meta"]["description"] ?>" />
+		<meta name="robots" content="<?php echo $this->page->config["head"]["meta"]["robots"] ?>" />
+		<meta name="keywords" content="<?php echo $this->page->config["head"]["meta"]["keywords"] ?>" />
+		<meta name="description" content="<?php echo $this->page->config["head"]["meta"]["description"] ?>" />
 
-		<meta name="geo.region" content="<?php echo $this->settings["head"]["geo"]["region"] ?>" />
-		<meta name="geo.placename" content="<?php echo $this->settings["head"]["geo"]["placename"] ?>" />
-		<meta name="geo.position" content="<?php echo $this->settings["head"]["geo"]["position"] ?>" />
+		<meta name="geo.region" content="<?php echo $this->page->config["head"]["geo"]["region"] ?>" />
+		<meta name="geo.placename" content="<?php echo $this->page->config["head"]["geo"]["placename"] ?>" />
+		<meta name="geo.position" content="<?php echo $this->page->config["head"]["geo"]["position"] ?>" />
 
-		<?php foreach($this->settings["head"]["og"]["image"] as $ogImage) { ?>
+		<?php foreach($this->page->config["head"]["og"]["image"] as $ogImage) { ?>
 			<meta property="og:image" content="<?php echo $ogImage ?>" />
 		<?php } ?>
 
@@ -39,14 +40,14 @@
 	</head>
 
 	<body>
-		<?php /*dump($this->settings);*/ ?>
+		<?php /*dump($this->page->config);*/ ?>
 
 		<div id="content">
-			<?php echo $this->sections["content"] ?>
+			<?php echo $this->pageSections["content"] ?>
 		</div>
 
 		<div id="sidebar">
-			<?php echo $this->sections["sidebar"] ?>
+			<?php echo $this->pageSections["sidebar"] ?>
 		</div>
 
 		<!-- Footer js -->

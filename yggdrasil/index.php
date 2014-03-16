@@ -4,12 +4,23 @@
 require_once "init.php";
 
 // Get requested page url
-$pagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";
-$pagePath = preg_replace("/[^a-z0-9\-_\/]/i", "", $pagePath);
+$currentPagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";
+
+// Create publisher
+//$pagePublisher = new PagePublisher();
+
+// Get page
+$currentPage = new Page($currentPagePath);
+$currentPage->loadPageContent();
 
 // Parse page
-$pageParser = new PageParser($pagePath);
+$pageParser = new PageParser($currentPage);
+//$pageParser->setPublisher($pagePublisher);
 $pageParser->parse();
+$pageParser->showBackend();
+
+// Publish page
+//$pagePublisher->publish();
 
 echo $pageParser->getOutput();
 

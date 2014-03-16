@@ -1,2 +1,2 @@
-yggdrasil-light
+Yggdrasil Light
 ===============

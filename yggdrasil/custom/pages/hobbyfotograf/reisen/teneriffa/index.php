@@ -1,12 +1,12 @@
 <?php
 
 // Set page template
-$this->settings["template"] = "content";
+$this->config["template"] = "content";
 
 // Set meta data
-$this->settings["head"]["meta"]["title"] = "Teneriffa Title";
-$this->settings["head"]["meta"]["description"] = "Teneriffa Description";
-$this->settings["head"]["meta"]["keywords"] = "Teneriffa Keywords";
+$this->config["head"]["meta"]["title"] = "Teneriffa Title";
+$this->config["head"]["meta"]["description"] = "Teneriffa Description";
+$this->config["head"]["meta"]["keywords"] = "Teneriffa Keywords";
 
 ?>
 
