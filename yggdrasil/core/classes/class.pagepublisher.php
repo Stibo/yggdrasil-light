@@ -3,13 +3,62 @@
 class PagePublisher {
 
 	// Private properties
+	private $yggdrasilConfig;
+
+	private $publishDate;
 	private $pages;
 	private $jsFiles;
 	private $cssFiles;
 
 	// Constructor
 	public function __construct() {
+		global $yggdrasilConfig;
+
+		$this->yggdrasilConfig = $yggdrasilConfig;
+
+		$this->publishDate = time();
 		$this->pages = array();
+		$this->jsFiles = array();
+		$this->cssFiles = array();
+	}
+
+	// PUBLIC: Copy folder recursive
+	private function copy_recurse($source, $destination) {
+		$directory = opendir($source);
+
+		@mkdir($destination);
+
+		while(false !== ($file = readdir($directory))) {
+			if(($file != '.') && ($file != '..')) {
+				if(is_dir($source . '/' . $file)) {
+					$this->copy_recurse($source . '/' . $file,$destination . '/' . $file);
+				} else {
+					copy($source . '/' . $file,$destination . '/' . $file);
+				}
+			}
+		}
+
+		closedir($directory);
+	}
+
+	// PUBLIC: Delete folder recursive
+	public function delete_recurse($path, $removeFolder) {
+		$directory = new DirectoryIterator($path);
+
+		foreach($directory as $fileinfo) {
+			if(!$fileinfo->isDot()) {
+
+				if($fileinfo->isFile()) {
+					unlink($fileinfo->getPathName());
+				} else {
+					$this->delete_recurse($fileinfo->getPathName(), true);
+				}
+			}
+		}
+
+		if($removeFolder) {
+			rmdir($path);
+		}
 	}
 
 	// PUBLIC: Add page
@@ -49,42 +98,108 @@ class PagePublisher {
 		return $this->cssFiles;
 	}
 
-	// PRIVATE: Publish js files
-	private function publishJSFiles() {
-		echo "<pre>";
-		echo var_dump($this->jsFiles);
-		echo "</pre>";
-	}
+	// PRIVATE: Prepare js files
+	public function prepareJSFiles() {
+		$tempPath =  str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp" . DIRECTORY_SEPARATOR . $this->yggdrasilConfig["frontend"]["jsFolder"] . DIRECTORY_SEPARATOR;
 
-	// PRIVATE: Publish css files
-	private function publishCSSFiles() {
-		echo "<pre>";
-		echo var_dump($this->cssFiles);
-		echo "</pre>";
-	}
-
-	// PRIVATE: Publish page
-	private function publishPage() {
-		$this->output = Minify_HTML::minify($this->output);
-
-		$publishPath = $publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $this->path);
-		$publishFile = $publishPath . DIRECTORY_SEPARATOR . "index.html";
-
-		// Create published css folder if not exists
-		if(!file_exists($publishPath)) {
-			mkdir($publishPath, 755, true);
+		// Create published js folder if not exists
+		if(!file_exists($tempPath)) {
+			mkdir($tempPath);
 		}
 
-		// Write minified css content
-		file_put_contents($publishFile, $this->getOutput());
+		foreach($this->jsFiles as $mergedFile => $jsFiles) {
+			$jsContent = "";
+
+			foreach($jsFiles as $jsFile) {
+				$jsContent .= file_get_contents($this->yggdrasilConfig["backend"]["rootDir"] . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . basename($jsFile));
+			}
+
+			$jsContentMinified = Minify_JS_ClosureCompiler::minify($jsContent);
+
+			// Write minified js content
+			file_put_contents($tempPath . $mergedFile, $jsContentMinified);
+		}
+	}
+
+	// PRIVATE: Prepare css files
+	public function prepareCSSFiles() {
+		$tempPath =  str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp" . DIRECTORY_SEPARATOR . $this->yggdrasilConfig["frontend"]["cssFolder"] . DIRECTORY_SEPARATOR;
+
+		// Create published css folder if not exists
+		if(!file_exists($tempPath)) {
+			mkdir($tempPath);
+		}
+
+		foreach($this->cssFiles as $mergedFile => $cssFiles) {
+			$cssContent = "";
+
+			foreach($cssFiles as $cssFile) {
+				$cssContent .= file_get_contents($this->yggdrasilConfig["backend"]["rootDir"] . DIRECTORY_SEPARATOR . "css" . DIRECTORY_SEPARATOR . basename($cssFile));
+			}
+
+			// Init css minifier
+			$cssMinifier = new CSSmin();
+
+			// Minify css content
+			$cssContentMinified = $cssMinifier->run($cssContent);
+
+			// Write minified css content
+			file_put_contents($tempPath . $mergedFile, $cssContentMinified);
+		}
+	}
+
+	// PRIVATE: Publish pages
+	public function preparePages() {
+		foreach($this->pages as $publishPage) {
+			$publishPage["content"] = Minify_HTML::minify($publishPage["content"]);
+
+			// Get temp path
+			$publishTempPath = str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp" . DIRECTORY_SEPARATOR . str_replace("/", DIRECTORY_SEPARATOR, $publishPage["page"]);
+			$publishTempFile = $publishTempPath . DIRECTORY_SEPARATOR . "index.html";
+
+			// Create folders
+			if(!file_exists($publishTempPath)) {
+				mkdir($publishTempPath, 755, true);
+			}
+
+			// Refresh cache buster params
+			foreach($this->jsFiles as $mergedName => $jsFile) {
+				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . DIRECTORY_SEPARATOR . $mergedName;
+				$jsFileLastModified = file_exists($jsFilePath) ? filemtime($jsFilePath) : $this->publishDate;
+
+				$publishPage["content"] = str_replace($mergedName . "?CACHEBUSTER", $mergedName . "?{$jsFileLastModified}", $publishPage["content"]);
+			}
+
+			foreach($this->cssFiles as $mergedName => $cssFile) {
+				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . DIRECTORY_SEPARATOR . $mergedName;
+				$cssFileLastModified = file_exists($cssFilePath) ? filemtime($cssFilePath) : $this->publishDate;
+
+				$publishPage["content"] = str_replace($mergedName . "?CACHEBUSTER", $mergedName . "?{$cssFileLastModified}", $publishPage["content"]);
+			}
+
+			// Create index file
+			file_put_contents($publishTempFile, $publishPage["content"]);
+		}
 	}
 
 	// PUBLIC: Publish queue
 	public function publish() {
-		$this->publishJSFiles();
-		$this->publishCSSFiles();
+		$publishTempPath = str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp";
+
+		$this->copy_recurse($publishTempPath, $this->yggdrasilConfig["frontend"]["rootDir"]);
+		$this->delete_recurse($publishTempPath, false);
 	}
 
+	// PUBLIC: Clear frontend
+	public function clear() {
+		$this->delete_recurse($this->yggdrasilConfig["frontend"]["rootDir"], false);
+	}
+
+	// PUBLIC: Clear frontend and publish queue
+	public function clearAndPublish() {
+		$this->clear();
+		$this->publish();
+	}
 }
 
 ?>

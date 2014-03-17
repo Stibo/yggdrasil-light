@@ -5,95 +5,65 @@ require_once "init.php";
 
 // Get action
 $actionName = isset($_GET["action"]) ? $_GET["action"] : "";
-$pagePath = preg_replace("/[^a-z0-9\-_\/]/i", "", $_GET["pagePath"]);
 
 switch($actionName) {
-	// Toggle page
-	case "togglepage":
-
-		$pageName = array_slice(explode("/", $pagePath), -1);
-		$pageName = $pageName[0];
-
-		$pageIsInactive = strpos($pageName, "_") === 0;
-
-		$pagePath = implode(DIRECTORY_SEPARATOR, array_slice(explode("/", $pagePath), 0, -1));
-		$pageDir = "custom" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $pagePath . DIRECTORY_SEPARATOR;
-
-		if($pageIsInactive) {
-			$oldName = $pageName;
-			$newName = substr($pageName, 1);
-		} else {
-			$oldName = $pageName;
-			$newName = "_" . $pageName;
-		}
-
-		@rename($pageDir . $oldName, $pageDir . $newName);
-
-		if($pageIsInactive) {
-			$pageTree = PageParser::getPageTree(str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $newName);
-
-			foreach($pageTree as $currentPage) {
-				$pageParser = new PageParser($currentPage, true);
-				$pageParser->parse();
-			}
-		} else {
-			/*$pageTree = array_reverse(PageParser::getPageTree(str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $oldName, true));
-			echo var_dump(str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $oldName);
-
-			foreach($pageTree as $pageDelete) {
-				//unlink($publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete) . DIRECTORY_SEPARATOR . "index.html");
-				echo "unlink: " . $publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete) . DIRECTORY_SEPARATOR . "index.html";
-				//rmdir($publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete));
-				echo "rmdir: " . $publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete);
-			}
-
-			die();*/
-		}
-
-		header("Location: " . $backend["url"] . "/?pagePath=" . str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $newName);
-
-	break;
-
 	// Publish single page
 	case "publishpage":
+		// Create page publisher
+		$pagePublisher = new PagePublisher();
 
-		$pageParser = new PageParser($pagePath, true);
+		// Get current page
+		$currentPage = new Page($_GET["pagePath"]);
+		$currentPage->loadPageContent();
+
+		// Parse current page
+		$pageParser = new PageParser($currentPage);
+		$pageParser->setPublisher($pagePublisher);
 		$pageParser->parse();
 
+		// Prepare pages
+		$pagePublisher->preparePages();
+		//$pagePublisher->prepareJSFiles();
+		//$pagePublisher->prepareCSSFiles();
 
-		header("Location: " . $backend["url"] . "/?pagePath=" . $pagePath);
-		//echo "page published: \"/{$pagePath}\"<br />";
+		// Finish publish
+		$pagePublisher->publish();
 
+		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "/?pagePath=" . $_GET["pagePath"]);
 	break;
 
-	// Publish single page and all subpages
-	case "publishsubpages":
-
-		$pageTree = PageParser::getPageTree($pagePath);
-
-		foreach($pageTree as $currentPage) {
-			$pageParser = new PageParser($currentPage, true);
-			$pageParser->parse();
-
-			echo "page published: \"/{$currentPage}\"<br />";
-		}
-
-	break;
-
-	// Publish all pages
+	// Publish page with subpages
 	case "publishall":
+		// Create page publisher
+		$pagePublisher = new PagePublisher();
 
-		echo "publish all<hr />";
+		// Get current page
+		$currentPage = new Page($_GET["pagePath"]);
+		$currentPage->loadPageContent();
 
-		$pageTree = PageParser::getPageTree();
+		// Parse current page
+		$pageParser = new PageParser($currentPage);
+		$pageParser->setPublisher($pagePublisher);
+		$pageParser->parse();
 
-		foreach($pageTree as $currentPage) {
-			$pageParser = new PageParser($currentPage, true);
-			$pageParser->parse();
+		// Get subpages
+		$currentSubPages = $currentPage->getSubpages();
 
-			echo "page published: \"/{$currentPage}\"<br />";
+		// Parse subpages
+		foreach($currentSubPages as $subPage) {
+			// Parse current page
+			$subPageParser = new PageParser($subPage);
+			$subPageParser->setPublisher($pagePublisher);
+			$subPageParser->parse();
 		}
 
+		// Prepare pages
+		$pagePublisher->preparePages();
+
+		// Finish publish
+		$pagePublisher->publish();
+
+		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "/?pagePath=" . $_GET["pagePath"]);
 	break;
 
 	// Action not found

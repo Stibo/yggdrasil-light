@@ -81,6 +81,34 @@ class Page {
 	public function getContent() {
 		return $this->content;
 	}
+
+	// PUBLIC: Get subpages
+	public function getSubPages($startPage, $showInactive = false) {
+		global $backend;
+
+		$pagesList = array();
+
+		/*$pageRoot = "custom" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR;
+		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pageRoot));
+
+		while($pageIterator->valid()) {
+			if(!$pageIterator->isDot()) {
+				$pagePath = str_replace("\\", "/", $pageIterator->getSubPath());
+				$pageName = array_slice(explode("/", $pagePath), -1);
+				$pageName = $pageName[0];
+
+				$pageIsInactive = substr($pageName, 0, 1) == "_";
+
+				if((($startPage != "" && strpos($pagePath, $startPage) === 0) || $startPage == "") && (!$pageIsInactive || $showInactive == true)) {
+					$pagesList[] = $pagePath;
+				}
+			}
+
+			$pageIterator->next();
+		}*/
+
+		return $pagesList;
+	}
 }
 
 ?>

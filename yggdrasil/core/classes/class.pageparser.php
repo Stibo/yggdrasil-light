@@ -96,7 +96,7 @@ class PageParser {
 			$this->publisher->addJSFiles($jsMergedFile, $jsFiles);
 
 			$jsFrontendFolder = $this->yggdrasilConfig["frontend"]["mediaUrl"] . $this->yggdrasilConfig["frontend"]["jsFolder"];
-			$jsFrontendFile = "{$jsFrontendFolder}/{$jsMergedFile}?" . time();
+			$jsFrontendFile = "{$jsFrontendFolder}/{$jsMergedFile}?CACHEBUSTER";
 
 			$jsOutput = '<script src="' . $jsFrontendFile . '"' . ($jsAsync != "" ? ' async="' . $jsAsync . '"' : "" ) . '></script>';
 		}
@@ -131,7 +131,7 @@ class PageParser {
 			$this->publisher->addCSSFiles($cssMergedFile, $cssFiles);
 
 			$cssFrontendFolder = $this->yggdrasilConfig["frontend"]["mediaUrl"] . $this->yggdrasilConfig["frontend"]["cssFolder"];
-			$cssFrontendFile = "{$cssFrontendFolder}/{$cssMergedFile}?" . time();
+			$cssFrontendFile = "{$cssFrontendFolder}/{$cssMergedFile}?CACHEBUSTER";
 
 			$cssOutput = '<script src="' . $cssFrontendFile . '" media="' . $cssMedia . '"></script>';
 		}
@@ -164,6 +164,10 @@ class PageParser {
 			$this->parseElements();
 			$this->parseJSFiles();
 			$this->parseCSSFiles();
+
+			if($this->publisher !== false) {
+				$this->publisher->addPage($this->page->path, $this->output);
+			}
 		} else {
 			echo "Page does not have any sections!";
 		}

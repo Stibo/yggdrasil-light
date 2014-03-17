@@ -53,53 +53,6 @@ class PageParser {
 
 		return $pagesList;
 	}
-
-	// PRIVATE: Merge js
-	private function mergeJS($matches) {
-
-		if($this->publishMode) {
-			$jsContentMinified = Minify_JS_ClosureCompiler::minify($jsContent);
-
-			$publishPath = $publish["rootDir"] . $publish["jsFolder"] . DIRECTORY_SEPARATOR;
-			$publishFile = $publishPath . $jsMergedFilename;
-
-			// Create published js folder if not exists
-			if(!file_exists($publishPath)) {
-				mkdir($publishPath);
-			}
-
-			// Write minified js content
-			file_put_contents($publishFile, $jsContentMinified);
-		}
-
-		return $jsFiles;
-	}
-
-
-	// PRIVATE: Merge css
-	private function mergeCSS($matches) {
-
-		if($this->publishMode) {
-			// Init css minifier
-			$cssMinifier = new CSSmin();
-
-			// Minify css content
-			$cssContentMinified = $cssMinifier->run($cssContent);
-
-			$publishPath = $publish["rootDir"] . $publish["cssFolder"] . DIRECTORY_SEPARATOR;
-			$publishFile = $publishPath . $cssMergedFilename;
-
-			// Create published css folder if not exists
-			if(!file_exists($publishPath)) {
-				mkdir($publishPath);
-			}
-
-			// Write minified css content
-			file_put_contents($publishFile, $cssContentMinified);
-		}
-
-		return $cssFiles;
-	}
 }
 
 
