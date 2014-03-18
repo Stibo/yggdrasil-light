@@ -10,6 +10,9 @@ class PagePublisher {
 	private $jsFiles;
 	private $cssFiles;
 
+	private $jsFilesPublished;
+	private $cssFilesPublished;
+
 	// Constructor
 	public function __construct() {
 		global $yggdrasilConfig;
@@ -118,6 +121,9 @@ class PagePublisher {
 
 			// Write minified js content
 			file_put_contents($tempPath . $mergedFile, $jsContentMinified);
+
+			// Set published date
+			$jsFilesPublished[$mergedFile] = filemtime($tempPath . $mergedFile);
 		}
 	}
 
@@ -145,6 +151,9 @@ class PagePublisher {
 
 			// Write minified css content
 			file_put_contents($tempPath . $mergedFile, $cssContentMinified);
+
+			// Set published date
+			$cssFilesPublished[$mergedFile] = filemtime($tempPath . $mergedFile);
 		}
 	}
 
@@ -165,14 +174,28 @@ class PagePublisher {
 			// Refresh cache buster params
 			foreach($this->jsFiles as $mergedName => $jsFile) {
 				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . DIRECTORY_SEPARATOR . $mergedName;
-				$jsFileLastModified = file_exists($jsFilePath) ? filemtime($jsFilePath) : $this->publishDate;
+
+				if(isset($jsFilesPublished[$mergedName])) {
+					$jsFileLastModified = $jsFilesPublished[$mergedName];
+				} elseif(file_exists($jsFilePath)) {
+					$jsFileLastModified = filemtime($jsFilePath);
+				} else {
+					$jsFileLastModified = $this->publishDate;
+				}
 
 				$publishPage["content"] = str_replace($mergedName . "?CACHEBUSTER", $mergedName . "?{$jsFileLastModified}", $publishPage["content"]);
 			}
 
 			foreach($this->cssFiles as $mergedName => $cssFile) {
 				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . DIRECTORY_SEPARATOR . $mergedName;
-				$cssFileLastModified = file_exists($cssFilePath) ? filemtime($cssFilePath) : $this->publishDate;
+
+				if(isset($cssFilesPublished[$mergedName])) {
+					$cssFileLastModified = $cssFilesPublished[$mergedName];
+				} elseif(file_exists($cssFilePath)) {
+					$cssFileLastModified = filemtime($cssFilePath);
+				} else {
+					$cssFileLastModified = $this->publishDate;
+				}
 
 				$publishPage["content"] = str_replace($mergedName . "?CACHEBUSTER", $mergedName . "?{$cssFileLastModified}", $publishPage["content"]);
 			}

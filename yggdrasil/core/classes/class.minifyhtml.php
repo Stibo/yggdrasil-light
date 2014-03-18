@@ -132,11 +132,7 @@ class Minify_HTML {
 		$this->_html = preg_replace('/^\\s+|\\s+$/m', '', $this->_html);
 
 		// remove ws around block/undisplayed elements
-		$this->_html = preg_replace('/\\s+(<\\/?(?:area|base(?:font)?|blockquote|body'
-			.'|caption|center|cite|col(?:group)?|dd|dir|div|dl|dt|fieldset|form'
-			.'|frame(?:set)?|h[1-6]|head|hr|html|legend|li|link|map|menu|meta'
-			.'|ol|opt(?:group|ion)|p|param|t(?:able|body|head|d|h||r|foot|itle)'
-			.'|ul)\\b[^>]*>)/i', '$1', $this->_html);
+		$this->_html = preg_replace('/\\s+(<\\/?(?:[a-z0-9]+)\\b[^>]*>)/i', '$1', $this->_html);
 
 		// remove ws outside of all elements
 		$this->_html = preg_replace(

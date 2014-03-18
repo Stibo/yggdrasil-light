@@ -83,12 +83,10 @@ class Page {
 	}
 
 	// PUBLIC: Get subpages
-	public function getSubPages($startPage, $showInactive = false) {
-		global $backend;
-
+	public function getSubPages($showInactive = false) {
 		$pagesList = array();
 
-		/*$pageRoot = "custom" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR;
+		$pageRoot = "custom" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR;
 		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pageRoot));
 
 		while($pageIterator->valid()) {
@@ -99,13 +97,15 @@ class Page {
 
 				$pageIsInactive = substr($pageName, 0, 1) == "_";
 
-				if((($startPage != "" && strpos($pagePath, $startPage) === 0) || $startPage == "") && (!$pageIsInactive || $showInactive == true)) {
+				if((($this->path != "" && strpos($pagePath, $this->path) === 0) || $this->path == "") && (!$pageIsInactive || $showInactive == true)) {
 					$pagesList[] = $pagePath;
 				}
 			}
 
 			$pageIterator->next();
-		}*/
+		}
+
+		sort($pagesList);
 
 		return $pagesList;
 	}

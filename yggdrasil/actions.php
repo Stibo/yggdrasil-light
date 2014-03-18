@@ -23,8 +23,6 @@ switch($actionName) {
 
 		// Prepare pages
 		$pagePublisher->preparePages();
-		//$pagePublisher->prepareJSFiles();
-		//$pagePublisher->prepareCSSFiles();
 
 		// Finish publish
 		$pagePublisher->publish();
@@ -34,34 +32,35 @@ switch($actionName) {
 
 	// Publish page with subpages
 	case "publishall":
+		ob_start();
+
 		// Create page publisher
 		$pagePublisher = new PagePublisher();
 
 		// Get current page
-		$currentPage = new Page($_GET["pagePath"]);
-		$currentPage->loadPageContent();
+		$rootPage = new Page("");
 
-		// Parse current page
-		$pageParser = new PageParser($currentPage);
-		$pageParser->setPublisher($pagePublisher);
-		$pageParser->parse();
+		$subPagesList = $rootPage->getSubPages();
 
-		// Get subpages
-		$currentSubPages = $currentPage->getSubpages();
+		foreach($subPagesList as $subPagePath) {
+			$subPage = new Page($subPagePath);
+			$subPage->loadPageContent();
 
-		// Parse subpages
-		foreach($currentSubPages as $subPage) {
 			// Parse current page
-			$subPageParser = new PageParser($subPage);
-			$subPageParser->setPublisher($pagePublisher);
-			$subPageParser->parse();
+			$pageParser = new PageParser($subPage);
+			$pageParser->setPublisher($pagePublisher);
+			$pageParser->parse();
 		}
 
 		// Prepare pages
+		$pagePublisher->prepareJSFiles();
+		$pagePublisher->prepareCSSFiles();
 		$pagePublisher->preparePages();
 
 		// Finish publish
-		$pagePublisher->publish();
+		$pagePublisher->clearAndPublish();
+
+		$publisherOutput = ob_get_clean();
 
 		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "/?pagePath=" . $_GET["pagePath"]);
 	break;

@@ -131,7 +131,7 @@
 		<?php } ?>
 		<a href="actions.php?action=publishpage&amp;pagePath=<?php echo $this->page->path; ?>" class="publish page" title="Publish this page"></a>
 		<!--<a href="actions.php?action=publishsubpages&amp;pagePath=<?php echo $this->page->path; ?>" class="publish subpages" title="Publish this page and all subpages"></a>-->
-		<a href="actions.php?action=publishall" class="publish all" title="Publish complete website"></a>
+		<a href="actions.php?action=publishall&amp;pagePath=<?php echo $this->page->path; ?>" class="publish all" title="Publish complete website"></a>
 		<a href="http://www.stephanlangenegger.ch" class="yggdrasil" target="_blank"></a>
 	</div>
 </div>

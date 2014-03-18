@@ -98,7 +98,7 @@ class PageParser {
 			$jsFrontendFolder = $this->yggdrasilConfig["frontend"]["mediaUrl"] . $this->yggdrasilConfig["frontend"]["jsFolder"];
 			$jsFrontendFile = "{$jsFrontendFolder}/{$jsMergedFile}?CACHEBUSTER";
 
-			$jsOutput = '<script src="' . $jsFrontendFile . '"' . ($jsAsync != "" ? ' async="' . $jsAsync . '"' : "" ) . '></script>';
+			$jsOutput = '<script src="' . $jsFrontendFile . '"' . ($jsAsync == true ? ' async="async"' : "" ) . '></script>';
 		}
 
 		return $jsOutput;
@@ -122,7 +122,7 @@ class PageParser {
 				if($this->publisher !== false) {
 					$cssFiles[] = "custom/css/{$sourceCssFile}";
 				} else {
-					$cssOutput .= '<script src="custom/css/' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '"></script>';
+					$cssOutput .= '<link rel="stylesheet" href="custom/css/' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '" />';
 				}
 			}
 		}
@@ -133,7 +133,7 @@ class PageParser {
 			$cssFrontendFolder = $this->yggdrasilConfig["frontend"]["mediaUrl"] . $this->yggdrasilConfig["frontend"]["cssFolder"];
 			$cssFrontendFile = "{$cssFrontendFolder}/{$cssMergedFile}?CACHEBUSTER";
 
-			$cssOutput = '<script src="' . $cssFrontendFile . '" media="' . $cssMedia . '"></script>';
+			$cssOutput = '<link rel="stylesheet" href="' . $cssFrontendFile . '" media="' . $cssMedia . '" />';
 		}
 
 		return $cssOutput;
