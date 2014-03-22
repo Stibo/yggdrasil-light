@@ -1,7 +1,7 @@
 <?php
 
 // Init core
-require_once "init.php";
+require_once "core/init.php";
 
 // Get requested page url
 $currentPagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";

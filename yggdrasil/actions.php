@@ -1,7 +1,7 @@
 <?php
 
 // Init core
-require_once "init.php";
+require_once "core/init.php";
 
 // Get action
 $actionName = isset($_GET["action"]) ? $_GET["action"] : "";

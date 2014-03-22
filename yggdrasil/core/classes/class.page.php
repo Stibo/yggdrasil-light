@@ -29,11 +29,11 @@ class Page {
 		$this->name = array_pop(explode("/", $this->path));
 
 		// Get full path to the frontend page
-		$this->frontendDir = $yggdrasilConfig["frontend"]["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $this->path) . DIRECTORY_SEPARATOR;
+		$this->frontendDir = $yggdrasilConfig["frontend"]["rootDir"] . __DS__ . str_replace("/", __DS__, $this->path) . __DS__;
 		$this->frontendFile = $this->frontendDir . "index.html";
 
 		// Get full path to the backend page
-		$this->backendDir = $yggdrasilConfig["backend"]["rootDir"] . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . str_replace("/", DIRECTORY_SEPARATOR, $this->path) . DIRECTORY_SEPARATOR;
+		$this->backendDir = $yggdrasilConfig["backend"]["customDir"] . __DS__ . "pages" . __DS__ . str_replace("/", __DS__, $this->path) . __DS__;
 		$this->backendFile = $this->backendDir . "index.php";
 
 		// Init content
@@ -86,7 +86,7 @@ class Page {
 	public function getSubPages($showInactive = false) {
 		$pagesList = array();
 
-		$pageRoot = "custom" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR;
+		$pageRoot = "custom" . __DS__ . "pages" . __DS__;
 		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pageRoot));
 
 		while($pageIterator->valid()) {
@@ -97,7 +97,7 @@ class Page {
 
 				$pageIsInactive = substr($pageName, 0, 1) == "_";
 
-				if((($this->path != "" && strpos($pagePath, $this->path) === 0) || $this->path == "") && (!$pageIsInactive || $showInactive == true)) {
+				if(substr($pageName, 0, 1) != "+" && (($this->path != "" && strpos($pagePath, $this->path) === 0) || $this->path == "") && (!$pageIsInactive || $showInactive == true)) {
 					$pagesList[] = $pagePath;
 				}
 			}

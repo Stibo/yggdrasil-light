@@ -33,10 +33,10 @@ class PagePublisher {
 
 		while(false !== ($file = readdir($directory))) {
 			if(($file != '.') && ($file != '..')) {
-				if(is_dir($source . '/' . $file)) {
-					$this->copy_recurse($source . '/' . $file,$destination . '/' . $file);
+				if(is_dir($source . __DS__ . $file)) {
+					$this->copy_recurse($source . __DS__ . $file, $destination . __DS__ . $file);
 				} else {
-					copy($source . '/' . $file,$destination . '/' . $file);
+					copy($source . __DS__ . $file,$destination . __DS__ . $file);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ class PagePublisher {
 
 	// PRIVATE: Prepare js files
 	public function prepareJSFiles() {
-		$tempPath =  str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp" . DIRECTORY_SEPARATOR . $this->yggdrasilConfig["frontend"]["jsFolder"] . DIRECTORY_SEPARATOR;
+		$tempPath =  $this->yggdrasilConfig["backend"]["tempDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__;
 
 		// Create published js folder if not exists
 		if(!file_exists($tempPath)) {
@@ -114,7 +114,7 @@ class PagePublisher {
 			$jsContent = "";
 
 			foreach($jsFiles as $jsFile) {
-				$jsContent .= file_get_contents($this->yggdrasilConfig["backend"]["rootDir"] . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . basename($jsFile));
+				$jsContent .= file_get_contents($this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "js" . __DS__ . basename($jsFile));
 			}
 
 			$jsContentMinified = Minify_JS_ClosureCompiler::minify($jsContent);
@@ -129,7 +129,7 @@ class PagePublisher {
 
 	// PRIVATE: Prepare css files
 	public function prepareCSSFiles() {
-		$tempPath =  str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp" . DIRECTORY_SEPARATOR . $this->yggdrasilConfig["frontend"]["cssFolder"] . DIRECTORY_SEPARATOR;
+		$tempPath =  $this->yggdrasilConfig["backend"]["tempDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . __DS__;
 
 		// Create published css folder if not exists
 		if(!file_exists($tempPath)) {
@@ -140,7 +140,7 @@ class PagePublisher {
 			$cssContent = "";
 
 			foreach($cssFiles as $cssFile) {
-				$cssContent .= file_get_contents($this->yggdrasilConfig["backend"]["rootDir"] . DIRECTORY_SEPARATOR . "css" . DIRECTORY_SEPARATOR . basename($cssFile));
+				$cssContent .= file_get_contents($this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "css" . __DS__ . basename($cssFile));
 			}
 
 			// Init css minifier
@@ -163,8 +163,8 @@ class PagePublisher {
 			$publishPage["content"] = Minify_HTML::minify($publishPage["content"]);
 
 			// Get temp path
-			$publishTempPath = str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp" . DIRECTORY_SEPARATOR . str_replace("/", DIRECTORY_SEPARATOR, $publishPage["page"]);
-			$publishTempFile = $publishTempPath . DIRECTORY_SEPARATOR . "index.html";
+			$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"] . str_replace("/", __DS__, $publishPage["page"]);
+			$publishTempFile = $publishTempPath . __DS__ . "index.html";
 
 			// Create folders
 			if(!file_exists($publishTempPath)) {
@@ -173,7 +173,7 @@ class PagePublisher {
 
 			// Refresh cache buster params
 			foreach($this->jsFiles as $mergedName => $jsFile) {
-				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . DIRECTORY_SEPARATOR . $mergedName;
+				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . __DS__ . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__ . $mergedName;
 
 				if(isset($jsFilesPublished[$mergedName])) {
 					$jsFileLastModified = $jsFilesPublished[$mergedName];
@@ -187,7 +187,7 @@ class PagePublisher {
 			}
 
 			foreach($this->cssFiles as $mergedName => $cssFile) {
-				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . DIRECTORY_SEPARATOR . $mergedName;
+				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . __DS__ . $this->yggdrasilConfig["frontend"]["cssFolder"] . __DS__ . $mergedName;
 
 				if(isset($cssFilesPublished[$mergedName])) {
 					$cssFileLastModified = $cssFilesPublished[$mergedName];
@@ -207,7 +207,7 @@ class PagePublisher {
 
 	// PUBLIC: Publish queue
 	public function publish() {
-		$publishTempPath = str_replace(DIRECTORY_SEPARATOR . "custom", "", $this->yggdrasilConfig["backend"]["rootDir"]) . DIRECTORY_SEPARATOR . "temp";
+		$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"];
 
 		$this->copy_recurse($publishTempPath, $this->yggdrasilConfig["frontend"]["rootDir"]);
 		$this->delete_recurse($publishTempPath, false);

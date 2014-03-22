@@ -1,7 +1,7 @@
 <?php
 
 // Init core
-require_once "init.php";
+require_once "core/init.php";
 
 // Get action
 $actionName = isset($_GET["action"]) ? $_GET["action"] : "";
@@ -16,8 +16,8 @@ switch($actionName) {
 
 		$pageIsInactive = strpos($pageName, "_") === 0;
 
-		$pagePath = implode(DIRECTORY_SEPARATOR, array_slice(explode("/", $pagePath), 0, -1));
-		$pageDir = "custom" . DIRECTORY_SEPARATOR . "pages" . DIRECTORY_SEPARATOR . $pagePath . DIRECTORY_SEPARATOR;
+		$pagePath = implode(__DS__, array_slice(explode("/", $pagePath), 0, -1));
+		$pageDir = "custom" . __DS__ . "pages" . __DS__ . $pagePath . __DS__;
 
 		if($pageIsInactive) {
 			$oldName = $pageName;
@@ -30,27 +30,27 @@ switch($actionName) {
 		@rename($pageDir . $oldName, $pageDir . $newName);
 
 		if($pageIsInactive) {
-			$pageTree = PageParser::getPageTree(str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $newName);
+			$pageTree = PageParser::getPageTree(str_replace(__DS__, "/", $pagePath) . "/" . $newName);
 
 			foreach($pageTree as $currentPage) {
 				$pageParser = new PageParser($currentPage, true);
 				$pageParser->parse();
 			}
 		} else {
-			/*$pageTree = array_reverse(PageParser::getPageTree(str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $oldName, true));
-			echo var_dump(str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $oldName);
+			/*$pageTree = array_reverse(PageParser::getPageTree(str_replace(__DS__, "/", $pagePath) . "/" . $oldName, true));
+			echo var_dump(str_replace(__DS__, "/", $pagePath) . "/" . $oldName);
 
 			foreach($pageTree as $pageDelete) {
-				//unlink($publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete) . DIRECTORY_SEPARATOR . "index.html");
-				echo "unlink: " . $publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete) . DIRECTORY_SEPARATOR . "index.html";
-				//rmdir($publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete));
-				echo "rmdir: " . $publish["rootDir"] . str_replace("/", DIRECTORY_SEPARATOR, $pageDelete);
+				//unlink($publish["rootDir"] . str_replace("/", __DS__, $pageDelete) . __DS__ . "index.html");
+				echo "unlink: " . $publish["rootDir"] . str_replace("/", __DS__, $pageDelete) . __DS__ . "index.html";
+				//rmdir($publish["rootDir"] . str_replace("/", __DS__, $pageDelete));
+				echo "rmdir: " . $publish["rootDir"] . str_replace("/", __DS__, $pageDelete);
 			}
 
 			die();*/
 		}
 
-		header("Location: " . $backend["url"] . "/?pagePath=" . str_replace(DIRECTORY_SEPARATOR, "/", $pagePath) . "/" . $newName);
+		header("Location: " . $backend["url"] . "/?pagePath=" . str_replace(__DS__, "/", $pagePath) . "/" . $newName);
 
 	break;
 
