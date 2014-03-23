@@ -173,7 +173,7 @@ class PagePublisher {
 
 			// Refresh cache buster params
 			foreach($this->jsFiles as $mergedName => $jsFile) {
-				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . __DS__ . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__ . $mergedName;
+				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__ . $mergedName;
 
 				if(isset($jsFilesPublished[$mergedName])) {
 					$jsFileLastModified = $jsFilesPublished[$mergedName];
@@ -187,7 +187,7 @@ class PagePublisher {
 			}
 
 			foreach($this->cssFiles as $mergedName => $cssFile) {
-				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . __DS__ . $this->yggdrasilConfig["frontend"]["cssFolder"] . __DS__ . $mergedName;
+				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . __DS__ . $mergedName;
 
 				if(isset($cssFilesPublished[$mergedName])) {
 					$cssFileLastModified = $cssFilesPublished[$mergedName];

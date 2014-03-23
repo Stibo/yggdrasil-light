@@ -3,6 +3,7 @@
 class Page {
 
 	// Public properties
+	public $yggdrasilConfig;
 	public $config;
 
 	public $path;
@@ -22,6 +23,7 @@ class Page {
 		global $yggdrasilConfig;
 
 		// Get default page config
+		$this->yggdrasilConfig = $yggdrasilConfig;
 		$this->config = $yggdrasilConfig["pageDefaultConfig"];
 
 		// Get page path and name
@@ -29,7 +31,7 @@ class Page {
 		$this->name = array_pop(explode("/", $this->path));
 
 		// Get full path to the frontend page
-		$this->frontendDir = $yggdrasilConfig["frontend"]["rootDir"] . __DS__ . str_replace("/", __DS__, $this->path) . __DS__;
+		$this->frontendDir = $yggdrasilConfig["frontend"]["rootDir"] . str_replace("/", __DS__, $this->path) . __DS__;
 		$this->frontendFile = $this->frontendDir . "index.html";
 
 		// Get full path to the backend page
@@ -55,7 +57,7 @@ class Page {
 
 			// Format date if needed
 			if($format) {
-				$publishDate = date("d.m.Y H:i", $publishDate);
+				$publishDate = date($this->yggdrasilConfig["backend"]["dateTimeFormat"], $publishDate);
 			}
 		} else {
 			$publishDate = -1;

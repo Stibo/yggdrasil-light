@@ -19,12 +19,11 @@ $yggdrasilConfig = array(
 		"imgFolder" => "images"
 	),
 	"backend" => array(
-		"cssFolder" => "css",
-		"jsFolder" => "js",
-		"imgFolder" => "images"
+		"dateTimeFormat" => "d.m.Y H:i"
 	),
 	"pageDefaultConfig" => array(
 		"template" => "content",
+		//"fileExtension" => "html",
 		"googleAnalytics" => "",
 		"head" => array(
 			"meta" => array(
