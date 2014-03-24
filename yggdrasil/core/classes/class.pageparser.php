@@ -167,6 +167,7 @@ class PageParser {
 
 			if($this->publisher !== false) {
 				$this->publisher->addPage($this->page->path, $this->output);
+				$this->publisher->addDependencies($this->page->config["dependencies"]);
 			}
 		} else {
 			echo "Page does not have any sections!";

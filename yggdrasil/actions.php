@@ -56,6 +56,7 @@ switch($actionName) {
 		$pagePublisher->prepareJSFiles();
 		$pagePublisher->prepareCSSFiles();
 		$pagePublisher->preparePages();
+		$pagePublisher->prepareDependencies();
 
 		// Finish publish
 		$pagePublisher->clearAndPublish();

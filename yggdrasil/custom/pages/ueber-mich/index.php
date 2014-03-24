@@ -22,7 +22,7 @@ $this->settings["head"]["meta"]["keywords"] = "Über mich Keywords";
 
 <y:section name="sidebar">
 
-	<?php for($i = 1; $i <= 5; $i++) { ?>
+	<?php for($i = 1; $i <= 3; $i++) { ?>
 		<y:element name="teaser">
 			<y:title>Teaser Titel <?php echo $i ?></y:title>
 			<y:image>img</y:image>

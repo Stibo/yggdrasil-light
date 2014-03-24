@@ -5,11 +5,11 @@
 // auto: apple-mobile-web-app-capable
 // auto: msapplication-tap-highlight
 
-// Dev host name
-$devHost = "localhost";
+$isDev = $_SERVER["SERVER_NAME"] == "localhost";
 
 // Live server settings
 $yggdrasilConfig = array(
+	"isDev" => $isDev,
 	"frontend" => array(
 		"rootDir" => realpath("../www"),
 		"rootUrl" => "http://yggdrasil.stibo.ch/",
@@ -23,7 +23,6 @@ $yggdrasilConfig = array(
 	),
 	"pageDefaultConfig" => array(
 		"template" => "content",
-		//"fileExtension" => "html",
 		"googleAnalytics" => "",
 		"head" => array(
 			"meta" => array(
@@ -49,12 +48,17 @@ $yggdrasilConfig = array(
 					"Default og image 3"
 				)
 			)
+		),
+		"dependencies" => array(
+			"favicon.ico" => "files/favicon.ico",
+			"robots.txt" => ($isDev) ? "files/robots_dev.txt" : "files/robots_live.txt",
+			".htaccess" => "files/.htaccess"
 		)
 	)
 );
 
 // Developer server settings
-if($_SERVER["SERVER_NAME"] == $devHost) {
+if($yggdrasilConfig["isDev"]) {
 	$yggdrasilConfig["frontend"]["rootUrl"] = "http://localhost/github/yggdrasil-light/www/";
 	$yggdrasilConfig["frontend"]["mediaUrl"] = "";
 }

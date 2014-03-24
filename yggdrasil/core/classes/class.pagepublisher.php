@@ -9,6 +9,7 @@ class PagePublisher {
 	private $pages;
 	private $jsFiles;
 	private $cssFiles;
+	private $dependencies;
 
 	private $jsFilesPublished;
 	private $cssFilesPublished;
@@ -23,6 +24,7 @@ class PagePublisher {
 		$this->pages = array();
 		$this->jsFiles = array();
 		$this->cssFiles = array();
+		$this->dependencies = array();
 	}
 
 	// PUBLIC: Copy folder recursive
@@ -99,6 +101,20 @@ class PagePublisher {
 	// PUBLIC: Get css files
 	public function getCSSFiles() {
 		return $this->cssFiles;
+	}
+
+	// PUBLIC: Add dependencies
+	public function addDependencies($dependencies) {
+		foreach($dependencies as $dependencyKey => $dependency) {
+			if(!isset($this->dependencies[$dependencyKey])) {
+				$this->dependencies[$dependencyKey] =  $dependency;
+			}
+		}
+	}
+
+	// PUBLIC: Get dependencies
+	public function getDependencies() {
+		return $this->dependencies;
 	}
 
 	// PRIVATE: Prepare js files
@@ -202,6 +218,25 @@ class PagePublisher {
 
 			// Create index file
 			file_put_contents($publishTempFile, $publishPage["content"]);
+		}
+	}
+
+	// PUBLIC: Prepare dependencies
+	public function prepareDependencies() {
+		foreach($this->dependencies as $dependencyDestination => $dependencySource) {
+			$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"] . str_replace("/", __DS__, $dependencyDestination);
+			$sourcePath = $this->yggdrasilConfig["backend"]["customDir"] . str_replace("/", __DS__, $dependencySource);
+
+			// Create folders
+			if(!file_exists(dirname($publishTempPath))) {
+				mkdir(dirname($publishTempPath), 755, true);
+			}
+
+			if(is_dir($sourcePath)) {
+				$this->copy_recurse($sourcePath, $publishTempPath);
+			} else {
+				copy($sourcePath, $publishTempPath);
+			}
 		}
 	}
 
