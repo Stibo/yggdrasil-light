@@ -3,8 +3,7 @@
 <html lang="de">
 	<head>
 		<title><?php echo $this->page->config["head"]["meta"]["title"] ?></title>
-		<!-- TODO: SET FRONTEND AND BACKEND BASE URL -->
-		<base href="<?php echo $this->yggdrasilConfig["backend"]["rootUrl"] ?>/" />
+		<base href="<?php echo $this->baseUrl ?>" />
 		<link rel="canonical" href="/" />
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />

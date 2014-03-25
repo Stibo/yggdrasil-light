@@ -8,6 +8,7 @@ class PageParser {
 	// Private properties
 	private $page;
 	private $pageSections;
+	private $baseUrl;
 
 	private $publisher;
 	private $output;
@@ -20,6 +21,7 @@ class PageParser {
 
 		$this->page = $page;
 		$this->pageSections = array();
+		$this->baseUrl = $this->yggdrasilConfig["backend"]["rootUrl"];
 
 		$this->publisher = false;
 		$this->output = "";
@@ -28,6 +30,8 @@ class PageParser {
 	// PUBLIC: Set publisher
 	public function setPublisher($publisher) {
 		$this->publisher = $publisher;
+
+		$this->baseUrl = $this->yggdrasilConfig["frontend"]["rootUrl"];
 	}
 
 	// PRIVATE: Parse page sections
@@ -55,10 +59,10 @@ class PageParser {
 
 	// PRIVATE: Parse elements
 	private function parseElements() {
-		$this->output = preg_replace_callback("/<y:element.*name=\"(.+)\".*>.*<\/y:element>/smiU", function($elementMatches) {
+		$this->output = preg_replace_callback("/<y:element(.*)>.*<\/y:element>/smiU", function($elementMatches) {
 
-			$contentElementName = $elementMatches[1];
 			$contentElement = simplexml_load_string(str_replace(array("<y:", "</y:"), array("<", "</"), $elementMatches[0]));
+			$contentElementName = $contentElement["name"];
 
 			ob_start();
 
@@ -71,6 +75,30 @@ class PageParser {
 			return ob_get_clean();
 
 		}, $this->output);
+	}
+
+	// PRIVATE: Parse php includes
+	private function parsePHPIncludes() {
+		$this->output = preg_replace_callback("/<y:php(.*)>.*<\/y:php>/smiU", array($this, 'getPHPIncludes'), $this->output);
+	}
+
+	private function getPHPIncludes($phpMatches) {
+		$phpInclude = simplexml_load_string(str_replace(array("<y:", "</y:"), array("<", "</"), $phpMatches[0]));
+		$phpIncludeFile = $phpInclude["src"];
+
+		ob_start();
+
+		if(file_exists("custom/{$phpIncludeFile}")) {
+			if($this->publisher !== false) {
+				echo file_get_contents("custom/{$phpIncludeFile}");
+			} else {
+				include "custom/{$phpIncludeFile}";
+			}
+		} else {
+			echo "PHP include \"{$phpIncludeFile}\" not found!";
+		}
+
+		return ob_get_clean();
 	}
 
 	// PRIVATE: Parse js files
@@ -162,6 +190,7 @@ class PageParser {
 		if(count($this->pageSections) > 0) {
 			$this->parseTemplate();
 			$this->parseElements();
+			$this->parsePHPIncludes();
 			$this->parseJSFiles();
 			$this->parseCSSFiles();
 

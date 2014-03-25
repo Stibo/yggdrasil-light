@@ -11,12 +11,15 @@ $this->config["head"]["meta"]["keywords"] = "Teneriffa Keywords";
 ?>
 
 <y:section name="content">
-hobbyofotograf -> reisen -> teneriffa
+
+	hobbyofotograf -> reisen -> teneriffa
 	<y:element name="linklist">
 		<y:link href="http://www.google.de">Link 1</y:link>
 		<y:link href="http://www.yahoo.de">Link 2</y:link>
 		<y:link href="http://www.20min.ch">Link 3</y:link>
 	</y:element>
+
+	<y:php src="php/phptest.php"></y:php>
 
 </y:section>
 
