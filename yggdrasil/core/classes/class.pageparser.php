@@ -3,40 +3,37 @@
 class PageParser {
 
 	// Public properties
-	public $yggdrasilConfig;
+	private $yggdrasilConfig;
 
-	// Private properties
 	private $page;
-	private $pageSections;
-	private $baseUrl;
+	private $pageSections = array();
+	private $pageBaseUrl;
 
-	private $publisher;
-	private $output;
+	private $publisher = false;
+	private $output = "";
 
 	// Constructor
 	public function __construct($page) {
 		global $yggdrasilConfig;
 
 		$this->yggdrasilConfig = $yggdrasilConfig;
-
 		$this->page = $page;
-		$this->pageSections = array();
-		$this->baseUrl = $this->yggdrasilConfig["backend"]["rootUrl"];
+		$this->pageBaseUrl = $this->yggdrasilConfig["backend"]["rootUrl"];
+	}
 
-		$this->publisher = false;
-		$this->output = "";
+	// PRIVATE: Clean custom tag
+	private function cleanCustomTag($customTag) {
+		return str_replace(array("<y:", "</y:"), array("<", "</"), $customTag);
 	}
 
 	// PUBLIC: Set publisher
 	public function setPublisher($publisher) {
 		$this->publisher = $publisher;
-
-		$this->baseUrl = $this->yggdrasilConfig["frontend"]["rootUrl"];
+		$this->pageBaseUrl = $this->yggdrasilConfig["frontend"]["rootUrl"];
 	}
 
 	// PRIVATE: Parse page sections
 	private function parsePageSections() {
-		// Parse sections
 		preg_match_all('/<y:section.*name=\"(.+)\".*>(.*)<\/y:section>/smiU', $this->page->getContent(), $sectionMatches, PREG_SET_ORDER);
 
 		foreach($sectionMatches as $sectionMatch) {
@@ -46,49 +43,63 @@ class PageParser {
 
 	// PRIVATE: Parse template
 	private function parseTemplate() {
+
+		// Set page infos and settings
+		$pageInfos = $this->page->pageInfos;
+		$pageSettings = &$this->page->pageSettings;
+		$pageBaseUrl = $this->pageBaseUrl;
+		$pageSections = $this->pageSections;
+
 		ob_start();
 
-		if(file_exists("custom/templates/{$this->page->config["template"]}.php")) {
-			include "custom/templates/{$this->page->config["template"]}.php";
+		if(file_exists("custom/templates/{$this->page->pageSettings["template"]}.php")) {
+			include "custom/templates/{$this->page->pageSettings["template"]}.php";
 		} else {
-			echo "Template not found: \"{$this->page->config["template"]}\"";
+			echo "Template not found: \"{$this->page->pageSettings["template"]}\"";
 		}
 
 		$this->output = ob_get_clean();
 	}
 
-	// PRIVATE: Parse elements
-	private function parseElements() {
-		$this->output = preg_replace_callback("/<y:element(.*)>.*<\/y:element>/smiU", function($elementMatches) {
+	// PRIVATE: Parse snippets
+	private function getSnippets($snippetMatches) {
 
-			$contentElement = simplexml_load_string(str_replace(array("<y:", "</y:"), array("<", "</"), $elementMatches[0]));
-			$contentElementName = $contentElement["name"];
+		// ?? yggdrasilconfig
+		// ?? page
 
-			ob_start();
+		$snippet = simplexml_load_string($this->cleanCustomTag($snippetMatches[0]));
+		$snippetName = $snippet["name"];
 
-			if(file_exists("custom/elements/{$contentElementName}.php")) {
-				include "custom/elements/{$contentElementName}.php";
-			} else {
-				echo "Content element \"{$contentElementName}\" not found!";
-			}
+		ob_start();
 
-			return ob_get_clean();
+		if(file_exists("custom/snippets/{$snippetName}.php")) {
+			include "custom/snippets/{$snippetName}.php";
+		} else {
+			echo "Snippet \"{$snippetName}\" not found!";
+		}
 
-		}, $this->output);
+		return ob_get_clean();
+	}
+
+	private function parseSnippets() {
+		$this->output = preg_replace_callback("/<y:snippet(.*)>.*<\/y:snippet>/smiU", array($this, 'getSnippets'), $this->output);
 	}
 
 	// PRIVATE: Parse php includes
 	private function parsePHPIncludes() {
+		$this->output = preg_replace_callback("/<y:php(.*)\/>/iU", array($this, 'getPHPIncludes'), $this->output);
 		$this->output = preg_replace_callback("/<y:php(.*)>.*<\/y:php>/smiU", array($this, 'getPHPIncludes'), $this->output);
 	}
 
 	private function getPHPIncludes($phpMatches) {
-		$phpInclude = simplexml_load_string(str_replace(array("<y:", "</y:"), array("<", "</"), $phpMatches[0]));
+		$phpInclude = simplexml_load_string($this->cleanCustomTag($phpMatches[0]));
 		$phpIncludeFile = $phpInclude["src"];
 
 		ob_start();
 
 		if(file_exists("custom/{$phpIncludeFile}")) {
+			$this->page->pageSettings["extension"] = "php";
+
 			if($this->publisher !== false) {
 				echo file_get_contents("custom/{$phpIncludeFile}");
 			} else {
@@ -103,7 +114,7 @@ class PageParser {
 
 	// PRIVATE: Parse js files
 	private function getJSFiles($jsMatches) {
-		$jsXml = simplexml_load_string(str_replace(array("<y:", "</y:"), array("<", "</"), $jsMatches[0]));
+		$jsXml = simplexml_load_string($this->cleanCustomTag($jsMatches[0]));
 		$jsMergedFile = (string)$jsXml["name"];
 		$jsAsync = (string)$jsXml["async"];
 
@@ -138,7 +149,7 @@ class PageParser {
 
 	// PRIVATE: Parse css files
 	private function getCSSFiles($cssMatches) {
-		$cssXml = simplexml_load_string(str_replace(array("<y:", "</y:"), array("<", "</"), $cssMatches[0]));
+		$cssXml = simplexml_load_string($this->cleanCustomTag($cssMatches[0]));
 		$cssMergedFile = (string)$cssXml["name"];
 		$cssMedia = ((string)$cssXml["media"] == "") ? "screen" : (string)$cssXml["media"];
 
@@ -189,14 +200,14 @@ class PageParser {
 
 		if(count($this->pageSections) > 0) {
 			$this->parseTemplate();
-			$this->parseElements();
+			$this->parseSnippets();
 			$this->parsePHPIncludes();
 			$this->parseJSFiles();
 			$this->parseCSSFiles();
 
 			if($this->publisher !== false) {
-				$this->publisher->addPage($this->page->path, $this->output);
-				$this->publisher->addDependencies($this->page->config["dependencies"]);
+				$this->publisher->addPage($this->page, $this->output);
+				$this->publisher->addDependencies($this->page->pageSettings["dependencies"]);
 			}
 		} else {
 			echo "Page does not have any sections!";

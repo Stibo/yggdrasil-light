@@ -14,8 +14,6 @@ class PagePublisher {
 	private $jsFilesPublished;
 	private $cssFilesPublished;
 
-	//private $pageFileExt;
-
 	// Constructor
 	public function __construct() {
 		global $yggdrasilConfig;
@@ -27,8 +25,6 @@ class PagePublisher {
 		$this->jsFiles = array();
 		$this->cssFiles = array();
 		$this->dependencies = array();
-
-		//$this->setPageFileExt("html");
 	}
 
 	// PUBLIC: Copy folder recursive
@@ -69,16 +65,6 @@ class PagePublisher {
 			rmdir($path);
 		}
 	}
-
-	/*// PUBLIC: Set page file extension
-	public function setPageFileExt($extension) {
-		$this->pageFileExt = $extension;
-	}
-
-	// PUBLIC: Get page file extension
-	public function getPageFileExt() {
-		return $this->pageFileExt;
-	}*/
 
 	// PUBLIC: Add page
 	public function addPage($page, $pageContent) {
@@ -193,8 +179,8 @@ class PagePublisher {
 			$publishPage["content"] = Minify_HTML::minify($publishPage["content"]);
 
 			// Get temp path
-			$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"] . str_replace("/", __DS__, $publishPage["page"]);
-			$publishTempFile = $publishTempPath . __DS__ . "index.html"; // $this->getPageFileExt()
+			$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"] . str_replace("/", __DS__, $publishPage["page"]->pageInfos["path"]);
+			$publishTempFile = $publishTempPath . __DS__ . "index." . $publishPage["page"]->pageSettings["extension"];
 
 			// Create folders
 			if(!file_exists($publishTempPath)) {

@@ -3,57 +3,46 @@
 class Page {
 
 	// Public properties
-	public $yggdrasilConfig;
-	public $config;
-
-	public $path;
-	public $name;
-
-	public $frontendDir;
-	public $frontendFile;
-
-	public $backendDir;
-	public $backendFile;
+	public $pageSettings;
+	public $pageInfos;
 
 	// Private properties
-	private $content;
+	private $yggdrasilConfig;
+	private $content = "";
 
 	// Constructor
 	public function __construct($pagePath) {
-		global $yggdrasilConfig;
+		global $yggdrasilConfig, $defaultPageSettings;
 
-		// Get default page config
+		// Get yggdrasil config
 		$this->yggdrasilConfig = $yggdrasilConfig;
-		$this->config = $yggdrasilConfig["pageDefaultConfig"];
+
+		// Get default page settings
+		$this->pageSettings = $defaultPageSettings;
 
 		// Get page path and name
-		$this->path = preg_replace("/[^a-z0-9\-_\/]/i", "", $pagePath);
-		$this->name = array_pop(explode("/", $this->path));
+		$this->pageInfos["path"] = preg_replace("/[^a-z0-9\-_\/]/i", "", $pagePath);
+		$this->pageInfos["name"] = array_pop(explode("/", $this->pageInfos["path"]));
 
 		// Get full path to the frontend page
-		$this->frontendDir = $yggdrasilConfig["frontend"]["rootDir"] . str_replace("/", __DS__, $this->path) . __DS__;
-		$this->frontendFile = $this->frontendDir . "index.html";
+		$this->pageInfos["frontendDir"] = $yggdrasilConfig["frontend"]["rootDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
+		$this->pageInfos["frontendFile"] = $this->pageInfos["frontendDir"] . "index.html";
 
 		// Get full path to the backend page
-		$this->backendDir = $yggdrasilConfig["backend"]["customDir"] . __DS__ . "pages" . __DS__ . str_replace("/", __DS__, $this->path) . __DS__;
-		$this->backendFile = $this->backendDir . "index.php";
-
-		// Init content
-		$this->content = "";
+		$this->pageInfos["backendDir"] = $yggdrasilConfig["backend"]["pagesDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
+		$this->pageInfos["backendFile"] = $this->pageInfos["backendDir"] . "index.php";
 	}
 
 	// PUBLIC: Check if page is active
 	public function isActive() {
-		return (strpos($this->name, "_") !== 0);
+		return (strpos($this->pageInfos["name"], "_") !== 0);
 	}
 
 	// PUBLIC: Get publish date
 	public function getPublishDate($format = false) {
-		$pageFile = $this->frontendDir;
-
 		// Check if page exists, else returns -1 as date
-		if(file_exists($this->frontendFile)) {
-			$publishDate = filemtime($this->frontendFile);
+		if(file_exists($this->pageInfos["frontendFile"])) {
+			$publishDate = filemtime($this->pageInfos["frontendFile"]);
 
 			// Format date if needed
 			if($format) {
@@ -70,10 +59,13 @@ class Page {
 	public function loadPageContent() {
 		ob_start();
 
-		if(file_exists($this->backendFile)) {
-			include $this->backendFile;
+		$pageInfos = $this->pageInfos;
+		$pageSettings = &$this->pageSettings;
+
+		if(file_exists($this->pageInfos["backendFile"])) {
+			include $this->pageInfos["backendFile"];
 		} else {
-			echo "Page not found: \"/{$this->path}\"";
+			echo "Page not found: \"/{$this->pageInfos["path"]}\"";
 		}
 
 		$this->content = ob_get_clean();
@@ -88,8 +80,7 @@ class Page {
 	public function getSubPages($showInactive = false) {
 		$pagesList = array();
 
-		$pageRoot = "custom" . __DS__ . "pages" . __DS__;
-		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pageRoot));
+		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->yggdrasilConfig["backend"]["pagesDir"]));
 
 		while($pageIterator->valid()) {
 			if(!$pageIterator->isDot()) {
@@ -99,7 +90,7 @@ class Page {
 
 				$pageIsInactive = substr($pageName, 0, 1) == "_";
 
-				if(substr($pageName, 0, 1) != "+" && (($this->path != "" && strpos($pagePath, $this->path) === 0) || $this->path == "") && (!$pageIsInactive || $showInactive == true)) {
+				if((($this->pageInfos["path"] != "" && strpos($pagePath, $this->pageInfos["path"]) === 0) || $this->pageInfos["path"] == "") && (!$pageIsInactive || $showInactive == true)) {
 					$pagesList[] = $pagePath;
 				}
 			}

@@ -19,6 +19,7 @@ if(substr($yggdrasilConfig["frontend"]["rootDir"], -1) != __DS__) {
 // Backend
 $yggdrasilConfig["backend"]["rootUrl"] = (($_SERVER["SERVER_PORT"] == 443) ? "https://" : "http://") . $_SERVER["SERVER_NAME"] . dirname($_SERVER["SCRIPT_NAME"]) . "/";
 $yggdrasilConfig["backend"]["customDir"] = realpath("custom/") . __DS__;
+$yggdrasilConfig["backend"]["pagesDir"] = realpath("custom/pages/") . __DS__;
 $yggdrasilConfig["backend"]["tempDir"] = realpath("temp/") . __DS__;
 
 require_once "core/classes/class.dbug.php";

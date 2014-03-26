@@ -127,6 +127,12 @@ class Minify_HTML {
 			,array($this, '_removeTextareaCB')
 			,$this->_html);
 
+			// replace php with placeholders
+		$this->_html = preg_replace_callback(
+			'/\\s*<\?php(\\b[^>]*?[\\s\\S]*?\?>)\\s*/i'
+			,array($this, '_removePhpCB')
+			,$this->_html);
+
 		// trim each line.
 		// @todo take into account attribute values that span multiple lines.
 		$this->_html = preg_replace('/^\\s+|\\s+$/m', '', $this->_html);
@@ -186,6 +192,11 @@ class Minify_HTML {
 	protected function _removeTextareaCB($m)
 	{
 		return $this->_reservePlace("<textarea{$m[1]}");
+	}
+
+	protected function _removePhpCB($m)
+	{
+		return $this->_reservePlace("<?php{$m[1]}");
 	}
 
 	protected function _removeStyleCB($m)

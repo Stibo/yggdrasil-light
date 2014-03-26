@@ -53,54 +53,6 @@ switch($actionName) {
 		header("Location: " . $backend["url"] . "/?pagePath=" . str_replace(__DS__, "/", $pagePath) . "/" . $newName);
 
 	break;
-
-	// Publish single page
-	case "publishpage":
-
-		$pageParser = new PageParser($pagePath, true);
-		$pageParser->parse();
-
-
-		header("Location: " . $backend["url"] . "/?pagePath=" . $pagePath);
-		//echo "page published: \"/{$pagePath}\"<br />";
-
-	break;
-
-	// Publish single page and all subpages
-	case "publishsubpages":
-
-		$pageTree = PageParser::getPageTree($pagePath);
-
-		foreach($pageTree as $currentPage) {
-			$pageParser = new PageParser($currentPage, true);
-			$pageParser->parse();
-
-			echo "page published: \"/{$currentPage}\"<br />";
-		}
-
-	break;
-
-	// Publish all pages
-	case "publishall":
-
-		echo "publish all<hr />";
-
-		$pageTree = PageParser::getPageTree();
-
-		foreach($pageTree as $currentPage) {
-			$pageParser = new PageParser($currentPage, true);
-			$pageParser->parse();
-
-			echo "page published: \"/{$currentPage}\"<br />";
-		}
-
-	break;
-
-	// Action not found
-	default:
-		echo "Action not found";
-
-	break;
 }
 
 ?>

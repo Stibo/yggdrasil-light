@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Yggdrasil Light Admin"
+AuthUserFile C:\xampp\htdocs\github\yggdrasil-light\yggdrasil\.htpasswd
+require user admin

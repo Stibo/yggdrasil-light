@@ -2,8 +2,8 @@
 
 <html lang="de">
 	<head>
-		<title><?php echo $this->page->config["head"]["meta"]["title"] ?></title>
-		<base href="<?php echo $this->baseUrl ?>" />
+		<title><?php echo $pageSettings["head"]["meta"]["title"] ?></title>
+		<base href="<?php echo $pageBaseUrl ?>" />
 		<link rel="canonical" href="/" />
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -12,15 +12,15 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-		<meta name="robots" content="<?php echo $this->page->config["head"]["meta"]["robots"] ?>" />
-		<meta name="keywords" content="<?php echo $this->page->config["head"]["meta"]["keywords"] ?>" />
-		<meta name="description" content="<?php echo $this->page->config["head"]["meta"]["description"] ?>" />
+		<meta name="robots" content="<?php echo $pageSettings["head"]["meta"]["robots"] ?>" />
+		<meta name="keywords" content="<?php echo $pageSettings["head"]["meta"]["keywords"] ?>" />
+		<meta name="description" content="<?php echo $pageSettings["head"]["meta"]["description"] ?>" />
 
-		<meta name="geo.region" content="<?php echo $this->page->config["head"]["geo"]["region"] ?>" />
-		<meta name="geo.placename" content="<?php echo $this->page->config["head"]["geo"]["placename"] ?>" />
-		<meta name="geo.position" content="<?php echo $this->page->config["head"]["geo"]["position"] ?>" />
+		<meta name="geo.region" content="<?php echo $pageSettings["head"]["geo"]["region"] ?>" />
+		<meta name="geo.placename" content="<?php echo $pageSettings["head"]["geo"]["placename"] ?>" />
+		<meta name="geo.position" content="<?php echo $pageSettings["head"]["geo"]["position"] ?>" />
 
-		<?php foreach($this->page->config["head"]["og"]["image"] as $ogImage) { ?>
+		<?php foreach($pageSettings["head"]["og"]["image"] as $ogImage) { ?>
 			<meta property="og:image" content="<?php echo $ogImage ?>" />
 		<?php } ?>
 
@@ -39,14 +39,14 @@
 	</head>
 
 	<body>
-		<?php /*dump($this->page->config);*/ ?>
+		<?php /*dump($pageSettings);*/ ?>
 
 		<div id="content">
-			<?php echo $this->pageSections["content"] ?>
+			<?php echo $pageSections["content"] ?>
 		</div>
 
 		<div id="sidebar">
-			<?php echo $this->pageSections["sidebar"] ?>
+			<?php echo $pageSections["sidebar"] ?>
 		</div>
 
 		<!-- Footer js -->
