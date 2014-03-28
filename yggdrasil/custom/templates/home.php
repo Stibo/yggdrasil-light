@@ -41,13 +41,17 @@
 	<body>
 		<?php /*dump($pageSettings);*/ ?>
 
-		<div id="content">
-			<?php echo $pageSections["content"] ?>
-		</div>
+		<?php if(isset($pageSections["content"])) { ?>
+			<div id="content">
+				<?php echo $pageSections["content"] ?>
+			</div>
+		<?php } ?>
 
-		<div id="sidebar">
-			<?php echo $pageSections["sidebar"] ?>
-		</div>
+		<?php if(isset($pageSections["sidebar"])) { ?>
+			<div id="sidebar">
+				<?php echo $pageSections["sidebar"] ?>
+			</div>
+		<?php } ?>
 
 		<!-- Footer js -->
 		<y:minifyjs name="merged.js" async="true">

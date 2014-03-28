@@ -14,7 +14,8 @@ $yggdrasilConfig = array(
 		"mediaUrl" => "",
 		"cssFolder" => "css",
 		"jsFolder" => "js",
-		"imgFolder" => "images"
+		"imgFolder" => "images",
+		"ignoreFolders" => array(),
 	),
 	"backend" => array(
 		"dateTimeFormat" => "d.m.Y H:i"

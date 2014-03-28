@@ -95,9 +95,9 @@
 </style>
 
 <div id="yggdrasil-admin">
-	<div class="controls">
+	<!--<div class="controls">
 		<a href="" class="warning"></a>
-	</div>
+	</div>-->
 
 	<div class="controls">
 		<div class="lastpublished">
@@ -110,7 +110,7 @@
 
 			?>
 		</div>
-		<a href="" class="menu" title="Show page tree"></a>
+		<!--<a href="" class="menu" title="Show page tree"></a>-->
 	</div>
 
 	<div class="controls">

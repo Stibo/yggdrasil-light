@@ -6,6 +6,8 @@ class Page {
 	public $pageSettings;
 	public $pageInfos;
 
+	public $redirect;
+
 	// Private properties
 	private $yggdrasilConfig;
 	private $content = "";
@@ -31,6 +33,15 @@ class Page {
 		// Get full path to the backend page
 		$this->pageInfos["backendDir"] = $yggdrasilConfig["backend"]["pagesDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
 		$this->pageInfos["backendFile"] = $this->pageInfos["backendDir"] . "index.php";
+	}
+
+	// PRIVATE: Set redirect
+	private function setRedirect($redirect) {
+		if(!isset($redirect["type"])) {
+			$redirect["type"] = 301;
+		}
+
+		$this->redirect = $redirect;
 	}
 
 	// PUBLIC: Check if page is active
@@ -66,6 +77,10 @@ class Page {
 			include $this->pageInfos["backendFile"];
 		} else {
 			echo "Page not found: \"/{$this->pageInfos["path"]}\"";
+		}
+
+		if(isset($redirect)) {
+			$this->setRedirect($redirect);
 		}
 
 		$this->content = ob_get_clean();

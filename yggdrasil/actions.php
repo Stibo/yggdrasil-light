@@ -9,6 +9,8 @@ $actionName = isset($_GET["action"]) ? $_GET["action"] : "";
 switch($actionName) {
 	// Publish single page
 	case "publishpage":
+		ob_start();
+
 		// Create page publisher
 		$pagePublisher = new PagePublisher();
 
@@ -27,7 +29,9 @@ switch($actionName) {
 		// Finish publish
 		$pagePublisher->publish();
 
-		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "/?pagePath=" . $_GET["pagePath"]);
+		$publisherOutput = ob_get_clean();
+
+		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "?pagePath=" . $_GET["pagePath"]);
 	break;
 
 	// Publish page with subpages
@@ -52,18 +56,15 @@ switch($actionName) {
 			$pageParser->parse();
 		}
 
-		// Prepare pages
-		$pagePublisher->prepareJSFiles();
-		$pagePublisher->prepareCSSFiles();
-		$pagePublisher->preparePages();
-		$pagePublisher->prepareDependencies();
+		// Prepare all
+		$pagePublisher->prepareAll();
 
 		// Finish publish
 		$pagePublisher->clearAndPublish();
 
 		$publisherOutput = ob_get_clean();
 
-		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "/?pagePath=" . $_GET["pagePath"]);
+		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "?pagePath=" . $_GET["pagePath"]);
 	break;
 
 	// Action not found

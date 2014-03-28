@@ -196,22 +196,49 @@ class PageParser {
 
 	// PUBLIC: Init parse
 	public function parse() {
-		$this->parsePageSections();
 
-		if(count($this->pageSections) > 0) {
+		if($this->page->redirect === null) {
+			$this->parsePageSections();
+
 			$this->parseTemplate();
 			$this->parseSnippets();
 			$this->parsePHPIncludes();
 			$this->parseJSFiles();
 			$this->parseCSSFiles();
 
-			if($this->publisher !== false) {
-				$this->publisher->addPage($this->page, $this->output);
-				$this->publisher->addDependencies($this->page->pageSettings["dependencies"]);
-			}
 		} else {
-			echo "Page does not have any sections!";
+			if($this->publisher !== false) {
+				$this->page->pageSettings["extension"] = "php";
+
+				if(strpos($this->page->redirect["url"], "http") !== 0) {
+					$this->page->redirect["url"] = $this->yggdrasilConfig["frontend"]["rootUrl"] . $this->page->redirect["url"];
+				}
+
+				if($this->page->redirect["type"] == 301) {
+					$redirectString = "301 Moved Permanently";
+				} else {
+					$redirectString = "302 Moved Temporarly";
+				}
+
+				$this->output = '<?php header("HTTP/1.1 ' . $redirectString  . '"); header("Location: ' . $this->page->redirect["url"] . '"); exit; ?>';
+			} else {
+				$pageInfos = $this->page->pageInfos;
+				$pageSettings = $this->page->pageSettings;
+				$pageBaseUrl = $this->pageBaseUrl;
+
+				ob_start();
+
+				include "core/backend/redirect.php";
+
+				$this->output = ob_get_clean();
+			}
 		}
+
+		if($this->publisher !== false) {
+			$this->publisher->addPage($this->page, $this->output);
+			$this->publisher->addDependencies($this->page->pageSettings["dependencies"]);
+		}
+
 	}
 
 	// PUBLIC: Get output

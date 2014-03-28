@@ -47,16 +47,20 @@ class PagePublisher {
 	}
 
 	// PUBLIC: Delete folder recursive
-	public function delete_recurse($path, $removeFolder) {
+	public function delete_recurse($path, $removeFolder, $ignoreBackend = false) {
 		$directory = new DirectoryIterator($path);
 
 		foreach($directory as $fileinfo) {
 			if(!$fileinfo->isDot()) {
 
-				if($fileinfo->isFile()) {
-					unlink($fileinfo->getPathName());
-				} else {
-					$this->delete_recurse($fileinfo->getPathName(), true);
+				$ignoreDir = array_search($fileinfo->getPathName(), $this->yggdrasilConfig["frontend"]["ignoreDirs"]) !== false;
+
+				if((!$ignoreBackend && !$ignoreDir) || $ignoreBackend) {
+					if($fileinfo->isFile()) {
+						unlink($fileinfo->getPathName());
+					} else {
+						$this->delete_recurse($fileinfo->getPathName(), true, $ignoreBackend);
+					}
 				}
 			}
 		}
@@ -240,17 +244,25 @@ class PagePublisher {
 		}
 	}
 
+	// PUBLIC: Prepare all
+	public function prepareAll() {
+		$this->prepareJSFiles();
+		$this->prepareCSSFiles();
+		$this->preparePages();
+		$this->prepareDependencies();
+	}
+
 	// PUBLIC: Publish queue
 	public function publish() {
 		$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"];
 
 		$this->copy_recurse($publishTempPath, $this->yggdrasilConfig["frontend"]["rootDir"]);
-		$this->delete_recurse($publishTempPath, false);
+		$this->delete_recurse($publishTempPath, false, true);
 	}
 
 	// PUBLIC: Clear frontend
 	public function clear() {
-		$this->delete_recurse($this->yggdrasilConfig["frontend"]["rootDir"], false);
+		$this->delete_recurse($this->yggdrasilConfig["frontend"]["rootDir"], false, false);
 	}
 
 	// PUBLIC: Clear frontend and publish queue

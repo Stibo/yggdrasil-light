@@ -2,3 +2,16 @@ AuthType Basic
 AuthName "Yggdrasil Light Admin"
 AuthUserFile C:\xampp\htdocs\github\yggdrasil-light\yggdrasil\.htpasswd
 require user admin
+
+RewriteEngine off
+
+<IfModule mod_expires.c>
+	ExpiresActive off
+</IfModule>
+
+<ifModule mod_headers.c>
+	Header unset ETag
+	Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+	Header set Pragma "no-cache"
+	Header set Expires "Wed, 11 Jan 1984 01:00:00 GMT"
+</ifModule>

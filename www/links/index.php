@@ -1,0 +1,1 @@
+<?php header("HTTP/1.1 301 Moved Permanently"); header("Location: http://localhost/github/yggdrasil-light/www/hobbyfotograf/reisen/teneriffa"); exit; ?>
