@@ -39,6 +39,8 @@
 	</head>
 
 	<body>
+		<img src="<?php echo Image::src("content/dummy.gif") ?>" style="height:150px;width:350px;" />
+
 		<?php if(isset($pageSections["content"])) { ?>
 			<div id="content">
 				<?php echo $pageSections["content"] ?>

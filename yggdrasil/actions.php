@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(1200);
+
 // Init core
 require_once "core/init.php";
 

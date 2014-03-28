@@ -21,6 +21,7 @@ $yggdrasilConfig["backend"]["rootUrl"] = (($_SERVER["SERVER_PORT"] == 443) ? "ht
 $yggdrasilConfig["backend"]["rootDir"] = realpath("./");
 $yggdrasilConfig["backend"]["customDir"] = realpath("custom/") . __DS__;
 $yggdrasilConfig["backend"]["pagesDir"] = realpath("custom/pages/") . __DS__;
+$yggdrasilConfig["backend"]["imagesDir"] = realpath("custom/img/") . __DS__;
 $yggdrasilConfig["backend"]["tempDir"] = realpath("temp/") . __DS__;
 
 // Add the backendfolder to the ignore list if in www root
@@ -47,5 +48,6 @@ require_once "core/classes/class.page.php";
 require_once "core/classes/class.pageparser.php";
 require_once "core/classes/class.pagepublisher.php";
 require_once "core/classes/class.link.php";
+require_once "core/classes/class.image.php";
 
 ?>
