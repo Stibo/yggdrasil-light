@@ -11,7 +11,6 @@ $pageSettings["head"]["meta"]["keywords"] = "Teneriffa Keywords";
 ?>
 
 <y:section name="content">
-
 	hobbyofotograf -> reisen -> teneriffa
 
 	<y:snippet name="linklist">

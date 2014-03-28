@@ -50,6 +50,8 @@ class PageParser {
 		$pageBaseUrl = $this->pageBaseUrl;
 		$pageSections = $this->pageSections;
 
+		include "custom/globals.php";
+
 		ob_start();
 
 		if(file_exists("custom/templates/{$this->page->pageSettings["template"]}.php")) {
@@ -70,6 +72,8 @@ class PageParser {
 		$snippet = simplexml_load_string($this->cleanCustomTag($snippetMatches[0]));
 		$snippetName = $snippet["name"];
 
+		include "custom/globals.php";
+
 		ob_start();
 
 		if(file_exists("custom/snippets/{$snippetName}.php")) {
@@ -82,6 +86,7 @@ class PageParser {
 	}
 
 	private function parseSnippets() {
+		$this->output = preg_replace_callback("/<y:snippet(.*)\/>/iU", array($this, 'getSnippets'), $this->output);
 		$this->output = preg_replace_callback("/<y:snippet(.*)>.*<\/y:snippet>/smiU", array($this, 'getSnippets'), $this->output);
 	}
 
@@ -94,6 +99,8 @@ class PageParser {
 	private function getPHPIncludes($phpMatches) {
 		$phpInclude = simplexml_load_string($this->cleanCustomTag($phpMatches[0]));
 		$phpIncludeFile = $phpInclude["src"];
+
+		include "custom/globals.php";
 
 		ob_start();
 
@@ -186,6 +193,7 @@ class PageParser {
 	public function showBackend() {
 		ob_start();
 
+		include "custom/globals.php";
 		include "core/backend/gui.php";
 
 		$guiContent = ob_get_clean();
@@ -197,48 +205,54 @@ class PageParser {
 	// PUBLIC: Init parse
 	public function parse() {
 
-		if($this->page->redirect === null) {
-			$this->parsePageSections();
+		if($this->page->pageInfos != null) {
+			if($this->page->redirect === null) {
+				$this->parsePageSections();
 
-			$this->parseTemplate();
-			$this->parseSnippets();
-			$this->parsePHPIncludes();
-			$this->parseJSFiles();
-			$this->parseCSSFiles();
+				$this->parseTemplate();
+				$this->parseSnippets();
+				$this->parsePHPIncludes();
+				$this->parseJSFiles();
+				$this->parseCSSFiles();
 
-		} else {
-			if($this->publisher !== false) {
-				$this->page->pageSettings["extension"] = "php";
-
-				if(strpos($this->page->redirect["url"], "http") !== 0) {
-					$this->page->redirect["url"] = $this->yggdrasilConfig["frontend"]["rootUrl"] . $this->page->redirect["url"];
-				}
-
-				if($this->page->redirect["type"] == 301) {
-					$redirectString = "301 Moved Permanently";
-				} else {
-					$redirectString = "302 Moved Temporarly";
-				}
-
-				$this->output = '<?php header("HTTP/1.1 ' . $redirectString  . '"); header("Location: ' . $this->page->redirect["url"] . '"); exit; ?>';
 			} else {
-				$pageInfos = $this->page->pageInfos;
-				$pageSettings = $this->page->pageSettings;
-				$pageBaseUrl = $this->pageBaseUrl;
+				if($this->publisher !== false) {
+					$this->page->pageSettings["extension"] = "php";
 
-				ob_start();
+					if(strpos($this->page->redirect["url"], "http") !== 0) {
+						$this->page->redirect["url"] = $this->yggdrasilConfig["frontend"]["rootUrl"] . $this->page->redirect["url"];
+					}
 
-				include "core/backend/redirect.php";
+					if($this->page->redirect["type"] == 301) {
+						$redirectString = "301 Moved Permanently";
+					} else {
+						$redirectString = "302 Moved Temporarly";
+					}
 
-				$this->output = ob_get_clean();
+					$this->output = '<?php header("HTTP/1.1 ' . $redirectString  . '"); header("Location: ' . $this->page->redirect["url"] . '"); exit; ?>';
+				} else {
+					$pageInfos = $this->page->pageInfos;
+					$pageSettings = $this->page->pageSettings;
+					$pageBaseUrl = $this->pageBaseUrl;
+
+					ob_start();
+
+					$infoTitle = "Redirect: {$this->page->redirect["url"]}";
+					$infoContent = "This page redirects to: {$this->page->redirect["url"]} ({$this->page->redirect["type"]})";
+
+					include "core/backend/info.php";
+
+					$this->output = ob_get_clean();
+				}
 			}
-		}
 
-		if($this->publisher !== false) {
-			$this->publisher->addPage($this->page, $this->output);
-			$this->publisher->addDependencies($this->page->pageSettings["dependencies"]);
+			if($this->publisher !== false) {
+				$this->publisher->addPage($this->page, $this->output);
+				$this->publisher->addDependencies($this->page->pageSettings["dependencies"]);
+			}
+		} else {
+			$this->output = "Site not found.";
 		}
-
 	}
 
 	// PUBLIC: Get output

@@ -28,11 +28,15 @@ class Page {
 
 		// Get full path to the frontend page
 		$this->pageInfos["frontendDir"] = $yggdrasilConfig["frontend"]["rootDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
-		$this->pageInfos["frontendFile"] = $this->pageInfos["frontendDir"] . "index.html";
+		$this->pageInfos["frontendFile"] = array_shift(glob("{$this->pageInfos["frontendDir"]}index.*"));
 
 		// Get full path to the backend page
 		$this->pageInfos["backendDir"] = $yggdrasilConfig["backend"]["pagesDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
 		$this->pageInfos["backendFile"] = $this->pageInfos["backendDir"] . "index.php";
+
+		if(!file_exists($this->pageInfos["backendFile"])) {
+			$this->pageInfos = null;
+		}
 	}
 
 	// PRIVATE: Set redirect
@@ -68,10 +72,14 @@ class Page {
 
 	// PUBLIC: Load page content
 	public function loadPageContent() {
+		global $publishMode;
+
 		ob_start();
 
 		$pageInfos = $this->pageInfos;
 		$pageSettings = &$this->pageSettings;
+
+		include "custom/globals.php";
 
 		if(file_exists($this->pageInfos["backendFile"])) {
 			include $this->pageInfos["backendFile"];
@@ -116,6 +124,46 @@ class Page {
 		sort($pagesList);
 
 		return $pagesList;
+	}
+
+	// PUBLIC: Toggle page
+	public function toggle() {
+		$newPagePath = "";
+
+		if($this->isActive()) {
+			$newPagePath = $this->disable();
+		} else {
+			$newPagePath = $this->enable();
+		}
+
+		return $newPagePath;
+	}
+
+	// PUBLIC: Enable page
+	public function enable() {
+		// Rename backend folder
+		$newBackendDir = implode(__DS__, array_slice(explode("/", $this->pageInfos["path"]), 0, -1)) . __DS__ . substr($this->pageInfos["name"], 1);
+		$newPagePath = str_replace(__DS__, "/", $newBackendDir);
+
+		@rename($this->pageInfos["backendDir"], $this->yggdrasilConfig["backend"]["pagesDir"] . $newBackendDir);
+
+		return $newPagePath;
+	}
+
+	// PUBLIC: Disable page
+	public function disable() {
+		// Rename backend folder
+		$newBackendDir = implode(__DS__, array_slice(explode("/", $this->pageInfos["path"]), 0, -1)) . __DS__ . "_" . $this->pageInfos["name"];
+		$newPagePath = str_replace(__DS__, "/", $newBackendDir);
+
+		@rename($this->pageInfos["backendDir"], $this->yggdrasilConfig["backend"]["pagesDir"] . $newBackendDir);
+
+		// Remove folder from frontend if exists
+		if(file_exists($this->pageInfos["frontendDir"])) {
+			Helper::delete_recurse($this->pageInfos["frontendDir"], true);
+		}
+
+		return $newPagePath;
 	}
 }
 

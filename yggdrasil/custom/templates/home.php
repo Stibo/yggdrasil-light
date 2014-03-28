@@ -39,8 +39,6 @@
 	</head>
 
 	<body>
-		<?php /*dump($pageSettings);*/ ?>
-
 		<?php if(isset($pageSections["content"])) { ?>
 			<div id="content">
 				<?php echo $pageSections["content"] ?>

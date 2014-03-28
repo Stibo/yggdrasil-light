@@ -1,10 +1,5 @@
 <?php
 
-// auto: base href
-// auto: X-UA-Compatible
-// auto: apple-mobile-web-app-capable
-// auto: msapplication-tap-highlight
-
 // Live server settings
 $yggdrasilConfig = array(
 	"isDev" => $_SERVER["SERVER_NAME"] == "localhost",
@@ -25,7 +20,6 @@ $yggdrasilConfig = array(
 $defaultPageSettings = array(
 	"template" => "content",
 	"extension" => "html",
-	"googleAnalytics" => "",
 	"head" => array(
 		"meta" => array(
 			"title" => "Default title",

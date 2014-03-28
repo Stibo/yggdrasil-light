@@ -11,6 +11,8 @@ switch($actionName) {
 	case "publishpage":
 		ob_start();
 
+		$publishMode = true;
+
 		// Create page publisher
 		$pagePublisher = new PagePublisher();
 
@@ -37,6 +39,8 @@ switch($actionName) {
 	// Publish page with subpages
 	case "publishall":
 		ob_start();
+
+		$publishMode = true;
 
 		// Create page publisher
 		$pagePublisher = new PagePublisher();
@@ -65,6 +69,20 @@ switch($actionName) {
 		$publisherOutput = ob_get_clean();
 
 		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "?pagePath=" . $_GET["pagePath"]);
+	break;
+
+	// Toggle page
+	case "togglepage":
+		ob_start();
+
+		// Get current page
+		$currentPage = new Page($_GET["pagePath"]);
+
+		$newPagePath = $currentPage->toggle();
+
+		$publisherOutput = ob_get_clean();
+
+		header("Location: " . $yggdrasilConfig["backend"]["rootUrl"] . "?pagePath=" . $newPagePath);
 	break;
 
 	// Action not found

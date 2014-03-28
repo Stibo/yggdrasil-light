@@ -1,0 +1,7 @@
+<?php
+
+$globals = array(
+
+);
+
+?>

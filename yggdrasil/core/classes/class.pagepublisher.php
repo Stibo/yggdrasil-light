@@ -27,49 +27,6 @@ class PagePublisher {
 		$this->dependencies = array();
 	}
 
-	// PUBLIC: Copy folder recursive
-	private function copy_recurse($source, $destination) {
-		$directory = opendir($source);
-
-		@mkdir($destination);
-
-		while(false !== ($file = readdir($directory))) {
-			if(($file != '.') && ($file != '..')) {
-				if(is_dir($source . __DS__ . $file)) {
-					$this->copy_recurse($source . __DS__ . $file, $destination . __DS__ . $file);
-				} else {
-					copy($source . __DS__ . $file,$destination . __DS__ . $file);
-				}
-			}
-		}
-
-		closedir($directory);
-	}
-
-	// PUBLIC: Delete folder recursive
-	public function delete_recurse($path, $removeFolder, $ignoreBackend = false) {
-		$directory = new DirectoryIterator($path);
-
-		foreach($directory as $fileinfo) {
-			if(!$fileinfo->isDot()) {
-
-				$ignoreDir = array_search($fileinfo->getPathName(), $this->yggdrasilConfig["frontend"]["ignoreDirs"]) !== false;
-
-				if((!$ignoreBackend && !$ignoreDir) || $ignoreBackend) {
-					if($fileinfo->isFile()) {
-						unlink($fileinfo->getPathName());
-					} else {
-						$this->delete_recurse($fileinfo->getPathName(), true, $ignoreBackend);
-					}
-				}
-			}
-		}
-
-		if($removeFolder) {
-			rmdir($path);
-		}
-	}
-
 	// PUBLIC: Add page
 	public function addPage($page, $pageContent) {
 		$this->pages[] = array(
@@ -125,6 +82,8 @@ class PagePublisher {
 	public function prepareJSFiles() {
 		$tempPath =  $this->yggdrasilConfig["backend"]["tempDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__;
 
+		include "custom/globals.php";
+
 		// Create published js folder if not exists
 		if(!file_exists($tempPath)) {
 			mkdir($tempPath);
@@ -134,7 +93,11 @@ class PagePublisher {
 			$jsContent = "";
 
 			foreach($jsFiles as $jsFile) {
-				$jsContent .= file_get_contents($this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "js" . __DS__ . basename($jsFile));
+				ob_start();
+
+				include $this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "js" . __DS__ . basename($jsFile);
+
+				$jsContent .= ob_get_clean();
 			}
 
 			$jsContentMinified = Minify_JS_ClosureCompiler::minify($jsContent);
@@ -160,7 +123,11 @@ class PagePublisher {
 			$cssContent = "";
 
 			foreach($cssFiles as $cssFile) {
-				$cssContent .= file_get_contents($this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "css" . __DS__ . basename($cssFile));
+				ob_start();
+
+				include $this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "css" . __DS__ . basename($cssFile);
+
+				$cssContent .= ob_get_clean();
 			}
 
 			// Init css minifier
@@ -237,7 +204,7 @@ class PagePublisher {
 			}
 
 			if(is_dir($sourcePath)) {
-				$this->copy_recurse($sourcePath, $publishTempPath);
+				Helper::copy_recurse($sourcePath, $publishTempPath);
 			} else {
 				copy($sourcePath, $publishTempPath);
 			}
@@ -256,13 +223,13 @@ class PagePublisher {
 	public function publish() {
 		$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"];
 
-		$this->copy_recurse($publishTempPath, $this->yggdrasilConfig["frontend"]["rootDir"]);
-		$this->delete_recurse($publishTempPath, false, true);
+		Helper::copy_recurse($publishTempPath, $this->yggdrasilConfig["frontend"]["rootDir"]);
+		Helper::delete_recurse($publishTempPath, false, true);
 	}
 
 	// PUBLIC: Clear frontend
 	public function clear() {
-		$this->delete_recurse($this->yggdrasilConfig["frontend"]["rootDir"], false, false);
+		Helper::delete_recurse($this->yggdrasilConfig["frontend"]["rootDir"], false, false);
 	}
 
 	// PUBLIC: Clear frontend and publish queue

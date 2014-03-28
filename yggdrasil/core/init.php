@@ -34,12 +34,18 @@ foreach($yggdrasilConfig["frontend"]["ignoreFolders"] as $folderName) {
 	$yggdrasilConfig["frontend"]["ignoreDirs"][] = $yggdrasilConfig["frontend"]["rootDir"] . $folderName;
 }
 
+$publishMode = false;
+
+require_once  "custom/globals.php";
+
 require_once "core/classes/class.dbug.php";
 require_once "core/classes/class.minifycss.php";
 require_once "core/classes/class.minifyjs.php";
 require_once "core/classes/class.minifyhtml.php";
+require_once "core/classes/class.helper.php";
 require_once "core/classes/class.page.php";
 require_once "core/classes/class.pageparser.php";
 require_once "core/classes/class.pagepublisher.php";
+require_once "core/classes/class.link.php";
 
 ?>

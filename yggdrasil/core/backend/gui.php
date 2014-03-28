@@ -117,7 +117,7 @@
 		<?php if($this->page->isActive()) { ?>
 			<a href="actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle active" title="Disable and unpublish this page"></a>
 		<?php } else { ?>
-			<a href="actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle inactive" title="Enable and publish this page"></a>
+			<a href="actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle inactive" title="Enable this page"></a>
 		<?php } ?>
 		<a href="actions.php?action=publishpage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="publish page" title="Publish this page"></a>
 		<a href="actions.php?action=publishall&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="publish all" title="Publish complete website"></a>
