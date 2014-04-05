@@ -83,7 +83,7 @@ class PagePublisher {
 	public static function prepareJSFiles() {
 		$tempPath =  $GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . $GLOBALS["yggdrasilConfig"]["frontend"]["jsFolder"] . __DS__;
 
-		include "custom/globals.php";
+		include "../custom/globals.php";
 
 		// Create published js folder if not exists
 		if(!file_exists($tempPath)) {

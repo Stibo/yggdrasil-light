@@ -4,7 +4,7 @@
 $yggdrasilConfig = array(
 	"isDev" => $_SERVER["SERVER_NAME"] == "localhost",
 	"frontend" => array(
-		"rootDir" => realpath("../www"),
+		"rootDir" => realpath("../../www"),
 		"rootUrl" => "http://yggdrasil.stibo.ch/",
 		"mediaUrl" => "",
 		"cssFolder" => "css",
@@ -13,7 +13,8 @@ $yggdrasilConfig = array(
 		"ignoreFolders" => array(),
 	),
 	"backend" => array(
-		"dateTimeFormat" => "d.m.Y H:i"
+		"dateTimeFormat" => "d.m.Y H:i",
+		"actionTimeout" => 1200
 	)
 );
 
@@ -49,8 +50,7 @@ $defaultPageSettings = array(
 		"favicon.ico" => "files/favicon.ico",
 		"robots.txt" => ($yggdrasilConfig["isDev"]) ? "files/robots_dev.txt" : "files/robots_live.txt",
 		".htaccess" => "files/.htaccess"
-	),
-	"custom" => array()
+	)
 );
 
 // Developer server settings

@@ -1,9 +1,9 @@
 <?php
 
-set_time_limit(1200);
-
 // Init core
-require_once "core/init.php";
+require_once "init.php";
+
+set_time_limit($yggdrasilConfig["backend"]["actionTimeout"]);
 
 // Get action
 $actionName = isset($_GET["action"]) ? $_GET["action"] : "";

@@ -55,43 +55,43 @@
 	}
 
 	#yggdrasil-admin a.warning {
-		background-image: url('core/backend/img/icon-warning.png');
+		background-image: url('../core/backend/img/icon-warning.png');
 	}
 
 	#yggdrasil-admin a.error {
-		background-image: url('core/backend/img/icon-error.png');
+		background-image: url('../core/backend/img/icon-error.png');
 	}
 
 	#yggdrasil-admin a.menu {
-		background-image: url('core/backend/img/icon-menu.png');
+		background-image: url('../core/backend/img/icon-menu.png');
 	}
 
 	#yggdrasil-admin a.toggle.active {
-		background-image: url('core/backend/img/icon-togglepage-active.png');
+		background-image: url('../core/backend/img/icon-togglepage-active.png');
 	}
 
 	#yggdrasil-admin a.toggle.inactive {
-		background-image: url('core/backend/img/icon-togglepage-inactive.png');
+		background-image: url('../core/backend/img/icon-togglepage-inactive.png');
 	}
 
 	#yggdrasil-admin a.toggle.inactive {
-		background-image: url('core/backend/img/icon-togglepage-inactive.png');
+		background-image: url('../core/backend/img/icon-togglepage-inactive.png');
 	}
 
 	#yggdrasil-admin a.publish.page {
-		background-image: url('core/backend/img/icon-publish-page.png');
+		background-image: url('../core/backend/img/icon-publish-page.png');
 	}
 
 	#yggdrasil-admin a.publish.subpages {
-		background-image: url('core/backend/img/icon-publish-subpages.png');
+		background-image: url('../core/backend/img/icon-publish-subpages.png');
 	}
 
 	#yggdrasil-admin a.publish.all {
-		background-image: url('core/backend/img/icon-publish-all.png');
+		background-image: url('../core/backend/img/icon-publish-all.png');
 	}
 
 	#yggdrasil-admin a.yggdrasil {
-		background-image: url('core/backend/img/icon-yggdrasil.png');
+		background-image: url('../core/backend/img/icon-yggdrasil.png');
 	}
 </style>
 
@@ -116,12 +116,12 @@
 
 	<div class="controls">
 		<?php /*if($this->page->isActive()) { ?>
-			<a href="actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle active" title="Disable and unpublish this page"></a>
+			<a href="../core/actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle active" title="Disable and unpublish this page"></a>
 		<?php } else { ?>
-			<a href="actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle inactive" title="Enable this page"></a>
+			<a href="../core/actions.php?action=togglepage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="toggle inactive" title="Enable this page"></a>
 		<?php }*/ ?>
-		<a href="actions.php?action=publishpage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="publish page" title="Publish this page"></a>
-		<a href="actions.php?action=publishall&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="publish all" title="Publish complete website"></a>
+		<a href="../core/actions.php?action=publishpage&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="publish page" title="Publish this page"></a>
+		<a href="../core/actions.php?action=publishall&amp;pagePath=<?php echo $this->page->pageInfos["path"]; ?>" class="publish all" title="Publish complete website"></a>
 		<a href="http://www.stephanlangenegger.ch" class="yggdrasil" target="_blank"></a>
 	</div>
 </div>

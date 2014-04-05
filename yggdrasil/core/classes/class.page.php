@@ -33,7 +33,7 @@ class Page {
 		$this->pageInfos["frontendFile"] = array_shift($indexFile);
 
 		// Get full path to the backend page
-		$this->pageInfos["backendDir"] = $yggdrasilConfig["backend"]["pagesDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
+		$this->pageInfos["backendDir"] = $yggdrasilConfig["backend"]["pageDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
 		$this->pageInfos["backendFile"] = $this->pageInfos["backendDir"] . "index.php";
 
 		// Set base url
@@ -82,7 +82,7 @@ class Page {
 		$pageInfos = $this->pageInfos;
 		$pageSettings = &$this->pageSettings;
 
-		include "custom/globals.php";
+		include "../custom/globals.php";
 
 		if(file_exists($this->pageInfos["backendFile"])) {
 			include $this->pageInfos["backendFile"];
@@ -106,7 +106,7 @@ class Page {
 	public function getSubPages($showInactive = false) {
 		$pagesList = array();
 
-		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->yggdrasilConfig["backend"]["pagesDir"]));
+		$pageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->yggdrasilConfig["backend"]["pageDir"]));
 
 		while($pageIterator->valid()) {
 			if(!$pageIterator->isDot()) {
@@ -148,7 +148,7 @@ class Page {
 		$newBackendDir = implode(__DS__, array_slice(explode("/", $this->pageInfos["path"]), 0, -1)) . __DS__ . substr($this->pageInfos["name"], 1);
 		$newPagePath = str_replace(__DS__, "/", $newBackendDir);
 
-		@rename($this->pageInfos["backendDir"], $this->yggdrasilConfig["backend"]["pagesDir"] . $newBackendDir);
+		@rename($this->pageInfos["backendDir"], $this->yggdrasilConfig["backend"]["pageDir"] . $newBackendDir);
 
 		return $newPagePath;
 	}
@@ -159,7 +159,7 @@ class Page {
 		$newBackendDir = implode(__DS__, array_slice(explode("/", $this->pageInfos["path"]), 0, -1)) . __DS__ . "_" . $this->pageInfos["name"];
 		$newPagePath = str_replace(__DS__, "/", $newBackendDir);
 
-		@rename($this->pageInfos["backendDir"], $this->yggdrasilConfig["backend"]["pagesDir"] . $newBackendDir);
+		@rename($this->pageInfos["backendDir"], $this->yggdrasilConfig["backend"]["pageDir"] . $newBackendDir);
 
 		// Remove folder from frontend if exists
 		if(file_exists($this->pageInfos["frontendDir"])) {

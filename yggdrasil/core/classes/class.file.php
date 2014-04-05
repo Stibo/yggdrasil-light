@@ -28,13 +28,9 @@ class File {
 
 				copy($newFileSource, $newFileTarget);
 			}
-
-			$fileLink = $file;
-		} else {
-			$fileLink = "custom/" . $file;
 		}
 
-		return $fileLink;
+		return $file;
 	}
 
 }

@@ -19,7 +19,7 @@ $pageSettings["head"]["meta"]["keywords"] = "Teneriffa Keywords";
 		<y:link href="http://www.20min.ch">Link 3</y:link>
 	</y:snippet>
 
-	<y:php src="php/phptest.php" />
+	<y:php src="phptest.php" />
 
 </y:section>
 

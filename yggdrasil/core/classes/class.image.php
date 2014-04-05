@@ -88,7 +88,7 @@ class Image {
 
 			$imageLink = "img/" . $newImageUrl;
 		} else {
-			$imageLink = "custom/img/" . $image;
+			$imageLink = "img/" . $image;
 		}
 
 		return $imageLink;
