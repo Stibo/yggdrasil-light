@@ -3,7 +3,7 @@
 <html lang="de">
 	<head>
 		<title><?php echo $infoTitle ?></title>
-		<base href="<?php echo $pageBaseUrl ?>" />
+		<base href="<?php echo $GLOBALS["yggdrasilConfig"]["backend"]["rootUrl"] ?>" />
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />

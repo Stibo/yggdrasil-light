@@ -48,11 +48,11 @@ class Minify_JS_ClosureCompiler {
         $bytes = (function_exists('mb_strlen') && ((int)ini_get('mbstring.func_overload') & 2))
             ? mb_strlen($postBody, '8bit')
             : strlen($postBody);
-        if ($bytes > 200000) {
+        /*if ($bytes > 200000) {
             throw new Minify_JS_ClosureCompiler_Exception(
                 'POST content larger than 200000 bytes'
             );
-        }
+        }*/
         $response = $this->_getResponse($postBody);
         if (preg_match('/^Error\(\d\d?\):/', $response)) {
             if (is_callable($this->_fallbackFunc)) {
@@ -114,7 +114,8 @@ class Minify_JS_ClosureCompiler {
             'js_code' => $js,
             'output_info' => ($returnErrors ? 'errors' : 'compiled_code'),
             'output_format' => 'text',
-            'compilation_level' => 'SIMPLE_OPTIMIZATIONS'
+            'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
+            'language' => 'ECMASCRIPT5'
         ), null, '&');
     }
 

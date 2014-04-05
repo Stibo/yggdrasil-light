@@ -7,9 +7,7 @@ class PageParser {
 
 	private $page;
 	private $pageSections = array();
-	private $pageBaseUrl;
 
-	private $publisher = false;
 	private $output = "";
 
 	// Constructor
@@ -18,18 +16,11 @@ class PageParser {
 
 		$this->yggdrasilConfig = $yggdrasilConfig;
 		$this->page = $page;
-		$this->pageBaseUrl = $this->yggdrasilConfig["backend"]["rootUrl"];
 	}
 
 	// PRIVATE: Clean custom tag
 	private function cleanCustomTag($customTag) {
 		return str_replace(array("<y:", "</y:"), array("<", "</"), $customTag);
-	}
-
-	// PUBLIC: Set publisher
-	public function setPublisher($publisher) {
-		$this->publisher = $publisher;
-		$this->pageBaseUrl = $this->yggdrasilConfig["frontend"]["rootUrl"];
 	}
 
 	// PRIVATE: Parse page sections
@@ -47,7 +38,6 @@ class PageParser {
 		// Set page infos and settings
 		$pageInfos = $this->page->pageInfos;
 		$pageSettings = &$this->page->pageSettings;
-		$pageBaseUrl = $this->pageBaseUrl;
 		$pageSections = $this->pageSections;
 
 		include "custom/globals.php";
@@ -107,7 +97,7 @@ class PageParser {
 		if(file_exists("custom/{$phpIncludeFile}")) {
 			$this->page->pageSettings["extension"] = "php";
 
-			if($this->publisher !== false) {
+			if(PagePublisher::isEnabled()) {
 				echo file_get_contents("custom/{$phpIncludeFile}");
 			} else {
 				include "custom/{$phpIncludeFile}";
@@ -129,17 +119,17 @@ class PageParser {
 		$jsOutput = "";
 
 		foreach($jsXml->file as $sourceJsFile) {
-			if(file_exists("custom/js/{$sourceJsFile}")) {
-				if($this->publisher !== false) {
-					$jsFiles[] = "custom/js/{$sourceJsFile}";
+			if(file_exists("custom/{$sourceJsFile}")) {
+				if(PagePublisher::isEnabled()) {
+					$jsFiles[] = $sourceJsFile;
 				} else {
-					$jsOutput .= '<script src="custom/js/' . $sourceJsFile . '?' . time() . '"></script>';
+					$jsOutput .= '<script src="custom/' . $sourceJsFile . '?' . time() . '"></script>';
 				}
 			}
 		}
 
-		if($this->publisher !== false) {
-			$this->publisher->addJSFiles($jsMergedFile, $jsFiles);
+		if(PagePublisher::isEnabled()) {
+			PagePublisher::addJSFiles($jsMergedFile, $jsFiles);
 
 			$jsFrontendFolder = $this->yggdrasilConfig["frontend"]["mediaUrl"] . $this->yggdrasilConfig["frontend"]["jsFolder"];
 			$jsFrontendFile = "{$jsFrontendFolder}/{$jsMergedFile}?CACHEBUSTER";
@@ -164,17 +154,17 @@ class PageParser {
 		$cssOutput = "";
 
 		foreach($cssXml->file as $sourceCssFile) {
-			if(file_exists("custom/css/{$sourceCssFile}")) {
-				if($this->publisher !== false) {
-					$cssFiles[] = "custom/css/{$sourceCssFile}";
+			if(file_exists("custom/{$sourceCssFile}")) {
+				if(PagePublisher::isEnabled()) {
+					$cssFiles[] = $sourceCssFile;
 				} else {
-					$cssOutput .= '<link rel="stylesheet" href="custom/css/' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '" />';
+					$cssOutput .= '<link rel="stylesheet" href="custom/' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '" />';
 				}
 			}
 		}
 
-		if($this->publisher !== false) {
-			$this->publisher->addCSSFiles($cssMergedFile, $cssFiles);
+		if(PagePublisher::isEnabled()) {
+			PagePublisher::addCSSFiles($cssMergedFile, $cssFiles);
 
 			$cssFrontendFolder = $this->yggdrasilConfig["frontend"]["mediaUrl"] . $this->yggdrasilConfig["frontend"]["cssFolder"];
 			$cssFrontendFile = "{$cssFrontendFolder}/{$cssMergedFile}?CACHEBUSTER";
@@ -199,6 +189,7 @@ class PageParser {
 		$guiContent = ob_get_clean();
 
 		$this->output = preg_replace("/(<\/body>.*<\/html>.*?)/smiU", "{$guiContent}$1", $this->output);
+		//$this->output = preg_replace("/(.*)(<\/body>\s*<\/html>\s*)$/smiU", "$1{$guiContent}$2", $this->output);
 	}
 
 
@@ -216,7 +207,7 @@ class PageParser {
 				$this->parseCSSFiles();
 
 			} else {
-				if($this->publisher !== false) {
+				if(PagePublisher::isEnabled()) {
 					$this->page->pageSettings["extension"] = "php";
 
 					if(strpos($this->page->redirect["url"], "http") !== 0) {
@@ -233,12 +224,16 @@ class PageParser {
 				} else {
 					$pageInfos = $this->page->pageInfos;
 					$pageSettings = $this->page->pageSettings;
-					$pageBaseUrl = $this->pageBaseUrl;
 
 					ob_start();
 
 					$infoTitle = "Redirect: {$this->page->redirect["url"]}";
-					$infoContent = "This page redirects to: {$this->page->redirect["url"]} ({$this->page->redirect["type"]})";
+
+					if(strpos($this->page->redirect["url"], "http") !== 0) {
+						$infoContent = "This page redirects to: <a href=\"{$this->yggdrasilConfig["backend"]["rootUrl"]}?pagePath={$this->page->redirect["url"]}\">{$this->page->redirect["url"]}</a> ({$this->page->redirect["type"]})";
+					} else {
+						$infoContent = "This page redirects to: {$this->page->redirect["url"]} ({$this->page->redirect["type"]})";
+					}
 
 					include "core/backend/info.php";
 
@@ -246,9 +241,9 @@ class PageParser {
 				}
 			}
 
-			if($this->publisher !== false) {
-				$this->publisher->addPage($this->page, $this->output);
-				$this->publisher->addDependencies($this->page->pageSettings["dependencies"]);
+			if(PagePublisher::isEnabled()) {
+				PagePublisher::addPage($this->page, $this->output);
+				PagePublisher::addDependencies($this->page->pageSettings["dependencies"]);
 			}
 		} else {
 			$this->output = "Site not found.";

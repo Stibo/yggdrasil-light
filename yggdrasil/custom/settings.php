@@ -49,7 +49,8 @@ $defaultPageSettings = array(
 		"favicon.ico" => "files/favicon.ico",
 		"robots.txt" => ($yggdrasilConfig["isDev"]) ? "files/robots_dev.txt" : "files/robots_live.txt",
 		".htaccess" => "files/.htaccess"
-	)
+	),
+	"custom" => array()
 );
 
 // Developer server settings

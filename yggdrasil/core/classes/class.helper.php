@@ -6,7 +6,7 @@ class Helper {
 	static function copy_recurse($source, $destination) {
 		$directory = opendir($source);
 
-		@mkdir($destination);
+		@mkdir($destination, 0755);
 
 		while(false !== ($file = readdir($directory))) {
 			if(($file != '.') && ($file != '..')) {

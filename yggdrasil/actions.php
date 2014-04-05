@@ -13,10 +13,8 @@ switch($actionName) {
 	case "publishpage":
 		ob_start();
 
-		$publishMode = true;
-
-		// Create page publisher
-		$pagePublisher = new PagePublisher();
+		// Enable publisher
+		PagePublisher::enable();
 
 		// Get current page
 		$currentPage = new Page($_GET["pagePath"]);
@@ -24,14 +22,13 @@ switch($actionName) {
 
 		// Parse current page
 		$pageParser = new PageParser($currentPage);
-		$pageParser->setPublisher($pagePublisher);
 		$pageParser->parse();
 
 		// Prepare pages
-		$pagePublisher->preparePages();
+		PagePublisher::preparePages();
 
 		// Finish publish
-		$pagePublisher->publish();
+		PagePublisher::publish();
 
 		$publisherOutput = ob_get_clean();
 
@@ -42,10 +39,7 @@ switch($actionName) {
 	case "publishall":
 		ob_start();
 
-		$publishMode = true;
-
-		// Create page publisher
-		$pagePublisher = new PagePublisher();
+		PagePublisher::enable();
 
 		// Get current page
 		$rootPage = new Page("");
@@ -58,15 +52,17 @@ switch($actionName) {
 
 			// Parse current page
 			$pageParser = new PageParser($subPage);
-			$pageParser->setPublisher($pagePublisher);
 			$pageParser->parse();
 		}
 
 		// Prepare all
-		$pagePublisher->prepareAll();
+		PagePublisher::prepareAll();
+
+		// Check for unneeded files
+		PagePublisher::collectUnneededFiles();
 
 		// Finish publish
-		$pagePublisher->clearAndPublish();
+		PagePublisher::clearAndPublish();
 
 		$publisherOutput = ob_get_clean();
 

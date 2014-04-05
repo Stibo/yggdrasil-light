@@ -17,7 +17,7 @@ if(substr($yggdrasilConfig["frontend"]["rootDir"], -1) != __DS__) {
 }
 
 // Backend
-$yggdrasilConfig["backend"]["rootUrl"] = (($_SERVER["SERVER_PORT"] == 443) ? "https://" : "http://") . $_SERVER["SERVER_NAME"] . dirname($_SERVER["SCRIPT_NAME"]) . "/";
+$yggdrasilConfig["backend"]["rootUrl"] = (($_SERVER["SERVER_PORT"] == 443) ? "https://" : "http://") . $_SERVER["SERVER_NAME"] . dirname($_SERVER["SCRIPT_NAME"]) . (substr(dirname($_SERVER["SCRIPT_NAME"]), -1) == "/" ? "" : "/");
 $yggdrasilConfig["backend"]["rootDir"] = realpath("./");
 $yggdrasilConfig["backend"]["customDir"] = realpath("custom/") . __DS__;
 $yggdrasilConfig["backend"]["pagesDir"] = realpath("custom/pages/") . __DS__;
@@ -35,8 +35,6 @@ foreach($yggdrasilConfig["frontend"]["ignoreFolders"] as $folderName) {
 	$yggdrasilConfig["frontend"]["ignoreDirs"][] = $yggdrasilConfig["frontend"]["rootDir"] . $folderName;
 }
 
-$publishMode = false;
-
 require_once  "custom/globals.php";
 
 require_once "core/classes/class.dbug.php";
@@ -49,5 +47,6 @@ require_once "core/classes/class.pageparser.php";
 require_once "core/classes/class.pagepublisher.php";
 require_once "core/classes/class.link.php";
 require_once "core/classes/class.image.php";
+require_once "core/classes/class.file.php";
 
 ?>

@@ -23,16 +23,21 @@ class Page {
 		$this->pageSettings = $defaultPageSettings;
 
 		// Get page path and name
-		$this->pageInfos["path"] = preg_replace("/[^a-z0-9\-_\/]/i", "", $pagePath);
-		$this->pageInfos["name"] = array_pop(explode("/", $this->pageInfos["path"]));
+		$this->pageInfos["path"] = preg_replace("/[^a-z0-9\-_\/]/i", "", trim($pagePath, "/ \t\n\r\0\x0B"));
+		$explodedPath = explode("/", $this->pageInfos["path"]);
+		$this->pageInfos["name"] = array_pop($explodedPath);
 
 		// Get full path to the frontend page
 		$this->pageInfos["frontendDir"] = $yggdrasilConfig["frontend"]["rootDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
-		$this->pageInfos["frontendFile"] = array_shift(glob("{$this->pageInfos["frontendDir"]}index.*"));
+		$indexFile = glob("{$this->pageInfos["frontendDir"]}index.*");
+		$this->pageInfos["frontendFile"] = array_shift($indexFile);
 
 		// Get full path to the backend page
 		$this->pageInfos["backendDir"] = $yggdrasilConfig["backend"]["pagesDir"] . str_replace("/", __DS__, $this->pageInfos["path"]) . __DS__;
 		$this->pageInfos["backendFile"] = $this->pageInfos["backendDir"] . "index.php";
+
+		// Set base url
+		$this->pageInfos["baseUrl"] = PagePublisher::isEnabled() ? $yggdrasilConfig["frontend"]["rootUrl"] : $yggdrasilConfig["backend"]["rootUrl"] ;
 
 		if(!file_exists($this->pageInfos["backendFile"])) {
 			$this->pageInfos = null;
@@ -72,8 +77,6 @@ class Page {
 
 	// PUBLIC: Load page content
 	public function loadPageContent() {
-		global $publishMode;
-
 		ob_start();
 
 		$pageInfos = $this->pageInfos;

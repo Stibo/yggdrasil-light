@@ -3,99 +3,100 @@
 class PagePublisher {
 
 	// Private properties
-	private $yggdrasilConfig;
+	private static $enabled = false;
 
-	private $publishDate;
-	private $pages;
-	private $jsFiles;
-	private $cssFiles;
-	private $dependencies;
+	private static $publishDate;
+	private static $pages = array();
+	private static $jsFiles = array();
+	private static $cssFiles = array();
+	private static $dependencies = array();
 
-	private $jsFilesPublished;
-	private $cssFilesPublished;
+	private static $jsFilesPublished = array();
+	private static $cssFilesPublished = array();
 
-	// Constructor
-	public function __construct() {
-		global $yggdrasilConfig;
+	private static $filesToDelete = array();
+	private static $foldersToDelete = array();
 
-		$this->yggdrasilConfig = $yggdrasilConfig;
-
-		$this->publishDate = time();
-		$this->pages = array();
-		$this->jsFiles = array();
-		$this->cssFiles = array();
-		$this->dependencies = array();
+	// STATIC: Enable publisher
+	public static function enable() {
+		self::$enabled = true;
+		self::$publishDate = time();
 	}
 
-	// PUBLIC: Add page
-	public function addPage($page, $pageContent) {
-		$this->pages[] = array(
+	// STATIC: Check if publisher is enabled
+	public static function isEnabled() {
+		return self::$enabled;
+	}
+
+	// STATIC: Add page
+	public static function addPage($page, $pageContent) {
+		self::$pages[] = array(
 			"page" => $page,
 			"content" => $pageContent
 		);
 	}
 
-	// PUBLIC: Get pages
-	public function getPages() {
-		return $this->pages;
+	// STATIC: Get pages
+	public static function getPages() {
+		return self::$pages;
 	}
 
-	// PUBLIC: Add js files
-	public function addJSFiles($mergedFile, $files) {
-		if(!isset($this->jsFiles[$mergedFile])) {
-			$this->jsFiles[$mergedFile] = $files;
+	// STATIC: Add js files
+	public static function addJSFiles($mergedFile, $files) {
+		if(!isset(self::$jsFiles[$mergedFile])) {
+			self::$jsFiles[$mergedFile] = $files;
 		}
 	}
 
-	// PUBLIC: Get js files
-	public function getJSFiles() {
-		return $this->jsFiles;
+	// STATIC: Get js files
+	public static function getJSFiles() {
+		return self::$jsFiles;
 	}
 
-	// PUBLIC: Add css files
-	public function addCSSFiles($mergedFile, $files) {
-		if(!isset($this->cssFiles[$mergedFile])) {
-			$this->cssFiles[$mergedFile] =  $files;
+	// STATIC: Add css files
+	public static function addCSSFiles($mergedFile, $files) {
+		if(!isset(self::$cssFiles[$mergedFile])) {
+			self::$cssFiles[$mergedFile] =  $files;
 		}
 	}
 
-	// PUBLIC: Get css files
-	public function getCSSFiles() {
-		return $this->cssFiles;
+	// STATIC: Get css files
+	public static function getCSSFiles() {
+		return self::$cssFiles;
 	}
 
-	// PUBLIC: Add dependencies
-	public function addDependencies($dependencies) {
+	// STATIC: Add dependencies
+	public static function addDependencies($dependencies) {
 		foreach($dependencies as $dependencyKey => $dependency) {
-			if(!isset($this->dependencies[$dependencyKey])) {
-				$this->dependencies[$dependencyKey] =  $dependency;
+			if(!isset(self::$dependencies[$dependencyKey])) {
+				self::$dependencies[$dependencyKey] =  $dependency;
 			}
 		}
 	}
 
-	// PUBLIC: Get dependencies
-	public function getDependencies() {
-		return $this->dependencies;
+	// STATIC: Get dependencies
+	public static function getDependencies() {
+		return self::$dependencies;
 	}
 
-	// PRIVATE: Prepare js files
-	public function prepareJSFiles() {
-		$tempPath =  $this->yggdrasilConfig["backend"]["tempDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__;
+	// STATIC: Prepare js files
+	public static function prepareJSFiles() {
+		$tempPath =  $GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . $GLOBALS["yggdrasilConfig"]["frontend"]["jsFolder"] . __DS__;
 
 		include "custom/globals.php";
 
 		// Create published js folder if not exists
 		if(!file_exists($tempPath)) {
-			mkdir($tempPath);
+			mkdir($tempPath, 0755);
 		}
 
-		foreach($this->jsFiles as $mergedFile => $jsFiles) {
+		foreach(self::$jsFiles as $mergedFile => $jsFiles) {
 			$jsContent = "";
 
 			foreach($jsFiles as $jsFile) {
 				ob_start();
 
-				include $this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "js" . __DS__ . basename($jsFile);
+				include $GLOBALS["yggdrasilConfig"]["backend"]["customDir"] . __DS__ . str_replace("/", __DS__, $jsFile);
 
 				$jsContent .= ob_get_clean();
 			}
@@ -110,22 +111,22 @@ class PagePublisher {
 		}
 	}
 
-	// PRIVATE: Prepare css files
-	public function prepareCSSFiles() {
-		$tempPath =  $this->yggdrasilConfig["backend"]["tempDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . __DS__;
+	// STATIC: Prepare css files
+	public static function prepareCSSFiles() {
+		$tempPath =  $GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . $GLOBALS["yggdrasilConfig"]["frontend"]["cssFolder"] . __DS__;
 
 		// Create published css folder if not exists
 		if(!file_exists($tempPath)) {
-			mkdir($tempPath);
+			mkdir($tempPath, 0755);
 		}
 
-		foreach($this->cssFiles as $mergedFile => $cssFiles) {
+		foreach(self::$cssFiles as $mergedFile => $cssFiles) {
 			$cssContent = "";
 
 			foreach($cssFiles as $cssFile) {
 				ob_start();
 
-				include $this->yggdrasilConfig["backend"]["customDir"] . __DS__ . "css" . __DS__ . basename($cssFile);
+				include $GLOBALS["yggdrasilConfig"]["backend"]["customDir"] . __DS__ . str_replace("/", __DS__, $cssFile);
 
 				$cssContent .= ob_get_clean();
 			}
@@ -144,44 +145,44 @@ class PagePublisher {
 		}
 	}
 
-	// PRIVATE: Publish pages
-	public function preparePages() {
-		foreach($this->pages as $publishPage) {
+	// STATIC: Publish pages
+	public static function preparePages() {
+		foreach(self::$pages as $publishPage) {
 			$publishPage["content"] = Minify_HTML::minify($publishPage["content"]);
 
 			// Get temp path
-			$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"] . str_replace("/", __DS__, $publishPage["page"]->pageInfos["path"]);
+			$publishTempPath = $GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . str_replace("/", __DS__, $publishPage["page"]->pageInfos["path"]);
 			$publishTempFile = $publishTempPath . __DS__ . "index." . $publishPage["page"]->pageSettings["extension"];
 
 			// Create folders
 			if(!file_exists($publishTempPath)) {
-				mkdir($publishTempPath, 755, true);
+				mkdir($publishTempPath, 0755, true);
 			}
 
 			// Refresh cache buster params
-			foreach($this->jsFiles as $mergedName => $jsFile) {
-				$jsFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["jsFolder"] . __DS__ . $mergedName;
+			foreach(self::$jsFiles as $mergedName => $jsFile) {
+				$jsFilePath = $GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"] . $GLOBALS["yggdrasilConfig"]["frontend"]["jsFolder"] . __DS__ . $mergedName;
 
 				if(isset($jsFilesPublished[$mergedName])) {
 					$jsFileLastModified = $jsFilesPublished[$mergedName];
 				} elseif(file_exists($jsFilePath)) {
 					$jsFileLastModified = filemtime($jsFilePath);
 				} else {
-					$jsFileLastModified = $this->publishDate;
+					$jsFileLastModified = self::$publishDate;
 				}
 
 				$publishPage["content"] = str_replace($mergedName . "?CACHEBUSTER", $mergedName . "?{$jsFileLastModified}", $publishPage["content"]);
 			}
 
-			foreach($this->cssFiles as $mergedName => $cssFile) {
-				$cssFilePath = $this->yggdrasilConfig["frontend"]["rootDir"] . $this->yggdrasilConfig["frontend"]["cssFolder"] . __DS__ . $mergedName;
+			foreach(self::$cssFiles as $mergedName => $cssFile) {
+				$cssFilePath = $GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"] . $GLOBALS["yggdrasilConfig"]["frontend"]["cssFolder"] . __DS__ . $mergedName;
 
 				if(isset($cssFilesPublished[$mergedName])) {
 					$cssFileLastModified = $cssFilesPublished[$mergedName];
 				} elseif(file_exists($cssFilePath)) {
 					$cssFileLastModified = filemtime($cssFilePath);
 				} else {
-					$cssFileLastModified = $this->publishDate;
+					$cssFileLastModified = self::$publishDate;
 				}
 
 				$publishPage["content"] = str_replace($mergedName . "?CACHEBUSTER", $mergedName . "?{$cssFileLastModified}", $publishPage["content"]);
@@ -192,15 +193,15 @@ class PagePublisher {
 		}
 	}
 
-	// PUBLIC: Prepare dependencies
-	public function prepareDependencies() {
-		foreach($this->dependencies as $dependencyDestination => $dependencySource) {
-			$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"] . str_replace("/", __DS__, $dependencyDestination);
-			$sourcePath = $this->yggdrasilConfig["backend"]["customDir"] . str_replace("/", __DS__, $dependencySource);
+	// STATIC: Prepare dependencies
+	public static function prepareDependencies() {
+		foreach(self::$dependencies as $dependencyDestination => $dependencySource) {
+			$publishTempPath = $GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . str_replace("/", __DS__, $dependencyDestination);
+			$sourcePath = $GLOBALS["yggdrasilConfig"]["backend"]["customDir"] . str_replace("/", __DS__, $dependencySource);
 
 			// Create folders
 			if(!file_exists(dirname($publishTempPath))) {
-				mkdir(dirname($publishTempPath), 755, true);
+				mkdir(dirname($publishTempPath), 0755, true);
 			}
 
 			if(is_dir($sourcePath)) {
@@ -211,31 +212,70 @@ class PagePublisher {
 		}
 	}
 
-	// PUBLIC: Prepare all
-	public function prepareAll() {
-		$this->prepareJSFiles();
-		$this->prepareCSSFiles();
-		$this->preparePages();
-		$this->prepareDependencies();
+	// STATIC: Prepare all
+	public static function prepareAll() {
+		self::prepareJSFiles();
+		self::prepareCSSFiles();
+		self::preparePages();
+		self::prepareDependencies();
 	}
 
-	// PUBLIC: Publish queue
-	public function publish() {
-		$publishTempPath = $this->yggdrasilConfig["backend"]["tempDir"];
+	// STATIC: Collect unneeded files
+	public static function collectUnneededFiles() {
+		// Get all unneeded files and folders
+		$frontendPageIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"]));
 
-		Helper::copy_recurse($publishTempPath, $this->yggdrasilConfig["frontend"]["rootDir"]);
-		Helper::delete_recurse($publishTempPath, false, true);
+		while($frontendPageIterator->valid()) {
+			if(!$frontendPageIterator->isDot()) {
+				// Get files
+				$deleteFile = !file_exists($GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . $frontendPageIterator->getSubPathName());
+				$filePath = $GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"] . $frontendPageIterator->getSubPathName();
+
+				if($deleteFile) {
+					self::$filesToDelete[] = $filePath;
+				}
+
+				// Get folder
+				$deleteFolder = !file_exists($GLOBALS["yggdrasilConfig"]["backend"]["tempDir"] . $frontendPageIterator->getSubPath());
+				$folderPath = $GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"] . $frontendPageIterator->getSubPath();
+
+				if($deleteFolder && array_search($folderPath, self::$foldersToDelete) === false) {
+					self::$foldersToDelete[] = $folderPath;
+				}
+			}
+
+			$frontendPageIterator->next();
+		}
+
+		rsort(self::$foldersToDelete);
 	}
 
-	// PUBLIC: Clear frontend
-	public function clear() {
-		Helper::delete_recurse($this->yggdrasilConfig["frontend"]["rootDir"], false, false);
+	// STATIC: Publish queue
+	private static function publish() {
+		Helper::copy_recurse($GLOBALS["yggdrasilConfig"]["backend"]["tempDir"], $GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"]);
 	}
 
-	// PUBLIC: Clear frontend and publish queue
-	public function clearAndPublish() {
-		$this->clear();
-		$this->publish();
+	// STATIC: Clear frontend
+	private static function clearFrontend() {
+		foreach(self::$filesToDelete as $file) {
+			@unlink($file);
+		}
+
+		foreach(self::$foldersToDelete as $folder) {
+			@rmdir($folder);
+		}
+	}
+
+	// STATIC: Clear temp
+	private static function clearTemp() {
+		Helper::delete_recurse($GLOBALS["yggdrasilConfig"]["backend"]["tempDir"], false, true);
+	}
+
+	// STATIC: Clear frontend and publish queue
+	public static function clearAndPublish() {
+		self::publish();
+		self::clearFrontend();
+		self::clearTemp();
 	}
 }
 

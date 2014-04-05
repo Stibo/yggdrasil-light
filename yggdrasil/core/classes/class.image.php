@@ -2,12 +2,14 @@
 
 class Image {
 
+	static $publishedImages = array();
+
 	static function src($image) {
-		global $publishMode, $yggdrasilConfig;
+		global $yggdrasilConfig;
 
 		$imageLink = "";
 
-		if($publishMode) {
+		if(PagePublisher::isEnabled()) {
 			$smushitUrl = "http://www.smushit.com/ysmush.it/ws.php";
 
 			$imageTargetPath = $yggdrasilConfig["backend"]["tempDir"] . "img" . __DS__ . str_replace("/", __DS__, $image);
@@ -16,12 +18,14 @@ class Image {
 
 			// Create subfolders if not exists
 			if(!file_exists($imageTargetDir)) {
-				mkdir($imageTargetDir, 755, true);
+				mkdir($imageTargetDir, 0755, true);
 			}
 
 			// Compress the image if not already exists
-			if(!file_exists($imageTargetPath)) {
-				$postFields = array("output" => "json");
+			if(array_search($imageSourcePath, self::$publishedImages) === false) {
+				self::$publishedImages[] = $imageSourcePath;
+
+				/*$postFields = array("output" => "json");
 				$postContent = "";
 				$postBoundary = "---------------------".substr(md5(rand(0,32000)), 0, 10);
 
@@ -63,15 +67,19 @@ class Image {
 
 				$decodedResponse = json_decode($streamResponse, true);
 
-				if(is_null($decodedResponse)) {
+				if(!is_null($decodedResponse) && isset($decodedResponse["dest"])) {
+					$newFileSource = $decodedResponse["dest"];
+
+					$imageNameExplode = explode(".", basename($image));
+					$newFileTarget = $imageTargetDir . __DS__ . array_shift($imageNameExplode) . "." . pathinfo($decodedResponse["dest"], PATHINFO_EXTENSION);
+
+					$imagePathExplode = explode(".", $image);
+					$newImageUrl = array_shift($imagePathExplode) . "." . pathinfo($decodedResponse["dest"], PATHINFO_EXTENSION);
+				} else {*/
 					$newFileSource = $yggdrasilConfig["backend"]["imagesDir"] . str_replace("/", __DS__, $image);
 					$newFileTarget = $imageTargetPath;
 					$newImageUrl = $image;
-				} else {
-					$newFileSource = $decodedResponse["dest"];
-					$newFileTarget = $imageTargetDir . __DS__ . array_shift(explode(".", basename($image))) . "." . pathinfo($decodedResponse["dest"], PATHINFO_EXTENSION);
-					$newImageUrl = array_shift(explode(".", $image)) . "." . pathinfo($decodedResponse["dest"], PATHINFO_EXTENSION);
-				}
+				//}
 
 				copy($newFileSource, $newFileTarget);
 			} else {

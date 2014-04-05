@@ -3,7 +3,7 @@
 <html lang="de">
 	<head>
 		<title><?php echo $pageSettings["head"]["meta"]["title"] ?></title>
-		<base href="<?php echo $pageBaseUrl ?>" />
+		<base href="<?php echo $pageInfos["baseUrl"] ?>" />
 		<link rel="canonical" href="/" />
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -28,13 +28,13 @@
 
 		<!-- screen css -->
 		<y:minifycss name="screen.css" media="screen">
-			<y:file>screen.css</y:file>
-			<y:file>screen2.css</y:file>
+			<y:file>css/screen.css</y:file>
+			<y:file>css/screen2.css</y:file>
 		</y:minifycss>
 
 		<!-- print css -->
 		<y:minifycss name="print.css" media="print">
-			<y:file>print.css</y:file>
+			<y:file>css/print.css</y:file>
 		</y:minifycss>
 	</head>
 
@@ -55,8 +55,8 @@
 
 		<!-- Footer js -->
 		<y:minifyjs name="merged.js" async="true">
-			<y:file>jquery.min.js</y:file>
-			<y:file>main.js</y:file>
+			<y:file>js/jquery.min.js</y:file>
+			<y:file>js/main.js</y:file>
 		</y:minifyjs>
 	</body>
 </html>
