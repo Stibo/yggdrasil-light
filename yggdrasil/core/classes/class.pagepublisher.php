@@ -251,12 +251,12 @@ class PagePublisher {
 	}
 
 	// STATIC: Publish queue
-	private static function publish() {
+	public static function publish() {
 		Helper::copy_recurse($GLOBALS["yggdrasilConfig"]["backend"]["tempDir"], $GLOBALS["yggdrasilConfig"]["frontend"]["rootDir"]);
 	}
 
 	// STATIC: Clear frontend
-	private static function clearFrontend() {
+	public static function clearFrontend() {
 		foreach(self::$filesToDelete as $file) {
 			@unlink($file);
 		}
@@ -267,7 +267,7 @@ class PagePublisher {
 	}
 
 	// STATIC: Clear temp
-	private static function clearTemp() {
+	public static function clearTemp() {
 		Helper::delete_recurse($GLOBALS["yggdrasilConfig"]["backend"]["tempDir"], false, true);
 	}
 

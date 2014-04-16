@@ -40,12 +40,12 @@ class PageParser {
 		$pageSettings = &$this->page->pageSettings;
 		$pageSections = $this->pageSections;
 
-		include "../custom/globals.php";
+		include "custom/globals.php";
 
 		ob_start();
 
-		if(file_exists($this->yggdrasilConfig["backend"]["templateDir"] . $this->page->pageSettings["template"] . ".php")) {
-			include $this->yggdrasilConfig["backend"]["templateDir"] . $this->page->pageSettings["template"] . ".php";
+		if(file_exists("custom/templates/{$this->page->pageSettings["template"]}.php")) {
+			include "custom/templates/{$this->page->pageSettings["template"]}.php";
 		} else {
 			echo "Template not found: \"{$this->page->pageSettings["template"]}\"";
 		}
@@ -57,17 +57,20 @@ class PageParser {
 	private function getSnippets($snippetMatches) {
 
 		// ?? yggdrasilconfig
-		// ?? page
+
+		// Set page infos and settings
+		$pageInfos = $this->page->pageInfos;
+		$pageSettings = $this->page->pageSettings;
 
 		$snippet = simplexml_load_string($this->cleanCustomTag($snippetMatches[0]));
 		$snippetName = $snippet["name"];
 
-		include "../custom/globals.php";
+		include "custom/globals.php";
 
 		ob_start();
 
-		if(file_exists($this->yggdrasilConfig["backend"]["snippetDir"] . "{$snippetName}.php")) {
-			include $this->yggdrasilConfig["backend"]["snippetDir"] . "{$snippetName}.php";
+		if(file_exists("custom/snippets/{$snippetName}.php")) {
+			include "custom/snippets/{$snippetName}.php";
 		} else {
 			echo "Snippet \"{$snippetName}\" not found!";
 		}
@@ -90,17 +93,17 @@ class PageParser {
 		$phpInclude = simplexml_load_string($this->cleanCustomTag($phpMatches[0]));
 		$phpIncludeFile = $phpInclude["src"];
 
-		include "../custom/globals.php";
+		include "custom/globals.php";
 
 		ob_start();
 
-		if(file_exists($this->yggdrasilConfig["backend"]["phpDir"] . $phpIncludeFile)) {
+		if(file_exists("custom/{$phpIncludeFile}")) {
 			$this->page->pageSettings["extension"] = "php";
 
 			if(PagePublisher::isEnabled()) {
-				echo file_get_contents($this->yggdrasilConfig["backend"]["phpDir"] . $phpIncludeFile);
+				echo file_get_contents("custom/{$phpIncludeFile}");
 			} else {
-				include $this->yggdrasilConfig["backend"]["phpDir"] . $phpIncludeFile;
+				include "custom/{$phpIncludeFile}";
 			}
 		} else {
 			echo "PHP include \"{$phpIncludeFile}\" not found!";
@@ -119,11 +122,11 @@ class PageParser {
 		$jsOutput = "";
 
 		foreach($jsXml->file as $sourceJsFile) {
-			if(file_exists("../custom/{$sourceJsFile}")) {
+			if(file_exists("custom/{$sourceJsFile}")) {
 				if(PagePublisher::isEnabled()) {
 					$jsFiles[] = $sourceJsFile;
 				} else {
-					$jsOutput .= '<script src="' . $sourceJsFile . '?' . time() . '"></script>';
+					$jsOutput .= '<script src="custom/' . $sourceJsFile . '?' . time() . '"></script>';
 				}
 			}
 		}
@@ -154,11 +157,11 @@ class PageParser {
 		$cssOutput = "";
 
 		foreach($cssXml->file as $sourceCssFile) {
-			if(file_exists("../custom/{$sourceCssFile}")) {
+			if(file_exists("custom/{$sourceCssFile}")) {
 				if(PagePublisher::isEnabled()) {
 					$cssFiles[] = $sourceCssFile;
 				} else {
-					$cssOutput .= '<link rel="stylesheet" href="' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '" />';
+					$cssOutput .= '<link rel="stylesheet" href="custom/' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '" />';
 				}
 			}
 		}
@@ -183,8 +186,8 @@ class PageParser {
 	public function showBackend() {
 		ob_start();
 
-		include "../custom/globals.php";
-		include "../core/backend/gui.php";
+		include "custom/globals.php";
+		include "core/backend/gui.php";
 
 		$guiContent = ob_get_clean();
 
@@ -235,7 +238,7 @@ class PageParser {
 						$infoContent = "This page redirects to: {$this->page->redirect["url"]} ({$this->page->redirect["type"]})";
 					}
 
-					include "../core/backend/info.php";
+					include "core/backend/info.php";
 
 					$this->output = ob_get_clean();
 				}
