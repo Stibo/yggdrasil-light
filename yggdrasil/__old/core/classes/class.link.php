@@ -19,19 +19,30 @@ class Link {
 	static function page($path, $addHost = false) {
 		global $yggdrasilConfig;
 
-		$path = trim($path, "/ \t\n\r\0\x0B");
 		$pageLink = "";
 
-		if(PagePublisher::isEnabled()) {
-			$pageLink = $path . "/";
+		if(trim($path) != "") {
 
-			if($addHost) {
-				$pageLink = $yggdrasilConfig["frontend"]["rootUrl"] . $pageLink;
+			$path = trim($path, "/ \t\n\r\0\x0B");
+
+			if(PagePublisher::isEnabled()) {
+				$pageLink = $path . "/";
+
+				if($addHost) {
+					$pageLink = $yggdrasilConfig["frontend"]["rootUrl"] . $pageLink;
+				} else {
+					$pageLink = "/" . $pageLink;
+				}
 			} else {
-				$pageLink = "/" . $pageLink;
+				$pageLink = $yggdrasilConfig["backend"]["rootUrl"] . "?pagePath=" . $path;
 			}
+
+			if($pageLink == "//") {
+				$pageLink = "/";
+			}
+
 		} else {
-			$pageLink = $yggdrasilConfig["backend"]["rootUrl"] . "?pagePath=" . $path;
+			$pageLink = "";
 		}
 
 		return $pageLink;

@@ -10,10 +10,10 @@ class Helper {
 
 		while(false !== ($file = readdir($directory))) {
 			if(($file != '.') && ($file != '..')) {
-				if(is_dir($source . __DS__ . $file)) {
-					Helper::copy_recurse($source . __DS__ . $file, $destination . __DS__ . $file);
+				if(is_dir($source . DS . $file)) {
+					Helper::copy_recurse($source . DS . $file, $destination . DS . $file);
 				} else {
-					copy($source . __DS__ . $file,$destination . __DS__ . $file);
+					copy($source . DS . $file,$destination . DS . $file);
 				}
 			}
 		}

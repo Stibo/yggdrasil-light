@@ -1,5 +1,6 @@
 <?php
 
-header("Location: custom/");
+// Get page include
+require_once "_core/page.php";
 
 ?>

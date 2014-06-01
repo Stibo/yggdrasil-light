@@ -4,7 +4,7 @@
 require_once "init.php";
 
 // Get requested page url
-$currentPagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";
+#$currentPagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";
 
 // Get page
 $currentPage = new Page($currentPagePath);

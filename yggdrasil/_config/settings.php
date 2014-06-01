@@ -1,22 +1,18 @@
 <?php
 
-// Live server settings
-$yggdrasilConfig = array(
-	"isDev" => $_SERVER["SERVER_NAME"] == "localhost",
-	"frontend" => array(
-		"rootDir" => realpath("../../www"),
-		"rootUrl" => "http://yggdrasil.stibo.ch/",
-		"mediaUrl" => "",
-		"cssFolder" => "css",
-		"jsFolder" => "js",
-		"imgFolder" => "images",
-		"ignoreFolders" => array(),
-	),
-	"backend" => array(
-		"dateTimeFormat" => "d.m.Y H:i",
-		"actionTimeout" => 1200
-	)
-);
+// Settings
+
+if($_SERVER["SERVER_NAME"] == "localhost") {
+	define("YGGDRASIL_ENVIRONMENT", "dev");
+	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://localhost/github/yggdrasil-light/www/");
+} else {
+	define("YGGDRASIL_ENVIRONMENT", "prod");
+	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://yggdrasil.stibo.ch/");
+}
+
+define("YGGDRASIL_FRONTEND_ROOT_DIR", realpath("../www") . DS);
+
+// Default page settings
 
 $defaultPageSettings = array(
 	"template" => "content",
@@ -48,15 +44,9 @@ $defaultPageSettings = array(
 	),
 	"dependencies" => array(
 		"favicon.ico" => "files/favicon.ico",
-		"robots.txt" => ($yggdrasilConfig["isDev"]) ? "files/robots_dev.txt" : "files/robots_live.txt",
+		"robots.txt" => (YGGDRASIL_ENVIRONMENT == "dev") ? "files/robots_dev.txt" : "files/robots_live.txt",
 		".htaccess" => "files/.htaccess"
 	)
 );
-
-// Developer server settings
-if($yggdrasilConfig["isDev"]) {
-	$yggdrasilConfig["frontend"]["rootUrl"] = "http://localhost/github/yggdrasil-light/www/";
-	$yggdrasilConfig["frontend"]["mediaUrl"] = "";
-}
 
 ?>

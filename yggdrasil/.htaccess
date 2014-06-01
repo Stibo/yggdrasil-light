@@ -1,9 +1,16 @@
+# Login
 AuthType Basic
 AuthName "Yggdrasil Light Admin"
 AuthUserFile C:\xampp\htdocs\github\yggdrasil-light\yggdrasil\.htpasswd
 require user admin
 
-RewriteEngine off
+# Disable directory listing
+Options -Indexes
+
+# Disable cache
+<FilesMatch ".*$">
+	Header unset Cache-Control
+</FilesMatch>
 
 <IfModule mod_expires.c>
 	ExpiresActive off
@@ -15,3 +22,11 @@ RewriteEngine off
 	Header set Pragma "no-cache"
 	Header set Expires "Wed, 11 Jan 1984 01:00:00 GMT"
 </ifModule>
+
+# Rewrite
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ ?pagePath=$1 [L]
