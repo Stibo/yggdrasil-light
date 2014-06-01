@@ -261,6 +261,10 @@ class PageParser {
 
 	// PUBLIC: Create compiled file
 	public function createCompiledFile() {
+		if(!file_exists(YGGDRASIL_BACKEND_TEMP_COMPILER_DIR)) {
+			mkdir(YGGDRASIL_BACKEND_TEMP_COMPILER_DIR);
+		}
+
 		file_put_contents(YGGDRASIL_BACKEND_TEMP_COMPILER_DIR . $this->page->pageInfos["compiledFile"], $this->getOutput());
 	}
 

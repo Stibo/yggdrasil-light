@@ -1,24 +1,24 @@
-<?php define("DS", '\\');
-define("YGGDRASIL_ENVIRONMENT", 'dev');
-define("YGGDRASIL_FRONTEND_ROOT_URL", 'http://localhost/github/yggdrasil-light/www/');
-define("YGGDRASIL_FRONTEND_ROOT_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\www\\');
+<?php define("DS", '/');
+define("YGGDRASIL_ENVIRONMENT", 'prod');
+define("YGGDRASIL_FRONTEND_ROOT_URL", 'http://yggdrasil.stibo.ch/');
+define("YGGDRASIL_FRONTEND_ROOT_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/www/');
 define("YGGDRASIL_VERSION", '0.7.0');
-define("YGGDRASIL_FRONTEND_MEDIA_URL", 'http://localhost/github/yggdrasil-light/www/');
+define("YGGDRASIL_FRONTEND_MEDIA_URL", 'http://yggdrasil.stibo.ch/');
 define("YGGDRASIL_FRONTEND_URL_TYPE", 'folder');
-define("YGGDRASIL_BACKEND_ROOT_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\');
-define("YGGDRASIL_BACKEND_ROOT_URL", '//localhost/github/yggdrasil-light/yggdrasil/');
-define("YGGDRASIL_BACKEND_CORE_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_core\\');
-define("YGGDRASIL_BACKEND_TEMP_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_temp\\');
-define("YGGDRASIL_BACKEND_TEMP_COMPILER_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_temp\\compiler\\');
-define("YGGDRASIL_BACKEND_TEMP_PUBLISHER_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_temp\\publisher\\');
-define("YGGDRASIL_BACKEND_TEMP_PUBLISHER_LOCKFILE", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_temp\\publisher-lock.json');
-define("YGGDRASIL_BACKEND_PAGE_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_pages\\');
-define("YGGDRASIL_BACKEND_CONFIG_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_config\\');
-define("YGGDRASIL_BACKEND_CONFIG_GLOBALS_FILE", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_config\\globals.php');
+define("YGGDRASIL_BACKEND_ROOT_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/');
+define("YGGDRASIL_BACKEND_ROOT_URL", '//yggdrasil.stibo.ch/yggdrasil/');
+define("YGGDRASIL_BACKEND_CORE_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_core/');
+define("YGGDRASIL_BACKEND_TEMP_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_temp/');
+define("YGGDRASIL_BACKEND_TEMP_COMPILER_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_temp/compiler/');
+define("YGGDRASIL_BACKEND_TEMP_PUBLISHER_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_temp/publisher/');
+define("YGGDRASIL_BACKEND_TEMP_PUBLISHER_LOCKFILE", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_temp/publisher-lock.json');
+define("YGGDRASIL_BACKEND_PAGE_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_pages/');
+define("YGGDRASIL_BACKEND_CONFIG_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_config/');
+define("YGGDRASIL_BACKEND_CONFIG_GLOBALS_FILE", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_config/globals.php');
 define("YGGDRASIL_BACKEND_PAGE_CONTENT_FILE", 'content.php');
 define("YGGDRASIL_BACKEND_PAGE_SETTINGS_FILE", 'page.php');
-define("YGGDRASIL_BACKEND_TEMPLATE_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_templates\\');
-define("YGGDRASIL_BACKEND_SNIPPET_DIR", 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_snippets\\');
+define("YGGDRASIL_BACKEND_TEMPLATE_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_templates/');
+define("YGGDRASIL_BACKEND_SNIPPET_DIR", '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_snippets/');
 define("YGGDRASIL_BACKEND_DATETIME_FORMAT", 'd.m.Y H:i');
 define("YGGDRASIL_BACKEND_ACTION_TIMEOUT", 1200);
 define("YGGDRASIL_BACKEND_MENU_POSITION", 'right');
@@ -65,18 +65,18 @@ define("YGGDRASIL_BACKEND_TAG_MINIFY_CSS", 'minifycss');
   'dependencies' => 
   array (
     'favicon.ico' => 'files/favicon.ico',
-    'robots.txt' => 'files/robots_dev.txt',
+    'robots.txt' => 'files/robots_live.txt',
     '.htaccess' => 'files/.htaccess',
   ),
 ); ?><?php $pageInfos = array (
   'path' => 'site1/subsite1',
   'name' => 'subsite1',
-  'backendDir' => 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_pages\\site1\\subsite1\\',
-  'backendSettingsFile' => 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_pages\\site1\\subsite1\\page.php',
-  'backendContentFile' => 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\_pages\\site1\\subsite1\\content.php',
-  'frontendDir' => 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\www\\site1\\subsite1\\',
+  'backendDir' => '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_pages/site1/subsite1/',
+  'backendSettingsFile' => '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_pages/site1/subsite1/page.php',
+  'backendContentFile' => '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/_pages/site1/subsite1/content.php',
+  'frontendDir' => '/home/stibepr/www/yggdrasil.stibo.ch/www/site1/subsite1/',
   'frontendFile' => NULL,
-  'baseUrl' => 'C:\\xampp\\htdocs\\github\\yggdrasil-light\\yggdrasil\\',
+  'baseUrl' => '/home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/',
   'viewMode' => 10,
   'isActive' => true,
   'publishDate' => -1,
@@ -119,10 +119,10 @@ $globals = array(
 		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
 		<!-- screen css -->
-		<link rel="stylesheet" href="css/screen.css?1401620830" media="screen" /><link rel="stylesheet" href="css/screen2.css?1401620830" media="screen" />
+		<link rel="stylesheet" href="css/screen.css?1401630420" media="screen" /><link rel="stylesheet" href="css/screen2.css?1401630420" media="screen" />
 
 		<!-- print css -->
-		<link rel="stylesheet" href="css/print.css?1401620830" media="print" />
+		<link rel="stylesheet" href="css/print.css?1401630420" media="print" />
 	</head>
 
 	<body>
@@ -237,7 +237,7 @@ $globals = array(
 			?>
 
 		<!-- Footer js -->
-		<script src="js/jquery.min.js?1401620830"></script><script src="js/main.js?1401620830"></script>
+		<script src="js/jquery.min.js?1401630420"></script><script src="js/main.js?1401630420"></script>
 	<style type="text/css">
 	#yggdrasil-admin {
 		position: fixed;

@@ -1,7 +1,7 @@
 # Login
 AuthType Basic
 AuthName "Yggdrasil Light Admin"
-AuthUserFile C:\xampp\htdocs\github\yggdrasil-light\yggdrasil\.htpasswd
+AuthUserFile /home/stibepr/www/yggdrasil.stibo.ch/yggdrasil/.htpasswd
 require user admin
 
 # Disable directory listing

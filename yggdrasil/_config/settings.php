@@ -4,7 +4,7 @@
 
 if($_SERVER["SERVER_NAME"] == "localhost") {
 	define("YGGDRASIL_ENVIRONMENT", "dev");
-	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://localhost/github/yggdrasil-light/www/");
+	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://yggdrasil.stibo.ch/");
 } else {
 	define("YGGDRASIL_ENVIRONMENT", "prod");
 	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://yggdrasil.stibo.ch/");
