@@ -41,7 +41,7 @@
 	</head>
 
 	<body>
-		<img src="<?php echo Image::src("content/dummy.gif") ?>" style="height:150px;width:350px;" />
+		<img src="<?php /*echo Image::src("content/dummy.gif")*/ ?>" style="height:150px;width:350px;" />
 
 		<!-- SECTION: Content -->
 		<?php if(isset($pageSections["content"])) { ?>

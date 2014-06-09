@@ -261,6 +261,7 @@ class PageParser {
 
 	// PUBLIC: Create compiled file
 	public function createCompiledFile() {
+		// Create folder if not exists
 		if(!file_exists(YGGDRASIL_BACKEND_TEMP_COMPILER_DIR)) {
 			mkdir(YGGDRASIL_BACKEND_TEMP_COMPILER_DIR);
 		}
@@ -269,10 +270,12 @@ class PageParser {
 	}
 
 	// PUBLIC: Get compiled file
-	public function getCompiledFile() {
+	public function getCompiledOutput() {
 		ob_start();
 
-		include YGGDRASIL_BACKEND_TEMP_COMPILER_DIR . $this->page->pageInfos["compiledFile"];
+		if(file_exists(YGGDRASIL_BACKEND_TEMP_COMPILER_DIR . $this->page->pageInfos["compiledFile"])) {
+			require YGGDRASIL_BACKEND_TEMP_COMPILER_DIR . $this->page->pageInfos["compiledFile"];
+		}
 
 		$compiledFileContent = ob_get_clean();
 
@@ -309,6 +312,17 @@ class PageParser {
 	// PUBLIC: Get output
 	public function getOutput() {
 		return $this->output;
+	}
+
+	// PUBLIC: Show message
+	public function showMessage($title, $text, $type = "info") {
+		ob_start();
+
+		include YGGDRASIL_BACKEND_CORE_DIR . "backend" . DS . "message.php";
+
+		$messageContent = ob_get_clean();
+
+		$this->setOutput($messageContent);
 	}
 
 }

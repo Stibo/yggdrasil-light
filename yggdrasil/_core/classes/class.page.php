@@ -59,7 +59,7 @@ class Page {
 		$this->pageInfos["compiledFile"] = str_replace("/", "_", $this->pageInfos["path"]) . ".php";
 
 		// Load settings if page exists
-		if(!is_null($this->pageInfos["backendSettingsFile"])) {
+		if($this->exists()) {
 			$this->loadSettings();
 		} else {
 			$this->pageSettings = null;
@@ -69,7 +69,7 @@ class Page {
 
 	// PUBLIC: Check if page exists
 	public function exists() {
-		return !is_null($this->pageInfos);
+		return !is_null($this->pageInfos["backendSettingsFile"]);
 	}
 
 	// PUBLIC: Function set viewmode
