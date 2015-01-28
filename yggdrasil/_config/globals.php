@@ -1,6 +1,6 @@
 <?php
 
-$globals = array(
+$globalvars = array(
 
 );
 

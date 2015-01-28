@@ -11,7 +11,6 @@ if(!defined("YGGDRASIL_ENVIRONMENT")) {
 	define("YGGDRASIL_ENVIRONMENT", "prod");
 }
 
-
 // Frontend
 
 if(!defined("YGGDRASIL_FRONTEND_ROOT_DIR")) {
@@ -83,6 +82,14 @@ if(!defined("YGGDRASIL_BACKEND_PAGE_SETTINGS_FILE")) {
 	define("YGGDRASIL_BACKEND_PAGE_SETTINGS_FILE", "page.php");
 }
 
+if(!defined("YGGDRASIL_BACKEND_PAGE_HOOK_BEFOREOUTPUT")) {
+	define("YGGDRASIL_BACKEND_PAGE_HOOK_BEFOREOUTPUT", "hook.beforeoutput.php");
+}
+
+if(!defined("YGGDRASIL_BACKEND_PAGE_HOOK_AFTEROUTPUT")) {
+	define("YGGDRASIL_BACKEND_PAGE_HOOK_AFTEROUTPUT", "hook.afteroutput.php");
+}
+
 if(!defined("YGGDRASIL_BACKEND_TEMPLATE_DIR")) {
 	define("YGGDRASIL_BACKEND_TEMPLATE_DIR", YGGDRASIL_BACKEND_ROOT_DIR . "_templates" . DS);
 }
@@ -135,5 +142,10 @@ if(!defined("YGGDRASIL_BACKEND_TAG_MINIFY_CSS")) {
 	define("YGGDRASIL_BACKEND_TAG_MINIFY_CSS", "minifycss");
 }
 
+// Links
+
+if(!defined("YGGDRASIL_LINK_ADDHOST")) {
+	define("YGGDRASIL_LINK_ADDHOST", false);
+}
 
 ?>

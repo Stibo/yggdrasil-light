@@ -2,10 +2,8 @@
 
 <html lang="de">
 	<head>
-		<title><?php echo $pageSettings["head"]["meta"]["title"] ?></title>
-		<title>{{pageSettings->head->meta->title}}</title>
-		<base href="<?php echo $pageInfos["baseUrl"] ?>" />
-		<base href="{{pageInfos->baseUrl}}" />
+		<title>{{pageSettings.head.meta.title}}</title>
+		<base href="{{pageInfos.baseUrl}}" />
 		<link rel="canonical" href="/" />
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -14,19 +12,19 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-		<meta name="robots" content="<?php echo $pageSettings["head"]["meta"]["robots"] ?>" />
-		<meta name="keywords" content="<?php echo $pageSettings["head"]["meta"]["keywords"] ?>" />
-		<meta name="description" content="<?php echo $pageSettings["head"]["meta"]["description"] ?>" />
+		<meta name="robots" content="{{pageSettings.head.meta.robots}}" />
+		<meta name="keywords" content="{{pageSettings.head.meta.keywords}}" />
+		<meta name="description" content="{{pageSettings.head.meta.description}}" />
 
-		<meta name="geo.region" content="<?php echo $pageSettings["head"]["geo"]["region"] ?>" />
-		<meta name="geo.placename" content="<?php echo $pageSettings["head"]["geo"]["placename"] ?>" />
-		<meta name="geo.position" content="<?php echo $pageSettings["head"]["geo"]["position"] ?>" />
+		<meta name="geo.region" content="{{pageSettings.head.geo.region}}" />
+		<meta name="geo.placename" content="{{pageSettings.head.geo.placename}}" />
+		<meta name="geo.position" content="{{pageSettings.head.geo.position}}" />
 
 		<?php foreach($pageSettings["head"]["og"]["image"] as $ogImage) { ?>
 			<meta property="og:image" content="<?php echo $ogImage ?>" />
 		<?php } ?>
 
-		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="<?php /*echo File::src("favicon.ico")*/ ?>" type="image/x-icon" />
 
 		<!-- screen css -->
 		<y:minifycss name="screen.css" media="screen">
@@ -39,9 +37,14 @@
 			<y:file>css/print.css</y:file>
 		</y:minifycss>
 	</head>
-
 	<body>
 		<img src="<?php /*echo Image::src("content/dummy.gif")*/ ?>" style="height:150px;width:350px;" />
+
+		<a href="<?php echo Link::href("site1/subsite1"); ?>">Testlink</a>
+
+		<y:php>
+			<?php $hiersovar = "da geht!" ?>
+		</y:php>
 
 		<!-- SECTION: Content -->
 		<?php if(isset($pageSections["content"])) { ?>
@@ -59,7 +62,7 @@
 
 		<y:php>
 			<?php
-				echo time();
+				echo "x".$hiersovar."x";
 			?>
 		</y:php>
 

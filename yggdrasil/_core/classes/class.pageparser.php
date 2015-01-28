@@ -116,7 +116,7 @@ class PageParser {
 		$phpCode = trim($match[1]);
 		$phpContent = "";
 
-		if($this->page->pageInfos["viewMode"] > 0) {
+		if(YGGDRASIL_VIEWMODE > 0) {
 			$phpContent = $phpCode;
 		} else {
 			$phpContent = '<?php echo "' . addslashes($phpCode) . '"; ?>';
@@ -131,6 +131,27 @@ class PageParser {
 		$this->output = preg_replace_callback("/<y:" . YGGDRASIL_BACKEND_TAG_PHPCODE . ".*\/>/iU", array($this, 'insertPHPCode'), $this->output);
 	}
 
+	// PRIVATE: Insert placeholder
+	private function insertPlaceholder($match) {
+		$placeholder = $match[1];
+
+		// Parse array
+		if(strpos($placeholder, ".") !== false) {
+			$placeholder = $placeholder . '"]';
+			$placeholder = substr_replace($placeholder, '["', strpos($placeholder, "."), strlen("."));
+			$placeholder = str_replace(".", '"]["', $placeholder);
+		}
+
+		$placeholder = "<?php echo \$" . $placeholder . "; ?>";
+
+		return $placeholder;
+	}
+
+	// PRIVATE: Parse placeholders
+	private function parsePlaceholders() {
+		$this->output = preg_replace_callback("/\{\{(.+)\}\}/iU", array($this, 'insertPlaceholder'), $this->output);
+	}
+
 	// PRIVATE: Insert js files
 	private function insertJSFiles($match) {
 		$jsXML = simplexml_load_string($this->cleanCustomTag($match[0], YGGDRASIL_BACKEND_TAG_MINIFY_JS));
@@ -142,7 +163,7 @@ class PageParser {
 
 		foreach($jsFileNodes as $sourceJsFile) {
 			if(file_exists(YGGDRASIL_BACKEND_ROOT_DIR . $sourceJsFile)) {
-				if($this->page->pageInfos["viewMode"] <= 0) {
+				if(YGGDRASIL_VIEWMODE <= 0) {
 					$jsFiles[] = $sourceJsFile;
 				} else {
 					$jsOutput .= '<script src="' . $sourceJsFile . '?' . time() . '"></script>';
@@ -150,7 +171,7 @@ class PageParser {
 			}
 		}
 
-		if($this->page->pageInfos["viewMode"] <= 0) {
+		if(YGGDRASIL_VIEWMODE <= 0) {
 			PagePublisher::addJSFiles($jsMergedName, $jsFiles);
 
 			$jsMergedAttributes = (array)$jsXML->attributes();
@@ -192,7 +213,7 @@ class PageParser {
 
 		foreach($cssFileNodes as $sourceCssFile) {
 			if(file_exists(YGGDRASIL_BACKEND_ROOT_DIR . $sourceCssFile)) {
-				if($this->page->pageInfos["viewMode"] <= 0) {
+				if(YGGDRASIL_VIEWMODE <= 0) {
 					$cssFiles[] = $sourceCssFile;
 				} else {
 					$cssOutput .= '<link rel="stylesheet" href="' . $sourceCssFile . '?' . time() . '" media="' . $cssMedia . '" />';
@@ -200,7 +221,7 @@ class PageParser {
 			}
 		}
 
-		if($this->page->pageInfos["viewMode"] <= 0) {
+		if(YGGDRASIL_VIEWMODE <= 0) {
 			PagePublisher::addCssFiles($cssMergedName, $cssFiles);
 
 			$cssMergedAttributes = (array)$cssXML->attributes();
@@ -233,17 +254,24 @@ class PageParser {
 
 	// PRIVATE: Prepend settings
 	private function prependSettings() {
-		// Add constants
-		$settingsConstants = get_defined_constants(true);
-		$settingsConstants = $settingsConstants["user"];
+		$settings = "";
 
-		$settings = "<?php ";
+		// Add constants (only in publishing mode)
+		if(YGGDRASIL_VIEWMODE <= 0) {
+			$settingsConstants = get_defined_constants(true);
+			$settingsConstants = $settingsConstants["user"];
 
-		foreach($settingsConstants as $constName => $constValue) {
-			$settings .= 'define("' . $constName . '", ' . var_export(constant($constName), true) . ');' . PHP_EOL;
+			$settings .= "<?php ";
+			$settings .= 'define("YGGDRASIL_VIEWMODE", -10);' . PHP_EOL;
+
+			foreach($settingsConstants as $constName => $constValue) {
+				if($constName != "YGGDRASIL_VIEWMODE") {
+					$settings .= 'define("' . $constName . '", ' . var_export(constant($constName), true) . ');' . PHP_EOL;
+				}
+			}
+
+			$settings .= "?>";
 		}
-
-		$settings .= "?>";
 
 		// Add page settings
 		$settings .= '<?php $pageSettings = ' . var_export($this->page->pageSettings, true) . '; ?>';
@@ -251,12 +279,47 @@ class PageParser {
 		// Add page infos
 		$settings .= '<?php $pageInfos = ' . var_export($this->page->pageInfos, true) . '; ?>';
 
+		// Add page sections
+		$pageSections = array();
+
+		foreach($this->pageSections as $sectionName => $sectionContent) {
+			$pageSections[$sectionName] = strlen(trim($sectionContent));
+		}
+
+		$settings .= '<?php $pageSections = ' . var_export($pageSections, true) . '; ?>';
+
 		// Add globals
 		if(file_exists(YGGDRASIL_BACKEND_CONFIG_GLOBALS_FILE)) {
 			$settings .= file_get_contents(YGGDRASIL_BACKEND_CONFIG_GLOBALS_FILE);
 		}
 
 		$this->output = $settings . $this->output;
+	}
+
+	// PRIVATE: Hook before output
+	private function hookBeforeoutput() {
+		// Hook code
+		$hookFile = $this->page->pageInfos["backendDir"] . YGGDRASIL_BACKEND_PAGE_HOOK_BEFOREOUTPUT;
+		$hookCode = "";
+
+		if(file_exists($hookFile)) {
+			$hookCode = file_get_contents($hookFile);
+		}
+
+		$this->output = $hookCode . $this->output;
+	}
+
+	// PRIVATE: Hook after output
+	private function hookAfteroutput() {
+		// Hook code
+		$hookFile = $this->page->pageInfos["backendDir"] . YGGDRASIL_BACKEND_PAGE_HOOK_AFTEROUTPUT;
+		$hookCode = "";
+
+		if(file_exists($hookFile)) {
+			$hookCode = file_get_contents($hookFile);
+		}
+
+		$this->output = $this->output . $hookCode;
 	}
 
 	// PUBLIC: Create compiled file
@@ -297,10 +360,13 @@ class PageParser {
 		$this->parsePageSections();
 		$this->parseSnippets();
 		$this->parsePHPCode();
+		$this->parsePlaceholders();
 
 		$this->parseJSFiles();
 		$this->parseCSSFiles();
 
+		$this->hookBeforeoutput();
+		$this->hookAfteroutput();
 		$this->prependSettings();
 	}
 

@@ -3,7 +3,8 @@
 define("DS", DIRECTORY_SEPARATOR);
 
 // Get main settings
-require_once  "./_config/settings.php";
+require_once  "errorhandling.php";
+require_once  str_replace("_core", "_config", __DIR__) . DS . "settings.php";
 require_once  "settings-default.php";
 
 
@@ -23,7 +24,7 @@ foreach($yggdrasilConfig["frontend"]["ignoreFolders"] as $folderName) {
 */
 
 // Inclure globals
-require_once  "./_config/globals.php";
+require_once  str_replace("_core", "_config", __DIR__) . DS . "globals.php";
 
 
 // Include classes
@@ -35,8 +36,8 @@ require_once "classes/class.helper.php";
 require_once "classes/class.page.php";
 require_once "classes/class.pageparser.php";
 require_once "classes/class.pagepublisher.php";
+require_once "classes/class.link.php";
 
-//require_once "classes/class.link.php";
 //require_once "classes/class.image.php";
 //require_once "classes/class.file.php";
 

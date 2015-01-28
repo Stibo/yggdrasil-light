@@ -10,6 +10,11 @@ class Page {
 	public function __construct($pagePath) {
 		global $defaultPageSettings;
 
+		// Set viewmode if not defined
+		if(!defined("YGGDRASIL_VIEWMODE")) {
+			define("YGGDRASIL_VIEWMODE", -10);
+		}
+
 		// Get default page settings
 		$this->pageSettings = $defaultPageSettings;
 
@@ -35,10 +40,7 @@ class Page {
 		$this->pageInfos["frontendFile"] = array_shift($indexFile);
 
 		// Set base url
-		$this->pageInfos["baseUrl"] = PagePublisher::isEnabled() ? YGGDRASIL_FRONTEND_ROOT_URL : YGGDRASIL_BACKEND_ROOT_DIR;
-
-		// Set viewmode
-		$this->pageInfos["viewMode"] = 10; //10 = backend, 0 = publish, -10 = front
+		$this->pageInfos["baseUrl"] = PagePublisher::isEnabled() ? YGGDRASIL_FRONTEND_ROOT_URL : YGGDRASIL_BACKEND_ROOT_URL;
 
 		// Set active
 		$this->pageInfos["isActive"] = !(substr($this->pageInfos["backendSettingsFile"], -strlen(YGGDRASIL_BACKEND_PAGE_SETTINGS_FILE) - 1, 1) == "_");
@@ -56,25 +58,19 @@ class Page {
 		}
 
 		// Set compiled filename
-		$this->pageInfos["compiledFile"] = str_replace("/", "_", $this->pageInfos["path"]) . ".php";
+		$this->pageInfos["compiledFile"] = str_replace("/", "_", $this->pageInfos["path"]) . "." . YGGDRASIL_VIEWMODE . ".php";
 
 		// Load settings if page exists
 		if($this->exists()) {
 			$this->loadSettings();
 		} else {
 			$this->pageSettings = null;
-			$this->pageInfos = null;
 		}
 	}
 
 	// PUBLIC: Check if page exists
 	public function exists() {
 		return !is_null($this->pageInfos["backendSettingsFile"]);
-	}
-
-	// PUBLIC: Function set viewmode
-	public function setViewmode($viewMode) {
-		$this->pageInfos["viewMode"] = $viewMode;
 	}
 
 	// PUBLIC: Load page settings

@@ -1,7 +1,7 @@
 <ul>
-	<?php foreach($snippet->link as $link) { ?>
+	<?php foreach($snippet["listitem"] as $link) { ?>
 		<li>
-			<a href="<?php echo $link["href"] ?>"><?php echo $link ?></a>
+			<a href="<?php echo $link["@href"] ?>"><?php echo $link["_content"] ?></a>
 		</li>
 	<?php } ?>
 </ul>

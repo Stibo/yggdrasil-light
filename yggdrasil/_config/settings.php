@@ -2,11 +2,11 @@
 
 // Settings
 
-if($_SERVER["SERVER_NAME"] == "localhost") {
+if($_SERVER["SERVER_NAME"] == "yggdrasil.stibo.ch") {
 	define("YGGDRASIL_ENVIRONMENT", "dev");
 	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://yggdrasil.stibo.ch/");
 } else {
-	define("YGGDRASIL_ENVIRONMENT", "prod");
+	define("YGGDRASIL_ENVIRONMENT", "live");
 	define("YGGDRASIL_FRONTEND_ROOT_URL", "http://yggdrasil.stibo.ch/");
 }
 

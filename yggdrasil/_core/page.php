@@ -1,5 +1,8 @@
 <?php
 
+// Set viewmode
+define("YGGDRASIL_VIEWMODE", 10);
+
 // Init core
 require_once "init.php";
 
@@ -7,9 +10,7 @@ require_once "init.php";
 $currentPagePath = isset($_GET["pagePath"]) ? $_GET["pagePath"] : "";
 
 // Get page
-$currentPage = new Page($currentPagePath);
-
-$currentPage->setViewmode(10);
+$currentPage = new Page($currentPagePath); //10 = backend, 0 = publish, -10 = front
 
 // Parse page
 $pageParser = new PageParser($currentPage);
